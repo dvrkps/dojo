@@ -7,21 +7,35 @@ import (
 )
 
 func main() {
-	bitwiseAnd()
+	bitwiseAND()
+
+	bitwiseOR()
 }
 
-func bitwiseAnd() {
+func bitwiseAND() {
 	fmt.Println("\nbitwiseAND")
 	a := bin("101")
 	b := bin("011")
 
-	// bit is 1 only if
-	// sources(a,b) bit are 1.
+	// both bit must be 1
 	c := a & b
 
 	prt("a", a)
 	prt("b", b)
 	prt("a & b", c)
+}
+
+func bitwiseOR() {
+	fmt.Println("\nbitwiseOR")
+	a := bin("101")
+	b := bin("011")
+
+	// at least one bit must be 1.
+	c := a | b
+
+	prt("a", a)
+	prt("b", b)
+	prt("a | b", c)
 }
 
 // bin converts binary string to integer.
