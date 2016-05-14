@@ -14,19 +14,6 @@ func main() {
 	operators()
 }
 
-func bitwiseAND() {
-	fmt.Println("\nbitwiseAND")
-	a := bin("101")
-	b := bin("011")
-
-	// both bit must be 1
-	c := a & b
-
-	prt("a", a)
-	prt("b", b)
-	prt("a & b", c)
-}
-
 func bitwiseOR() {
 	fmt.Println("\nbitwiseOR")
 	a := bin("101")
