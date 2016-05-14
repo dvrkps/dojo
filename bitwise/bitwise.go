@@ -1,46 +1,13 @@
 package main
 
-import (
-	"fmt"
-	"log"
-	"strconv"
-)
+import "fmt"
 
 func main() {
-	// bitwiseAND()
-
-	// bitwiseOR()
-
 	operators()
 }
 
-func bitwiseOR() {
-	fmt.Println("\nbitwiseOR")
-	a := bin("101")
-	b := bin("011")
-
-	// at least one bit must be 1.
-	c := a | b
-
-	prt("a", a)
-	prt("b", b)
-	prt("a | b", c)
-}
-
-// bin converts binary string to integer.
-func bin(s string) int64 {
-	i, err := strconv.ParseInt(s, 2, 64)
-	if err != nil {
-		log.Fatal(err)
-	}
-	return i
-}
-
-func prt(s string, i int64) {
-	fmt.Printf("%-10s: %8b = %d\n", s, i, i)
-}
-
 func operators() {
+
 	pf := func(s string, vals ...int) {
 		const (
 			row = "%04b = %d\n"
@@ -58,7 +25,7 @@ func operators() {
 	pf("and", 3, 6, 3&6)
 
 	// Use bitwise OR | to get the bits
-	// that are in 1 OR 4
+	// that are in 3 OR 6
 	pf("or", 3, 6, 3|6)
 
 	// Use bitwise XOR ^ to get the bits
