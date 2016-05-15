@@ -3,7 +3,11 @@ package main
 import "fmt"
 
 func main() {
+
+	evenOdd()
+
 	operators()
+
 }
 
 func operators() {
@@ -35,4 +39,25 @@ func operators() {
 	// Use bit clear AND NOT &^ to get the bits
 	// that are in 3 AND NOT 6 (order matters)
 	pf("and not", 3, 6, 3&^6)
+}
+
+func evenOdd() {
+	fmt.Println("even or odd")
+	fmt.Printf("isEvenBitwise(%d) = %v\n", 2, isEvenBitwise(2))
+	fmt.Printf("isEvenBitwise(%d) = %v\n", 5, isEvenBitwise(5))
+	fmt.Println()
+}
+
+func isEvenBitwise(i int) bool {
+	if i&1 == 1 {
+		return false
+	}
+	return true
+}
+
+func isEven(i int) bool {
+	if i%2 == 0 {
+		return true
+	}
+	return false
 }
