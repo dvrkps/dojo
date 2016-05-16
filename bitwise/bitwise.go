@@ -50,10 +50,10 @@ func evenOdd() {
 
 func isEvenBitwise(i int) bool {
 	v := (i & 1) == 0
-	return bool(v)
+	return v
 }
 
 func isEvenRemainder(i int) bool {
 	v := (i % 2) == 0
-	return bool(v)
+	return v
 }
