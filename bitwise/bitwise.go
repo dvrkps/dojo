@@ -53,6 +53,7 @@ func evenOdd() {
 		{n: 2, want: true},
 		{n: 5, want: false},
 	}
+
 	for _, v := range vals {
 		bit := isEvenBitwise(v.n)
 		rem := isEvenRemainder(v.n)

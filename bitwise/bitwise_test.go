@@ -12,11 +12,11 @@ func BenchmarkIsEvenBitwise5(b *testing.B) {
 	benchmark(5, isEvenBitwise, b)
 }
 
-func BenchmarkIsEven4(b *testing.B) {
+func BenchmarkIsEvenRemainder4(b *testing.B) {
 	benchmark(4, isEvenRemainder, b)
 }
 
-func BenchmarkIsEven5(b *testing.B) {
+func BenchmarkIsEvenRemainder5(b *testing.B) {
 	benchmark(5, isEvenRemainder, b)
 }
 
