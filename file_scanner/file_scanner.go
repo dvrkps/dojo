@@ -49,6 +49,7 @@ func scan(r io.Reader) Persons {
 	return all
 }
 
+// Person holds person's data.
 type Person struct {
 	ID   int
 	Name string
@@ -59,6 +60,7 @@ func (p Person) String() string {
 	return fmt.Sprintf("%4d %-10s %4d\n", p.ID, p.Name, p.Age)
 }
 
+// Persons holds all persons.
 type Persons []Person
 
 func (ps Persons) String() string {
