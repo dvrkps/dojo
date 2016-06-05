@@ -24,6 +24,12 @@ func TestScanString(t *testing.T) {
 	fmt.Println(ps)
 }
 
+func TestScanBytes(t *testing.T) {
+	f := fakeReader(10)
+	ps := scanBytes(f)
+	fmt.Println(ps)
+}
+
 var resultPersons Persons
 
 func BenchmarkScanString(b *testing.B) {
@@ -32,6 +38,16 @@ func BenchmarkScanString(b *testing.B) {
 	var r Persons
 	for n := 0; n < b.N; n++ {
 		r = scanString(f)
+	}
+	resultPersons = r
+}
+
+func BenchmarkScanBytes(b *testing.B) {
+	f := fakeReader(10000)
+	b.ResetTimer()
+	var r Persons
+	for n := 0; n < b.N; n++ {
+		r = scanBytes(f)
 	}
 	resultPersons = r
 }

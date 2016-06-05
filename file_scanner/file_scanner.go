@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"bytes"
 	"errors"
 	"fmt"
 	"io"
@@ -37,6 +38,26 @@ func scanString(r io.Reader) Persons {
 
 	for s.Scan() {
 		p, err := newPersonString(s.Text())
+		if err != nil {
+			continue
+		}
+		all = append(all, p)
+	}
+	if s.Err() != nil {
+		fmt.Println(s.Err())
+		return nil
+	}
+	return all
+}
+
+func scanBytes(r io.Reader) Persons {
+
+	s := bufio.NewScanner(r)
+
+	var all Persons
+
+	for s.Scan() {
+		p, err := newPersonBytes(s.Bytes())
 		if err != nil {
 			continue
 		}
@@ -99,28 +120,28 @@ func newPersonString(in string) (Person, error) {
 	return p, nil
 }
 
-func newPersonBytes(in string) (Person, error) {
+func newPersonBytes(in []byte) (Person, error) {
 
-	fields := strings.Split(in, ",")
+	fields := bytes.Split(in, []byte(","))
 	if len(fields) != 3 {
 		return Person{}, errors.New("invalid row")
 	}
 
-	id, err := strconv.ParseInt(fields[0], 10, 64)
+	id, err := strconv.ParseInt(string(fields[0]), 10, 64)
 	if err != nil {
 		return Person{}, errors.New("invalid id")
 	}
 
 	name := fields[1]
 
-	age, err := strconv.ParseInt(fields[2], 10, 64)
+	age, err := strconv.ParseInt(string(fields[2]), 10, 64)
 	if err != nil {
 		return Person{}, errors.New("invalid age")
 	}
 
 	p := Person{
 		ID:   int(id),
-		Name: name,
+		Name: string(name),
 		Age:  int(age),
 	}
 
