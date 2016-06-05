@@ -18,21 +18,20 @@ func fakeReader(size int) io.Reader {
 	return bytes.NewBuffer(buf.Bytes())
 }
 
-func TestScan(t *testing.T) {
+func TestScanString(t *testing.T) {
 	f := fakeReader(10)
-	ps := scan(f)
+	ps := scanString(f)
 	fmt.Println(ps)
 }
 
 var resultPersons Persons
 
-func BenchmarkScan(b *testing.B) {
+func BenchmarkScanString(b *testing.B) {
 	f := fakeReader(10000)
 	b.ResetTimer()
 	var r Persons
 	for n := 0; n < b.N; n++ {
-		r = scan(f)
+		r = scanString(f)
 	}
 	resultPersons = r
-
 }

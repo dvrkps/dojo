@@ -25,18 +25,18 @@ func main() {
 		}
 	}()
 
-	ps := scan(f)
+	ps := scanString(f)
 	fmt.Println(ps)
 }
 
-func scan(r io.Reader) Persons {
+func scanString(r io.Reader) Persons {
 
 	s := bufio.NewScanner(r)
 
 	var all Persons
 
 	for s.Scan() {
-		p, err := newPersonStrings(s.Text())
+		p, err := newPersonString(s.Text())
 		if err != nil {
 			continue
 		}
@@ -71,7 +71,35 @@ func (ps Persons) String() string {
 	return all
 }
 
-func newPersonStrings(in string) (Person, error) {
+func newPersonString(in string) (Person, error) {
+
+	fields := strings.Split(in, ",")
+	if len(fields) != 3 {
+		return Person{}, errors.New("invalid row")
+	}
+
+	id, err := strconv.ParseInt(fields[0], 10, 64)
+	if err != nil {
+		return Person{}, errors.New("invalid id")
+	}
+
+	name := fields[1]
+
+	age, err := strconv.ParseInt(fields[2], 10, 64)
+	if err != nil {
+		return Person{}, errors.New("invalid age")
+	}
+
+	p := Person{
+		ID:   int(id),
+		Name: name,
+		Age:  int(age),
+	}
+
+	return p, nil
+}
+
+func newPersonBytes(in string) (Person, error) {
 
 	fields := strings.Split(in, ",")
 	if len(fields) != 3 {
