@@ -1,6 +1,9 @@
 package iterbench
 
-import "testing"
+import (
+	"fmt"
+	"testing"
+)
 
 type testType struct {
 	in   int
@@ -35,24 +38,27 @@ func TestIter(t *testing.T) {
 	})
 }
 
-func TestIterGoto(t *testing.T) {
-	_ = iterGoto(10)
-}
-
 var result int
 
-func BenchmarkIterFor(b *testing.B) {
+func benchIter(b *testing.B, in int, fn testFunc) {
 	var r int
+	b.ResetTimer()
 	for n := 0; n < b.N; n++ {
-		r = iterFor(10)
+		r = fn(in)
 	}
 	result = r
 }
 
-func BenchmarkIterGoto(b *testing.B) {
-	var r int
-	for n := 0; n < b.N; n++ {
-		r = iterGoto(10)
+func BenchmarkIter(b *testing.B) {
+	var name string
+	for _, tt := range tests {
+		name = fmt.Sprintf("iterFor(%d)", tt.in)
+		b.Run(name, func(b *testing.B) {
+			benchIter(b, tt.in, iterFor)
+		})
+		name = fmt.Sprintf("iterGoto(%d)", tt.in)
+		b.Run(name, func(b *testing.B) {
+			benchIter(b, tt.in, iterGoto)
+		})
 	}
-	result = r
 }
