@@ -3,5 +3,15 @@ package iterbench
 import "testing"
 
 func TestIterFor(t *testing.T) {
-	iterFor(10)
+	_ = iterFor(10)
+}
+
+var result int
+
+func BenchmarkIterFor(b *testing.B) {
+	var r int
+	for n := 0; n < b.N; n++ {
+		r = iterFor(10)
+	}
+	result = r
 }

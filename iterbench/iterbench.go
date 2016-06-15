@@ -1,18 +1,23 @@
 package iterbench
 
-import "fmt"
-
-func iterFor(max int) {
-	var i int
+func iterFor(lmt int) int {
+	var (
+		i   int
+		sum int
+		ok  bool
+	)
 	for {
-		if ok := do(&i, &max); !ok {
-			return
+		i, ok = do(i, lmt)
+		sum += i
+		if !ok {
+			break
 		}
 	}
+	return sum
 }
 
-func do(i *int, lmt *int) bool {
-	*i++
-	fmt.Println(*i)
-	return *i != *lmt
+func do(i int, lmt int) (int, bool) {
+	i++
+	ok := i != lmt
+	return i, ok
 }
