@@ -7,7 +7,11 @@ import (
 	"os/exec"
 )
 
-const version = "0.1.3"
+const (
+	version = "0.1.3"
+
+	srcPath = "github.com/dvrkps/dojo/cmdupdate"
+)
 
 func main() {
 	up := flag.Bool("update", false, "update command")
@@ -30,8 +34,6 @@ func main() {
 
 	os.Exit(code)
 }
-
-const srcPath = "github.com/dvrkps/dojo/cmdupdate"
 
 func update(srcPath string) ([]byte, error) {
 	cmd := exec.Command("go", "get", "-u", srcPath)
