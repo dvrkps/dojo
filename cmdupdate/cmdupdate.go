@@ -7,7 +7,7 @@ import (
 	"os/exec"
 )
 
-const version = "0.1.1"
+const version = "0.1.2"
 
 func main() {
 	up := flag.Bool("update", false, "update command")
@@ -20,12 +20,15 @@ func main() {
 		code = update()
 	}
 
+	fmt.Println("Command done.")
+
 	os.Exit(code)
 }
 
 const srcPath = "github.com/dvrkps/dojo/cmdupdate"
 
 func update() int {
+	fmt.Println("Update start.")
 	cmd := exec.Command("go", "get", "-u", srcPath)
 	out, err := cmd.CombinedOutput()
 	var code int
