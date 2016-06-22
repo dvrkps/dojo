@@ -7,7 +7,7 @@ import (
 	"os/exec"
 )
 
-const version = "0.1.2"
+const version = "0.1.3"
 
 func main() {
 	up := flag.Bool("update", false, "update command")
@@ -17,7 +17,13 @@ func main() {
 
 	var code int
 	if *up {
-		code = update()
+		if out, err := update(srcPath); err != nil {
+			fmt.Printf("Update fail: %v\n", err)
+			fmt.Println(string(out))
+			os.Exit(1)
+		}
+		fmt.Println("Update done.")
+		os.Exit(0)
 	}
 
 	fmt.Println("Command done.")
@@ -27,20 +33,8 @@ func main() {
 
 const srcPath = "github.com/dvrkps/dojo/cmdupdate"
 
-func update() int {
+func update(srcPath string) ([]byte, error) {
 	fmt.Println("Update start.")
 	cmd := exec.Command("go", "get", "-u", srcPath)
-	out, err := cmd.CombinedOutput()
-	var code int
-	if err != nil {
-		fmt.Println("ERROR")
-		code = 1
-	}
-	fmt.Println(string(out))
-	if code < 1 {
-		fmt.Println("Update done.")
-	} else {
-		fmt.Println("Update fail.")
-	}
-	return code
+	return cmd.CombinedOutput()
 }
