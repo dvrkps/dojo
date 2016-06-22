@@ -34,7 +34,6 @@ func main() {
 const srcPath = "github.com/dvrkps/dojo/cmdupdate"
 
 func update(srcPath string) ([]byte, error) {
-	fmt.Println("Update start.")
 	cmd := exec.Command("go", "get", "-u", srcPath)
 	return cmd.CombinedOutput()
 }
