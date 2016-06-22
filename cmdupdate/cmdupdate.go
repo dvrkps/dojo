@@ -7,10 +7,10 @@ import (
 	"os/exec"
 )
 
-const version = "0.1.0"
+const version = "0.1.1"
 
 func main() {
-	up := flag.Bool("update", true, "update command")
+	up := flag.Bool("update", false, "update command")
 	flag.Parse()
 
 	fmt.Printf("version %s\n", version)
@@ -34,5 +34,10 @@ func update() int {
 		code = 1
 	}
 	fmt.Println(string(out))
+	if code < 1 {
+		fmt.Println("Update done.")
+	} else {
+		fmt.Println("Update fail.")
+	}
 	return code
 }
