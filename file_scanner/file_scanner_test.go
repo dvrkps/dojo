@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"io"
+	"reflect"
 	"testing"
 )
 
@@ -19,10 +20,19 @@ func fakeReader(size int) io.Reader {
 }
 
 func testScan(t *testing.T, fn func(io.Reader) Persons) {
-	const fakeRows = 10
-	f := fakeReader(fakeRows)
+	const noRows = 10
+	f := fakeReader(noRows)
 	ps := fn(f)
-	fmt.Println(ps)
+	if got := len(ps); got != noRows {
+		t.Errorf("len(Persons) = %v; want %v", got, noRows)
+	}
+	want := Person{
+		ID:   4,
+		Name: "name4",
+		Age:  noRows - 4}
+	if got := ps[3]; !reflect.DeepEqual(got, want) {
+		t.Errorf("p[3] = %v; want %v", got, want)
+	}
 }
 
 func TestScanString(t *testing.T) {
