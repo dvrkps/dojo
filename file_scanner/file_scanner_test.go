@@ -18,16 +18,19 @@ func fakeReader(size int) io.Reader {
 	return bytes.NewBuffer(buf.Bytes())
 }
 
-func TestScanString(t *testing.T) {
-	f := fakeReader(10)
-	ps := scanString(f)
+func testScan(t *testing.T, fn func(io.Reader) Persons) {
+	const fakeRows = 10
+	f := fakeReader(fakeRows)
+	ps := fn(f)
 	fmt.Println(ps)
 }
 
+func TestScanString(t *testing.T) {
+	testScan(t, scanString)
+}
+
 func TestScanBytes(t *testing.T) {
-	f := fakeReader(10)
-	ps := scanBytes(f)
-	fmt.Println(ps)
+	testScan(t, scanBytes)
 }
 
 var resultPersons Persons
