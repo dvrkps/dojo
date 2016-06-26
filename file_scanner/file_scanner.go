@@ -26,7 +26,7 @@ func main() {
 		}
 	}()
 
-	ps := scanString(f)
+	ps := scanConcurrently(f)
 	fmt.Println(ps)
 }
 
