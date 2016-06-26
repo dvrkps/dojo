@@ -17,10 +17,16 @@ func benchmarkScan(b *testing.B, rows int, fn func(io.Reader) Persons) {
 	resultPersons = r
 }
 
-func BenchmarkScanStringNew(b *testing.B) {
-	benchmarkScan(b, 10000, scanString)
+const benchRows = 1000
+
+func BenchmarkScanString(b *testing.B) {
+	benchmarkScan(b, benchRows, scanString)
 }
 
-func BenchmarkScanBytesNew(b *testing.B) {
-	benchmarkScan(b, 10000, scanBytes)
+func BenchmarkScanBytes(b *testing.B) {
+	benchmarkScan(b, benchRows, scanBytes)
+}
+
+func BenchmarkScanConcurrently(b *testing.B) {
+	benchmarkScan(b, benchRows, scanConcurrently)
 }
