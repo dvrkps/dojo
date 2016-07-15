@@ -4,14 +4,14 @@ import "fmt"
 
 // Server is custom server.
 type Server struct {
-	domain string
-	port   int
+	host string
+	port int
 }
 
-// Domain sets server's domain.
-func Domain(domain string) func(s *Server) {
+// Host sets server's host.
+func Host(host string) func(s *Server) {
 	return func(s *Server) {
-		s.domain = domain
+		s.host = host
 	}
 }
 
@@ -33,7 +33,7 @@ func newServer(options ...func(s *Server)) *Server {
 func main() {
 	srv := newServer(
 		Port(80),
-		Domain("example.com"),
+		Host("example.com"),
 		Port(82))
 	fmt.Printf("%+v\n", srv)
 }
