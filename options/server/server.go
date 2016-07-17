@@ -7,7 +7,7 @@ type Server struct {
 }
 
 // Host sets server's host.
-func Host(host string) func(s *Server) {
+func Host(host string) Option {
 	return func(s *Server) {
 		s.host = host
 	}
