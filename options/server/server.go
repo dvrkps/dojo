@@ -1,9 +1,19 @@
 package server
 
+import "fmt"
+
 // Server is custom server.
 type Server struct {
 	host string
 	port int
+}
+
+func (s *Server) setHost(host string) error {
+	if host == "" {
+		return fmt.Errorf("server: %s: invalid host", host)
+	}
+	s.host = host
+	return nil
 }
 
 // Host sets server's host.
