@@ -24,6 +24,9 @@ func (s *Server) setPort(port int) error {
 	return nil
 }
 
+// Option handle server option.
+type Option func(s *Server) error
+
 // Host sets server's host.
 func Host(host string) Option {
 	return func(s *Server) error {
@@ -38,14 +41,13 @@ func Port(port int) Option {
 	}
 }
 
-// Option handle server option.
-type Option func(s *Server) error
-
 // New creates new server.
-func New(options ...Option) *Server {
+func New(options ...Option) (*Server, error) {
 	srv := &Server{}
 	for _, o := range options {
-		o(srv)
+		if err := o(srv); err != nil {
+			return nil, err
+		}
 	}
-	return srv
+	return srv, nil
 }
