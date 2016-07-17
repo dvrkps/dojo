@@ -16,6 +16,14 @@ func (s *Server) setHost(host string) error {
 	return nil
 }
 
+func (s *Server) setPort(port int) error {
+	if port < 0 {
+		return fmt.Errorf("server: invalid port %d", port)
+	}
+	s.port = port
+	return nil
+}
+
 // Host sets server's host.
 func Host(host string) Option {
 	return func(s *Server) {
