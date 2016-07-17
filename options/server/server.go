@@ -33,8 +33,8 @@ func Host(host string) Option {
 
 // Port sets server's port.
 func Port(port int) Option {
-	return func(s *Server) {
-		s.port = port
+	return func(s *Server) error {
+		return s.setPort(port)
 	}
 }
 
