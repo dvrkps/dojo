@@ -26,8 +26,8 @@ func (s *Server) setPort(port int) error {
 
 // Host sets server's host.
 func Host(host string) Option {
-	return func(s *Server) {
-		s.host = host
+	return func(s *Server) error {
+		return s.setHost(host)
 	}
 }
 
