@@ -39,7 +39,7 @@ func Port(port int) Option {
 }
 
 // Option handle server option.
-type Option func(s *Server)
+type Option func(s *Server) error
 
 // New creates new server.
 func New(options ...Option) *Server {
