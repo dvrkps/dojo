@@ -14,7 +14,7 @@ func Host(host string) func(s *Server) {
 }
 
 // Port sets server's port.
-func Port(port int) func(s *Server) {
+func Port(port int) Option {
 	return func(s *Server) {
 		s.port = port
 	}
