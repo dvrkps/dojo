@@ -12,6 +12,9 @@ type appConfig struct {
 }
 
 func runApp(cfg *appConfig) int {
+	if cfg == nil {
+		return 1
+	}
 	if len(cfg.osargs) < 1 {
 		return 1
 	}
