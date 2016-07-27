@@ -1,19 +1,6 @@
 package main
 
-import (
-	"io"
-	"testing"
-)
-
-func fakeAppConfig(osargs []string, stdout, stderr io.Writer) *appConfig {
-	if len(osargs) == 0 && stdout == nil && stderr == nil {
-		return nil
-	}
-	return &appConfig{
-		osargs: osargs,
-		stdout: stdout,
-		stderr: stderr}
-}
+import "testing"
 
 var tests = []struct {
 	cfg  *appConfig
