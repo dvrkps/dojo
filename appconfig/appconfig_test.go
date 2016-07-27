@@ -1,26 +1,51 @@
 package main
 
-import "testing"
+import (
+	"io"
+	"testing"
+)
 
-func fakeAppConfig() *appConfig {
-	return &appConfig{}
+func fakeAppConfig(osargs []string, stdout, stderr io.Writer) *appConfig {
+	if len(osargs) == 0 && stdout == nil && stderr == nil {
+		return nil
+	}
+	return &appConfig{
+		osargs: osargs,
+		stdout: stdout,
+		stderr: stderr}
 }
 
 var tests = []struct {
-	osargs []string
-	code   int
+	cfg  *appConfig
+	code int
 }{
-	{osargs: []string{"a", "b", "c"}, code: 0},
-	{osargs: []string{}, code: 1},
+	{
+		cfg: &appConfig{
+			osargs: []string{"a", "b", "c"},
+			stdout: nil,
+			stderr: nil,
+		},
+		code: 0,
+	},
+	{
+		cfg:  nil,
+		code: 1,
+	},
+	{
+		cfg: &appConfig{
+			osargs: []string{},
+			stdout: nil,
+			stderr: nil,
+		},
+		code: 1,
+	},
 }
 
 func TestRunApp(t *testing.T) {
 	for _, tt := range tests {
-		ac := fakeAppConfig()
-		ac.osargs = tt.osargs
-		if got := runApp(ac); got != tt.code {
+		if got := runApp(tt.cfg); got != tt.code {
 			t.Errorf("runApp(%v) = %d; want %d",
-				tt.osargs, got, tt.code)
+				tt.cfg, got, tt.code)
 		}
 	}
 }
