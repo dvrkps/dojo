@@ -11,7 +11,7 @@ var tests = []struct {
 	code   int
 }{
 	{osargs: []string{"a", "b", "c"}, code: 0},
-	{osargs: []string{}, code: 0},
+	{osargs: []string{}, code: 1},
 }
 
 func TestRunApp(t *testing.T) {

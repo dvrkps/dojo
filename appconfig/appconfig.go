@@ -12,18 +12,16 @@ type appConfig struct {
 }
 
 func runApp(cfg *appConfig) int {
-	if len(cfg.osargs) < 2 {
+	if len(cfg.osargs) < 1 {
 		return 1
 	}
 	return 0
 }
 
 func main() {
-	code := runApp(&appConfig{
+	os.Exit(runApp(&appConfig{
 		osargs: os.Args,
 		stdout: os.Stdout,
 		stderr: os.Stderr,
-	})
-
-	os.Exit(code)
+	}))
 }
