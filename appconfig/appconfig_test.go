@@ -2,6 +2,10 @@ package main
 
 import "testing"
 
+func fakeAppConfig() *appConfig {
+	return &appConfig{}
+}
+
 var tests = []struct {
 	osargs []string
 	code   int
@@ -10,16 +14,12 @@ var tests = []struct {
 	{osargs: []string{}, code: 0},
 }
 
-func fakeAppConfig() AppConfig {
-	return AppConfig{}
-}
-
-func TestRealMain(t *testing.T) {
-	ac := fakeAppConfig()
+func TestRunApp(t *testing.T) {
 	for _, tt := range tests {
+		ac := fakeAppConfig()
 		ac.osargs = tt.osargs
-		if got := realMain(ac); got != tt.code {
-			t.Errorf("realMain(%v) = %d; want %d",
+		if got := runApp(ac); got != tt.code {
+			t.Errorf("runApp(%v) = %d; want %d",
 				tt.osargs, got, tt.code)
 		}
 	}

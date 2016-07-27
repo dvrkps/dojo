@@ -6,24 +6,23 @@ import (
 	"os"
 )
 
-type AppConfig struct {
+type appConfig struct {
+	osargs []string
 	stdout io.Writer
 	stderr io.Writer
-	osargs []string
+}
+
+func runApp(cfg *appConfig) int {
+	fmt.Println(cfg.osargs)
+	return 0
 }
 
 func main() {
-	ac := AppConfig{
+	code := runApp(&appConfig{
+		osargs: os.Args,
 		stdout: os.Stdout,
 		stderr: os.Stderr,
-		osargs: os.Args,
-	}
-
-	code := realMain(ac)
+	})
 
 	fmt.Println(code)
-}
-
-func realMain(app AppConfig) int {
-	return 0
 }
