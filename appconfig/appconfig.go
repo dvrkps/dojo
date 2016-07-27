@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"io"
 	"os"
 )
@@ -13,7 +12,9 @@ type appConfig struct {
 }
 
 func runApp(cfg *appConfig) int {
-	fmt.Println(cfg.osargs)
+	if len(cfg.osargs) < 2 {
+		return 1
+	}
 	return 0
 }
 
@@ -24,5 +25,5 @@ func main() {
 		stderr: os.Stderr,
 	})
 
-	fmt.Println(code)
+	os.Exit(code)
 }
