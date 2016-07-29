@@ -2,6 +2,7 @@ package main
 
 import (
 	"io"
+	"log"
 	"os"
 )
 
@@ -9,6 +10,7 @@ type appConfig struct {
 	osargs []string
 	stdout io.Writer
 	stderr io.Writer
+	logger *log.Logger
 }
 
 func runApp(cfg *appConfig) int {
@@ -26,5 +28,6 @@ func main() {
 		osargs: os.Args,
 		stdout: os.Stdout,
 		stderr: os.Stderr,
+		logger: log.New(os.Stderr, "", 0),
 	}))
 }
