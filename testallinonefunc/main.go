@@ -6,7 +6,8 @@ import (
 )
 
 func main() {
-	_, _ = inc(1)
+	i, err := inc(1)
+	fmt.Println(i, err)
 }
 
 const incMax = 99
