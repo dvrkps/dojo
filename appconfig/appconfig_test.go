@@ -1,6 +1,10 @@
 package main
 
-import "testing"
+import (
+	"log"
+	"os"
+	"testing"
+)
 
 var tests = []struct {
 	cfg  *appConfig
@@ -11,6 +15,7 @@ var tests = []struct {
 			osargs: []string{"a", "b", "c"},
 			stdout: nil,
 			stderr: nil,
+			logger: log.New(os.Stderr, "", 0),
 		},
 		code: 0,
 	},
@@ -23,6 +28,7 @@ var tests = []struct {
 			osargs: []string{},
 			stdout: nil,
 			stderr: nil,
+			logger: log.New(os.Stderr, "", 0),
 		},
 		code: 1,
 	},

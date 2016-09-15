@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"io"
 	"log"
 	"os"
@@ -13,6 +14,13 @@ type appConfig struct {
 	logger *log.Logger
 }
 
+func (ac *appConfig) write(w io.Writer, a ...interface{}) {
+	_, err := fmt.Fprint(w, a...)
+	if err != nil {
+		ac.logger.Print(err)
+	}
+}
+
 func runApp(cfg *appConfig) int {
 	if cfg == nil {
 		return 1
@@ -20,6 +28,7 @@ func runApp(cfg *appConfig) int {
 	if len(cfg.osargs) < 1 {
 		return 1
 	}
+	// cfg.logger.Print("eto")
 	return 0
 }
 
