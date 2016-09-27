@@ -3,6 +3,8 @@ package main
 func main() {
 }
 
+const exitOk = iota
+
 func run() int {
-	return 0
+	return exitOk
 }
