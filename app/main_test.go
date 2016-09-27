@@ -1,6 +1,10 @@
 package main
 
-import "testing"
+import (
+	"bytes"
+	"log"
+	"testing"
+)
 
 func TestRun(t *testing.T) {
 	got := run(NewApp())
@@ -12,5 +16,20 @@ func TestRun(t *testing.T) {
 func TestNewApp(t *testing.T) {
 	if NewApp() == nil {
 		t.Error("NewApp() = <nil>")
+	}
+}
+
+func TestApp_Log(t *testing.T) {
+	var buf bytes.Buffer
+
+	a := &App{logger: log.New(&buf, "", 0)}
+
+	a.Logf("%d %s", 46, "text")
+
+	got := buf.String()
+	want := "46 text\n"
+
+	if got != want {
+		t.Errorf("Logf(...) = %q; want %q", got, want)
 	}
 }

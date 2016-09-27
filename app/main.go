@@ -31,3 +31,8 @@ func NewApp() *App {
 		stdout: os.Stdout,
 		logger: log.New(os.Stderr, "", 0)}
 }
+
+// Logf prints to logger.
+func (a *App) Logf(format string, v ...interface{}) {
+	a.logger.Printf(format, v...)
+}
