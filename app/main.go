@@ -7,12 +7,12 @@ import (
 )
 
 func main() {
-	os.Exit(run())
+	os.Exit(run(NewApp()))
 }
 
 const exitOk = iota
 
-func run() int {
+func run(app *App) int {
 	return exitOk
 }
 

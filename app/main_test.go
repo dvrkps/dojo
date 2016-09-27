@@ -3,7 +3,7 @@ package main
 import "testing"
 
 func TestRun(t *testing.T) {
-	got := run()
+	got := run(NewApp())
 	if got != 0 {
 		t.Error("boom")
 	}
