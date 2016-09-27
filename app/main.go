@@ -24,6 +24,7 @@ type App struct {
 	logger *log.Logger
 }
 
+// NewApp create application.
 func NewApp() *App {
 	return &App{
 		osargs: os.Args,
