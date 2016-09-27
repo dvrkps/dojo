@@ -8,3 +8,9 @@ func TestRun(t *testing.T) {
 		t.Error("boom")
 	}
 }
+
+func TestNewApp(t *testing.T) {
+	if NewApp() == nil {
+		t.Error("NewApp() = <nil>")
+	}
+}

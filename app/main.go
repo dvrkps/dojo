@@ -23,3 +23,10 @@ type App struct {
 	stdout io.Writer
 	logger *log.Logger
 }
+
+func NewApp() *App {
+	return &App{
+		osargs: os.Args,
+		stdout: os.Stdout,
+		logger: log.New(os.Stderr, "", 0)}
+}
