@@ -16,6 +16,8 @@ func run() int {
 	return exitOk
 }
 
+// App represent application and
+// holds configuration.
 type App struct {
 	osargs []string
 	stdout io.Writer
