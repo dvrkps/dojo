@@ -19,6 +19,21 @@ func TestNewApp(t *testing.T) {
 	}
 }
 
+func TestApp_Log(t *testing.T) {
+	var buf bytes.Buffer
+
+	a := &App{logger: log.New(&buf, "", 0)}
+
+	a.Log("text", 12)
+
+	got := buf.String()
+	want := "text12\n"
+
+	if got != want {
+		t.Errorf("Log(...) = %q; want %q", got, want)
+	}
+}
+
 func TestApp_Logf(t *testing.T) {
 	var buf bytes.Buffer
 
