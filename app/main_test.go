@@ -26,9 +26,7 @@ func mockAppLogger() (*App, *bytes.Buffer) {
 }
 
 func loggerTest(t *testing.T, funcName string, buf *bytes.Buffer, want string) {
-
 	got := buf.String()
-
 	if got != want {
 		t.Errorf("%s(...) = %q; want %q",
 			funcName, got, want)
@@ -42,16 +40,7 @@ func TestApp_Log(t *testing.T) {
 }
 
 func TestApp_Logf(t *testing.T) {
-	var buf bytes.Buffer
-
-	a := &App{logger: log.New(&buf, "", 0)}
-
+	a, buf := mockAppLogger()
 	a.Logf("%d %s", 46, "text")
-
-	got := buf.String()
-	want := "46 text\n"
-
-	if got != want {
-		t.Errorf("Logf(...) = %q; want %q", got, want)
-	}
+	loggerTest(t, "Logf", buf, "46 text\n")
 }
