@@ -19,7 +19,7 @@ func TestNewApp(t *testing.T) {
 	}
 }
 
-func TestApp_Log(t *testing.T) {
+func TestApp_Logf(t *testing.T) {
 	var buf bytes.Buffer
 
 	a := &App{logger: log.New(&buf, "", 0)}
