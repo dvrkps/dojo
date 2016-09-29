@@ -28,7 +28,7 @@ func mockApp() (*App, *bytes.Buffer, *bytes.Buffer) {
 	return a, &o, &l
 }
 
-func loggerTest(t *testing.T, funcName string, buf *bytes.Buffer, want string) {
+func writerTest(t *testing.T, funcName string, buf *bytes.Buffer, want string) {
 	got := buf.String()
 	if got != want {
 		t.Errorf("%s(...) = %q; want %q",
@@ -39,25 +39,23 @@ func loggerTest(t *testing.T, funcName string, buf *bytes.Buffer, want string) {
 func TestApp_Log(t *testing.T) {
 	a, _, buf := mockApp()
 	a.Log("text", 12)
-	loggerTest(t, "Log", buf, "text12\n")
+	writerTest(t, "Log", buf, "text12\n")
 }
 
 func TestApp_Logf(t *testing.T) {
 	a, _, buf := mockApp()
 	a.Logf("%d %s", 46, "text")
-	loggerTest(t, "Logf", buf, "46 text\n")
+	writerTest(t, "Logf", buf, "46 text\n")
 }
 
 func TestApp_Logln(t *testing.T) {
 	a, _, buf := mockApp()
 	a.Logln(23, "a", "text")
-	loggerTest(t, "Logln", buf, "23 a text\n")
+	writerTest(t, "Logln", buf, "23 a text\n")
 }
 
-/*
 func TestApp_Printf(t *testing.T) {
-	a, out, buf := mockApp()
-	a.Printf("%d %s", 46, " text")
-	loggerTest(t, "Printf", buf, "46 text\n")
+	a, out, _ := mockApp()
+	a.Printf("%d %s", 46, "text")
+	writerTest(t, "Printf", out, "46 text")
 }
-*/
