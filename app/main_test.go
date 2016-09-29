@@ -19,10 +19,13 @@ func TestNewApp(t *testing.T) {
 	}
 }
 
-func mockAppLogger() (*App, *bytes.Buffer) {
-	var buf bytes.Buffer
-	a := &App{logger: log.New(&buf, "", 0)}
-	return a, &buf
+func mockApp() (*App, *bytes.Buffer, *bytes.Buffer) {
+	var o, l bytes.Buffer
+	a := &App{
+		stdout: &o,
+		logger: log.New(&l, "", 0),
+	}
+	return a, &o, &l
 }
 
 func loggerTest(t *testing.T, funcName string, buf *bytes.Buffer, want string) {
@@ -34,19 +37,27 @@ func loggerTest(t *testing.T, funcName string, buf *bytes.Buffer, want string) {
 }
 
 func TestApp_Log(t *testing.T) {
-	a, buf := mockAppLogger()
+	a, _, buf := mockApp()
 	a.Log("text", 12)
 	loggerTest(t, "Log", buf, "text12\n")
 }
 
 func TestApp_Logf(t *testing.T) {
-	a, buf := mockAppLogger()
+	a, _, buf := mockApp()
 	a.Logf("%d %s", 46, "text")
 	loggerTest(t, "Logf", buf, "46 text\n")
 }
 
 func TestApp_Logln(t *testing.T) {
-	a, buf := mockAppLogger()
+	a, _, buf := mockApp()
 	a.Logln(23, "a", "text")
 	loggerTest(t, "Logln", buf, "23 a text\n")
 }
+
+/*
+func TestApp_Printf(t *testing.T) {
+	a, out, buf := mockApp()
+	a.Printf("%d %s", 46, " text")
+	loggerTest(t, "Printf", buf, "46 text\n")
+}
+*/
