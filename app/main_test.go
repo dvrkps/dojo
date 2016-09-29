@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"errors"
 	"log"
 	"testing"
 )
@@ -59,4 +60,18 @@ func TestApp_Printf(t *testing.T) {
 	a, gotOut, gotLog := mockApp()
 	a.Printf("%d %s", 46, "text")
 	writeTest(t, "Printf", gotOut, gotLog, "46 text", "")
+}
+
+type mockErrWriter struct {
+}
+
+func (w *mockErrWriter) Write(p []byte) (int, error) {
+	return 0, errors.New("write error")
+}
+
+func TestApp_output_error(t *testing.T) {
+	a, gotOut, gotLog := mockApp()
+	a.stdout = &mockErrWriter{}
+	a.Printf("%s", "something")
+	writeTest(t, "output", gotOut, gotLog, "", "write error\n")
 }
