@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"io"
 	"log"
 	"os"
@@ -45,4 +46,14 @@ func (a *App) Logf(format string, v ...interface{}) {
 // Logln prints to logger like log.Println.
 func (a *App) Logln(v ...interface{}) {
 	a.logger.Println(v...)
+}
+
+func (a *App) write(w io.Writer, v ...interface{}) {
+	_, err := fmt.Fprint(w, v...)
+	if err != nil {
+		a.logger.Print(err)
+	}
+}
+
+func (a *App) Printf(format string, v ...interface{}) {
 }
