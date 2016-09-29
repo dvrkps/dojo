@@ -70,13 +70,6 @@ func (a *App) output(typ int, format string, v ...interface{}) {
 	}
 }
 
-func (a *App) writef(w io.Writer, format string, v ...interface{}) {
-	_, err := fmt.Fprintf(w, format, v...)
-	if err != nil {
-		a.logger.Print(err)
-	}
-}
-
 func (a *App) writeln(w io.Writer, v ...interface{}) {
 	_, err := fmt.Fprintln(w, v...)
 	if err != nil {
