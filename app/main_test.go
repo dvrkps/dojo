@@ -56,6 +56,12 @@ func TestApp_Logln(t *testing.T) {
 	writeTest(t, "Logln", gotOut, gotLog, "", "23 a text\n")
 }
 
+func TestApp_Print(t *testing.T) {
+	a, gotOut, gotLog := mockApp()
+	a.Print(78, "text")
+	writeTest(t, "Print", gotOut, gotLog, "78text", "")
+}
+
 func TestApp_Printf(t *testing.T) {
 	a, gotOut, gotLog := mockApp()
 	a.Printf("%d %s", 46, "text")

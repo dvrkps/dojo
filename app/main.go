@@ -70,6 +70,11 @@ func (a *App) output(typ int, format string, v ...interface{}) {
 	}
 }
 
+// Print prints to stdout like fmt.Print.
+func (a *App) Print(v ...interface{}) {
+	a.output(fnPrint, "", v...)
+}
+
 // Printf prints to stdout like fmt.Printf.
 func (a *App) Printf(format string, v ...interface{}) {
 	a.output(fnPrintf, format, v...)
