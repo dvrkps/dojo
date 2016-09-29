@@ -48,6 +48,28 @@ func (a *App) Logln(v ...interface{}) {
 	a.logger.Println(v...)
 }
 
+const (
+	fnPrint = iota
+	fnPrintf
+	fnPrintln
+)
+
+func (a *App) output(typ int, format string, v ...interface{}) {
+	var err error
+	switch typ {
+	case fnPrint:
+		_, err = fmt.Fprint(a.stdout, v...)
+
+	case fnPrintf:
+		_, err = fmt.Fprintf(a.stdout, format, v...)
+	case fnPrintln:
+		_, err = fmt.Fprintln(a.stdout, v...)
+	}
+	if err != nil {
+		a.logger.Print(err)
+	}
+}
+
 func (a *App) write(w io.Writer, v ...interface{}) {
 	_, err := fmt.Fprint(w, v...)
 	if err != nil {
@@ -71,5 +93,5 @@ func (a *App) writeln(w io.Writer, v ...interface{}) {
 
 // Printf prints to stdout like fmt.Printf.
 func (a *App) Printf(format string, v ...interface{}) {
-	a.writef(a.stdout, format, v...)
+	a.output(fnPrintf, format, v...)
 }
