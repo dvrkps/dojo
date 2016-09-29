@@ -69,5 +69,7 @@ func (a *App) writeln(w io.Writer, v ...interface{}) {
 	}
 }
 
+// Printf prints to stdout like fmt.Printf.
 func (a *App) Printf(format string, v ...interface{}) {
+	a.writef(a.stdout, format, v...)
 }
