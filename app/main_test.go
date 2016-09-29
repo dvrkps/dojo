@@ -28,18 +28,19 @@ func mockApp() (*App, *bytes.Buffer, *bytes.Buffer) {
 	return a, &o, &l
 }
 
-func writerTest(t *testing.T, funcName string, buf *bytes.Buffer, want string) {
-	got := buf.String()
-	if got != want {
-		t.Errorf("%s(...) = %q; want %q",
-			funcName, got, want)
+func writeTest(t *testing.T, funcName string, bufOut, bufLog *bytes.Buffer, wantOut, wantLog string) {
+	gotOut := bufOut.String()
+	gotLog := bufLog.String()
+	if gotOut != wantOut || gotLog != wantLog {
+		t.Errorf("%s(...) = out: %q log: %q; want out:%q, log: %q",
+			funcName, gotOut, gotLog, wantOut, wantLog)
 	}
 }
 
 func TestApp_Log(t *testing.T) {
-	a, _, buf := mockApp()
+	a, gotOut, gotLog := mockApp()
 	a.Log("text", 12)
-	writerTest(t, "Log", buf, "text12\n")
+	writeTest(t, "Log", gotOut, gotLog, "text12\n", "a")
 }
 
 func TestApp_Logf(t *testing.T) {
