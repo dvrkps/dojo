@@ -40,23 +40,23 @@ func writeTest(t *testing.T, funcName string, bufOut, bufLog *bytes.Buffer, want
 func TestApp_Log(t *testing.T) {
 	a, gotOut, gotLog := mockApp()
 	a.Log("text", 12)
-	writeTest(t, "Log", gotOut, gotLog, "text12\n", "a")
+	writeTest(t, "Log", gotOut, gotLog, "", "text12\n")
 }
 
 func TestApp_Logf(t *testing.T) {
-	a, _, buf := mockApp()
+	a, gotOut, gotLog := mockApp()
 	a.Logf("%d %s", 46, "text")
-	writerTest(t, "Logf", buf, "46 text\n")
+	writeTest(t, "Logf", gotOut, gotLog, "", "46 text\n")
 }
 
 func TestApp_Logln(t *testing.T) {
-	a, _, buf := mockApp()
+	a, gotOut, gotLog := mockApp()
 	a.Logln(23, "a", "text")
-	writerTest(t, "Logln", buf, "23 a text\n")
+	writeTest(t, "Logln", gotOut, gotLog, "", "23 a text\n")
 }
 
 func TestApp_Printf(t *testing.T) {
-	a, out, _ := mockApp()
+	a, gotOut, gotLog := mockApp()
 	a.Printf("%d %s", 46, "text")
-	writerTest(t, "Printf", out, "46 text")
+	writeTest(t, "Printf", gotOut, gotLog, "46 text", "")
 }
