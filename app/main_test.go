@@ -68,6 +68,12 @@ func TestApp_Printf(t *testing.T) {
 	writeTest(t, "Printf", gotOut, gotLog, "46 text", "")
 }
 
+func TestApp_Println(t *testing.T) {
+	a, gotOut, gotLog := mockApp()
+	a.Println("text", 90)
+	writeTest(t, "Println", gotOut, gotLog, "text 90\n", "")
+}
+
 type mockErrWriter struct {
 }
 

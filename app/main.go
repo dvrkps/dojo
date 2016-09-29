@@ -79,3 +79,8 @@ func (a *App) Print(v ...interface{}) {
 func (a *App) Printf(format string, v ...interface{}) {
 	a.output(fnPrintf, format, v...)
 }
+
+// Println prints to stdout like fmt.Println.
+func (a *App) Println(v ...interface{}) {
+	a.output(fnPrintln, "", v...)
+}
