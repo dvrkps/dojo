@@ -44,3 +44,9 @@ func TestApp_Logf(t *testing.T) {
 	a.Logf("%d %s", 46, "text")
 	loggerTest(t, "Logf", buf, "46 text\n")
 }
+
+func TestApp_Logln(t *testing.T) {
+	a, buf := mockAppLogger()
+	a.Logln(23, "a", "text")
+	loggerTest(t, "Logln", buf, "23 a text\n")
+}

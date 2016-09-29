@@ -41,3 +41,8 @@ func (a *App) Log(v ...interface{}) {
 func (a *App) Logf(format string, v ...interface{}) {
 	a.logger.Printf(format, v...)
 }
+
+// Logln prints to logger like log.Println.
+func (a *App) Logln(v ...interface{}) {
+	a.logger.Println(v...)
+}
