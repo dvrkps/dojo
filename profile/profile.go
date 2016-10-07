@@ -2,7 +2,6 @@ package profile
 
 import (
 	"bytes"
-	"fmt"
 	"io"
 	"log"
 	"math/rand"
@@ -16,9 +15,15 @@ const maxValue = 99
 // Data returns random values.
 func Data(n int) io.Reader {
 	var buf bytes.Buffer
+	var v int
+	var dst []byte
+	var err error
 	for i := 0; i < n; i++ {
-		v := randValue(maxValue)
-		_, err := fmt.Fprintf(&buf, "%d\n", v)
+		v = randValue(maxValue)
+		dst = dst[:0]
+		dst = strconv.AppendInt(dst, int64(v), 10)
+		dst = append(dst, '\n')
+		_, err = buf.Write(dst)
 		if err != nil {
 			log.Printf("Fprintf: %v", err)
 		}
