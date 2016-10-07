@@ -10,7 +10,8 @@ import (
 
 const maxValue = 99
 
-func strData1(n int) io.Reader {
+// StrData creates reader with random values.
+func StrData(n int) io.Reader {
 	vs := []string{}
 	for i := 0; i < n; i++ {
 		v := randValue(maxValue)
