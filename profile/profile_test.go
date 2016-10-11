@@ -5,12 +5,12 @@ import (
 	"testing"
 )
 
-func TestStrData(t *testing.T) {
-	_ = StrData(10)
-}
-
 func TestData(t *testing.T) {
 	_ = Data(10)
+}
+
+func TestStrData(t *testing.T) {
+	_ = StrData(10)
 }
 
 var benchs = []int{100} //, 1000, 10000}
@@ -34,5 +34,6 @@ func BenchmarkData(b *testing.B) {
 				_ = StrData(tt)
 			}
 		})
+
 	}
 }
