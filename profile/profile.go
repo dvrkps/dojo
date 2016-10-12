@@ -31,6 +31,25 @@ func Data1(n int) io.Reader {
 	return &buf
 }
 
+// Data2 returns random values.
+func Data2(n int) io.Reader {
+	var buf bytes.Buffer
+	var v int
+	var err error
+	for i := 0; i < n; i++ {
+		v = randValue(maxValue)
+		_, err = buf.WriteString(strconv.Itoa(v))
+		if err != nil {
+			log.Printf("WriteString: %v", err)
+		}
+		_, err = buf.WriteString("\n")
+		if err != nil {
+			log.Printf("WriteString: %v", err)
+		}
+	}
+	return &buf
+}
+
 // StrData1 returns random values.
 func StrData1(n int) io.Reader {
 	vs := []string{}

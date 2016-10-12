@@ -9,6 +9,10 @@ func TestData1(t *testing.T) {
 	_ = Data1(10)
 }
 
+func TestData2(t *testing.T) {
+	_ = Data2(10)
+}
+
 func TestStrData1(t *testing.T) {
 	_ = StrData1(10)
 }
@@ -28,6 +32,14 @@ func BenchmarkData(b *testing.B) {
 			b.ResetTimer()
 			for n := 0; n < b.N; n++ {
 				_ = Data1(tt)
+			}
+		})
+
+		name = fmt.Sprintf("Data2(%d)", tt)
+		b.Run(name, func(b *testing.B) {
+			b.ResetTimer()
+			for n := 0; n < b.N; n++ {
+				_ = Data2(tt)
 			}
 		})
 
