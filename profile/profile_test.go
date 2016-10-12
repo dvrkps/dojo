@@ -5,8 +5,8 @@ import (
 	"testing"
 )
 
-func TestData(t *testing.T) {
-	_ = Data(10)
+func TestData1(t *testing.T) {
+	_ = Data1(10)
 }
 
 func TestStrData1(t *testing.T) {
@@ -23,11 +23,11 @@ func BenchmarkData(b *testing.B) {
 	var name string
 	for _, tt := range benchs {
 
-		name = fmt.Sprintf("Data(%d)", tt)
+		name = fmt.Sprintf("Data1(%d)", tt)
 		b.Run(name, func(b *testing.B) {
 			b.ResetTimer()
 			for n := 0; n < b.N; n++ {
-				_ = Data(tt)
+				_ = Data1(tt)
 			}
 		})
 

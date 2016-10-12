@@ -12,8 +12,8 @@ import (
 
 const maxValue = 99
 
-// Data returns random values.
-func Data(n int) io.Reader {
+// Data1 returns random values.
+func Data1(n int) io.Reader {
 	var buf bytes.Buffer
 	var v int
 	var dst []byte
