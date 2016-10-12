@@ -31,9 +31,20 @@ func Data(n int) io.Reader {
 	return &buf
 }
 
-// StrData1 returns  random values.
+// StrData1 returns random values.
 func StrData1(n int) io.Reader {
 	vs := []string{}
+	for i := 0; i < n; i++ {
+		v := randValue(maxValue)
+		vs = append(vs, strconv.Itoa(v))
+	}
+	all := strings.Join(vs, "\n")
+	return strings.NewReader(all)
+}
+
+// StrData2 returns random values.
+func StrData2(n int) io.Reader {
+	vs := make([]string, 0, n)
 	for i := 0; i < n; i++ {
 		v := randValue(maxValue)
 		vs = append(vs, strconv.Itoa(v))
