@@ -10,7 +10,7 @@ func TestData(t *testing.T) {
 }
 
 func TestStrData(t *testing.T) {
-	_ = StrData(10)
+	_ = StrData1(10)
 }
 
 var benchs = []int{100} //, 1000, 10000}
@@ -27,11 +27,11 @@ func BenchmarkData(b *testing.B) {
 			}
 		})
 
-		name = fmt.Sprintf("StrData(%d)", tt)
+		name = fmt.Sprintf("StrData1(%d)", tt)
 		b.Run(name, func(b *testing.B) {
 			b.ResetTimer()
 			for n := 0; n < b.N; n++ {
-				_ = StrData(tt)
+				_ = StrData1(tt)
 			}
 		})
 

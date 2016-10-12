@@ -31,8 +31,8 @@ func Data(n int) io.Reader {
 	return &buf
 }
 
-// StrData returns  random values.
-func StrData(n int) io.Reader {
+// StrData1 returns  random values.
+func StrData1(n int) io.Reader {
 	vs := []string{}
 	for i := 0; i < n; i++ {
 		v := randValue(maxValue)
