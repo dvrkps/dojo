@@ -1,9 +1,6 @@
 package main
 
-import (
-	"context"
-	"fmt"
-)
+import "context"
 
 func main() {
 
@@ -13,12 +10,23 @@ func main() {
 		cancel()
 	}()
 
+	v := value{
+		ctx:    ctx,
+		cancel: cancel,
+	}
+
 	for n := range gen(ctx) {
-		fmt.Println(n)
-		if abort(n) {
-			println("abort")
-			cancel()
-			break
+		v.n = n
+
+		println(n)
+
+		abort(v)
+
+		select {
+		case <-ctx.Done():
+			println("main done")
+			return
+		default:
 		}
 	}
 
@@ -41,7 +49,7 @@ func inc(ctx context.Context, ch chan int) {
 	for {
 		select {
 		case <-ctx.Done():
-			println("stop")
+			println("inc done")
 			return
 		case ch <- n:
 			n++
@@ -49,9 +57,16 @@ func inc(ctx context.Context, ch chan int) {
 	}
 }
 
-func abort(i int) bool {
-	if i != 5 {
-		return false
+type value struct {
+	n      int
+	ctx    context.Context
+	cancel context.CancelFunc
+}
+
+func abort(v value) {
+
+	if v.n == 5 {
+		println("abort", v.n)
+		v.cancel()
 	}
-	return true
 }
