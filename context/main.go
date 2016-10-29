@@ -8,7 +8,10 @@ import (
 func main() {
 
 	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
+	defer func() {
+		println("defer")
+		cancel()
+	}()
 
 	for n := range gen(ctx) {
 		fmt.Println(n)
@@ -17,6 +20,8 @@ func main() {
 			break
 		}
 	}
+
+	println("end")
 }
 
 func gen(ctx context.Context) <-chan int {
@@ -30,6 +35,7 @@ func gen(ctx context.Context) <-chan int {
 		for {
 			select {
 			case <-ctx.Done():
+				println("stop")
 				return
 			case ch <- n:
 				n++
