@@ -15,7 +15,8 @@ func main() {
 
 	for n := range gen(ctx) {
 		fmt.Println(n)
-		if n == 5 {
+		if abort(n) {
+			println("abort")
 			cancel()
 			break
 		}
@@ -46,4 +47,11 @@ func inc(ctx context.Context, ch chan int) {
 			n++
 		}
 	}
+}
+
+func abort(i int) bool {
+	if i != 5 {
+		return false
+	}
+	return true
 }
