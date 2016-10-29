@@ -28,19 +28,22 @@ func gen(ctx context.Context) <-chan int {
 
 	ch := make(chan int)
 
-	go func() {
+	go inc(ctx, ch)
 
-		var n int
-
-		for {
-			select {
-			case <-ctx.Done():
-				println("stop")
-				return
-			case ch <- n:
-				n++
-			}
-		}
-	}()
 	return ch
+}
+
+func inc(ctx context.Context, ch chan int) {
+
+	var n int
+
+	for {
+		select {
+		case <-ctx.Done():
+			println("stop")
+			return
+		case ch <- n:
+			n++
+		}
+	}
 }
