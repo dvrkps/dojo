@@ -63,10 +63,13 @@ type value struct {
 	cancel context.CancelFunc
 }
 
+const abortNumber = 5
+
 func abort(v value) {
 
-	if v.n == 5 {
-		println("abort", v.n)
+	if v.n == abortNumber {
+		println("abort", abortNumber)
 		v.cancel()
 	}
+
 }
