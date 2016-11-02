@@ -7,3 +7,9 @@ package availability
 // availability = daySuccessfulRequsts / dayTotalRequests
 
 const version = "0.1.0"
+
+// Availability types.
+const (
+	TimeType = iota
+	AggregateType
+)
