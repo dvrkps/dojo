@@ -16,3 +16,14 @@ const (
 	TimeType = iota
 	AggregateType
 )
+
+// Availability is data holder.
+type Availability struct {
+	percent float64
+
+	yearUptime   time.Duration
+	yearDowntime time.Duration
+
+	daySuccessfulRequests int
+	dayTotalRequests      int
+}
