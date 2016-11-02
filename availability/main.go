@@ -6,8 +6,6 @@ package availability
 // aggregate availability formula
 // availability = daySuccessfulRequsts / dayTotalRequests
 
-const version = "0.1.0"
-
 // Availability types.
 const (
 	TimeType = iota
