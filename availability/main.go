@@ -19,6 +19,8 @@ const (
 
 // Availability is data holder.
 type Availability struct {
+	typ int
+
 	percent float64
 
 	yearUptime   time.Duration
