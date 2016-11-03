@@ -37,8 +37,7 @@ func ex1() {
 func ex2() {
 	var v int = 10
 	var i interface{} = v
-	println("ex2")
-	println("interface-to-value is nil?:", i == nil) // false
+	println("is nil?:", i == nil) // false
 	println("value address:", &v)
 	println(i)
 	println()
