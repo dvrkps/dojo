@@ -14,7 +14,7 @@ func main() {
 
 		{
 			label: "interface to value",
-			fn:    interfaceToValue,
+			fn:    toValue,
 		},
 
 		{
@@ -41,7 +41,7 @@ func nilInterface() {
 	println(i)                   // (0x0, 0x0)
 }
 
-func interfaceToValue() {
+func toValue() {
 	var v int = 10
 	var i interface{} = v
 	println("is nil:", i == nil) // false
