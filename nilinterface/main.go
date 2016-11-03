@@ -2,10 +2,27 @@ package main
 
 func main() {
 
-	ex1()
+	examples := []struct {
+		label string
+		fn    func()
+	}{
 
-	ex2()
+		{
+			label: "nil interface",
+			fn:    ex1,
+		},
 
+		{
+			label: "interface to value",
+			fn:    ex2,
+		},
+	}
+
+	for _, ex := range examples {
+		println(ex.label)
+		ex.fn()
+		println()
+	}
 }
 
 func ex1() {
