@@ -21,6 +21,11 @@ func main() {
 			label: "interface to nil pointer",
 			fn:    interfaceToNilPtr,
 		},
+
+		{
+			label: "interface to pointer",
+			fn:    toPointer,
+		},
 	}
 
 	for _, ex := range examples {
@@ -49,5 +54,14 @@ func interfaceToNilPtr() {
 	var i interface{} = p
 	println("is nil:", i == nil) // false
 	println("nil ptr:", p)
+	println(i)
+}
+
+func toPointer() {
+	var v int = 10
+	var p *int = &v
+	var i interface{} = p
+	println("is nil:", i == nil) // false
+	println("pointer:", p)
 	println(i)
 }
