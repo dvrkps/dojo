@@ -9,7 +9,7 @@ func main() {
 
 		{
 			label: "nil interface",
-			fn:    ex1,
+			fn:    nilInterface,
 		},
 
 		{
@@ -25,7 +25,7 @@ func main() {
 	}
 }
 
-func ex1() {
+func nilInterface() {
 	var i interface{} = nil
 	println("is nil?:", i == nil) // true
 	println(i)                    // (0x0, 0x0)
