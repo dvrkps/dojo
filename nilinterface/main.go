@@ -9,7 +9,7 @@ func main() {
 
 		{
 			label: "nil interface",
-			fn:    nilInterface,
+			fn:    toNil,
 		},
 
 		{
@@ -35,7 +35,7 @@ func main() {
 	}
 }
 
-func nilInterface() {
+func toNil() {
 	var i interface{} = nil
 	println("is nil:", i == nil) // true
 	println(i)                   // (0x0, 0x0)
