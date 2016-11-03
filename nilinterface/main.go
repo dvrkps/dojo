@@ -19,7 +19,7 @@ func main() {
 
 		{
 			label: "interface to nil pointer",
-			fn:    interfaceToNilPtr,
+			fn:    toNilPointer,
 		},
 
 		{
@@ -49,7 +49,7 @@ func interfaceToValue() {
 	println(i)
 }
 
-func interfaceToNilPtr() {
+func toNilPointer() {
 	var p *int = nil
 	var i interface{} = p
 	println("is nil:", i == nil) // false
