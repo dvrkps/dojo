@@ -35,16 +35,20 @@ func main() {
 	}
 }
 
+func isNil(i interface{}) {
+	println("is nil:", i == nil)
+}
+
 func toNil() {
 	var i interface{} = nil
-	println("is nil:", i == nil) // true
-	println(i)                   // (0x0, 0x0)
+	isNil(i)   // true
+	println(i) // (0x0, 0x0)
 }
 
 func toValue() {
 	var v int = 10
 	var i interface{} = v
-	println("is nil:", i == nil) // false
+	isNil(i) // false
 	println("value address:", &v)
 	println(i)
 }
@@ -52,7 +56,7 @@ func toValue() {
 func toNilPointer() {
 	var p *int = nil
 	var i interface{} = p
-	println("is nil:", i == nil) // false
+	isNil(i) // false
 	println("nil ptr:", p)
 	println(i)
 }
@@ -61,7 +65,7 @@ func toPointer() {
 	var v int = 10
 	var p *int = &v
 	var i interface{} = p
-	println("is nil:", i == nil) // false
+	isNil(i) // false
 	println("pointer:", p)
 	println(i)
 }
