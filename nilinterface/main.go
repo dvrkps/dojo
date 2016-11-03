@@ -27,11 +27,8 @@ func main() {
 
 func ex1() {
 	var i interface{} = nil
-	println("ex1")
-	println("nil interface is nil?:", i == nil) // true
-	println(i)                                  // (0x0, 0x0)
-	println()
-
+	println("is nil?:", i == nil) // true
+	println(i)                    // (0x0, 0x0)
 }
 
 func ex2() {
@@ -40,5 +37,4 @@ func ex2() {
 	println("is nil?:", i == nil) // false
 	println("value address:", &v)
 	println(i)
-	println()
 }
