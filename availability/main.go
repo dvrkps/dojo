@@ -1,6 +1,9 @@
 package availability
 
-import "time"
+import (
+	"errors"
+	"time"
+)
 
 // time based formula
 // availability = yearUptime / ( yearUptime + yearDowntime )
@@ -13,7 +16,7 @@ const yearNs = 3.154e16 * time.Nanosecond
 
 // Availability types.
 const (
-	TimeType = iota
+	TimeType = iota + 1
 	AggregateType
 )
 
@@ -28,4 +31,12 @@ type Availability struct {
 
 	daySuccessfulRequests int
 	dayTotalRequests      int
+}
+
+// New creates availability.
+func New(typ int) (*Availability, error) {
+	if typ < TimeType || typ > AggregateType {
+		return nil, errors.New("invalid type")
+	}
+	return &Availability{typ: typ}, nil
 }
