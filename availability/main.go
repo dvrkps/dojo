@@ -5,9 +5,6 @@ import (
 	"time"
 )
 
-// time based formula
-// availability = yearUptime / ( yearUptime + yearDowntime )
-
 // aggregate availability formula
 // availability = daySuccessfulRequsts / dayTotalRequests
 
@@ -39,4 +36,13 @@ func New(typ int) (*Availability, error) {
 		return nil, errors.New("invalid type")
 	}
 	return &Availability{typ: typ}, nil
+}
+
+// TimeBased holds time based availability data.
+//
+// formula: availability = yearUptime / ( yearUptime + yearDowntime )
+type TimeBased struct {
+	percent      float64
+	yearUptime   time.Duration
+	yearDowntime time.Duration
 }
