@@ -1,9 +1,6 @@
 package availability
 
-import (
-	"errors"
-	"time"
-)
+import "time"
 
 // aggregate availability formula
 // availability = daySuccessfulRequsts / dayTotalRequests
@@ -25,14 +22,6 @@ type Availability struct {
 
 	daySuccessfulRequests int
 	dayTotalRequests      int
-}
-
-// New creates availability.
-func New(typ int) (*Availability, error) {
-	if typ < TimeType || typ > AggregateType {
-		return nil, errors.New("invalid type")
-	}
-	return &Availability{typ: typ}, nil
 }
 
 // Year in nanoseconds.
