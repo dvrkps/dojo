@@ -2,19 +2,6 @@ package availability
 
 import "time"
 
-// Availability is data holder.
-type Availability struct {
-	typ int
-
-	percent float64
-
-	yearUptime   time.Duration
-	yearDowntime time.Duration
-
-	daySuccessfulRequests int
-	dayTotalRequests      int
-}
-
 // Year in nanoseconds.
 const yearNs = 3.154e16 * time.Nanosecond
 
