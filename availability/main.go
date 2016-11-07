@@ -2,15 +2,6 @@ package availability
 
 import "time"
 
-// aggregate availability formula
-// availability = daySuccessfulRequsts / dayTotalRequests
-
-// Availability types.
-const (
-	TimeType = iota + 1
-	AggregateType
-)
-
 // Availability is data holder.
 type Availability struct {
 	typ int
