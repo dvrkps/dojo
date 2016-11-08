@@ -27,3 +27,8 @@ type ByRequests struct {
 	success int
 	total   int
 }
+
+// NewByRequests creates aggregate based availability.
+func NewByRequests() *ByRequests {
+	return &ByRequests{}
+}
