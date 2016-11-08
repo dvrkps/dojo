@@ -19,11 +19,11 @@ func NewTimeBased() *TimeBased {
 	return &TimeBased{yearDowntime: yearNs}
 }
 
-// ByAggregate holds aggregate based availability.
+// ByRequests holds aggregate based availability.
 //
-// formula: availability = daySuccessfulRequsts / dayTotalRequests
-type ByAggregate struct {
-	percent            float64
-	successfulRequests int
-	totalRequests      int
+// formula: availability = success / total
+type ByRequests struct {
+	percent float64
+	success int
+	total   int
 }
