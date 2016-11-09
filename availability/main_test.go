@@ -5,21 +5,21 @@ import (
 	"testing"
 )
 
-func TestNewTimeBased(t *testing.T) {
+func TestNewByTime(t *testing.T) {
 
 	tests := []struct {
-		want *TimeBased
+		want *ByTime
 	}{
 
 		{
-			want: &TimeBased{yearDowntime: yearNs},
+			want: &ByTime{downtime: yearNs},
 		},
 	}
 
 	for _, tt := range tests {
 
-		if got := NewTimeBased(); !reflect.DeepEqual(got, tt.want) {
-			t.Errorf("NewTimeBased() = %v; want %v",
+		if got := NewByTime(); !reflect.DeepEqual(got, tt.want) {
+			t.Errorf("NewByTime() = %v; want %v",
 				got, tt.want)
 		}
 
