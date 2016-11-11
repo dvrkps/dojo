@@ -1,6 +1,9 @@
 package availability
 
-import "time"
+import (
+	"errors"
+	"time"
+)
 
 // Year in nanoseconds.
 const yearNs = 3.154e16 * time.Nanosecond
@@ -31,4 +34,17 @@ type ByRequests struct {
 // NewByRequests creates aggregate based availability.
 func NewByRequests() *ByRequests {
 	return &ByRequests{}
+}
+
+// SetPercent sets percent value.
+func (a *ByRequests) SetPercent(v float64) error {
+
+	if v <= 0 || v > 100 {
+
+		return errors.New("invalid percent")
+	}
+
+	a.percent = v
+
+	return nil
 }
