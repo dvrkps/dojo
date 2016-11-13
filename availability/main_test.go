@@ -46,3 +46,48 @@ func TestNewByRequests(t *testing.T) {
 
 	}
 }
+
+func TestByRequests_SetPercent(t *testing.T) {
+	tests := []struct {
+		in float64
+		ok bool
+	}{
+		{
+			in: 0,
+			ok: false,
+		},
+
+		{
+			in: 100,
+			ok: false,
+		},
+
+		{
+			in: 0.1,
+			ok: true,
+		},
+
+		{
+			in: 99.999,
+			ok: true,
+		},
+	}
+
+	for _, tt := range tests {
+		br := NewByRequests()
+		err := br.SetPercent(tt.in)
+
+		if !tt.ok {
+			if br.percent != 0 || err == nil {
+				t.Errorf("SetPercent(%v) = %v; want <error>; br: %+v",
+					tt.in, err, br)
+			}
+			continue
+		}
+
+		if br.percent != tt.in || err != nil {
+			t.Errorf("SetPercent(%v) = %v; want <nil>; br: %+v",
+				tt.in, err, br)
+		}
+	}
+}

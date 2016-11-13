@@ -38,13 +38,9 @@ func NewByRequests() *ByRequests {
 
 // SetPercent sets percent value.
 func (a *ByRequests) SetPercent(v float64) error {
-
-	if v <= 0 || v > 100 {
-
+	if v <= 0 || v >= 100 {
 		return errors.New("invalid percent")
 	}
-
 	a.percent = v
-
 	return nil
 }
