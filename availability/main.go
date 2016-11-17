@@ -44,3 +44,12 @@ func (a *ByRequests) SetPercent(v float64) error {
 	a.percent = v
 	return nil
 }
+
+// SetSuccess sets success requests value.
+func (a *ByRequests) SetSuccess(v int) error {
+	if v <= 0 {
+		return errors.New("invalid success requests value")
+	}
+	a.success = v
+	return nil
+}

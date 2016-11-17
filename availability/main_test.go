@@ -91,3 +91,38 @@ func TestByRequests_SetPercent(t *testing.T) {
 		}
 	}
 }
+
+func TestByRequests_SetSuccess(t *testing.T) {
+	tests := []struct {
+		in int
+		ok bool
+	}{
+		{
+			in: 0,
+			ok: false,
+		},
+
+		{
+			in: 1,
+			ok: true,
+		},
+	}
+
+	for _, tt := range tests {
+		br := NewByRequests()
+		err := br.SetSuccess(tt.in)
+
+		if !tt.ok {
+			if br.success != 0 || err == nil {
+				t.Errorf("SetSuccess(%v) = %v; want <error>; br: %+v",
+					tt.in, err, br)
+			}
+			continue
+		}
+
+		if br.success != tt.in || err != nil {
+			t.Errorf("SetSuccess(%v) = %v; want <nil>; br: %+v",
+				tt.in, err, br)
+		}
+	}
+}
