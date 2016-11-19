@@ -53,3 +53,12 @@ func (a *ByRequests) SetSuccess(v int) error {
 	a.success = v
 	return nil
 }
+
+// SetTotal sets total requests value.
+func (a *ByRequests) SetTotal(v int) error {
+	if v <= 0 {
+		return errors.New("invalid total requests value")
+	}
+	a.total = v
+	return nil
+}
