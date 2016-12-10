@@ -3,23 +3,20 @@ package main
 import "testing"
 
 func TestAdd(t *testing.T) {
-	tests := []struct {
-		in   int
-		want int
-	}{
-		{in: 1, want: 1},
-		{in: 2, want: 2},
-		{in: 3, want: 3},
-	}
-	for _, tt := range tests {
-		got := add(tt.in)
-		if got != tt.want {
+	tests := []int{1, 2, 3}
+	testAdd(t, value, tests)
+}
+
+func testAdd(t *testing.T, value int, tests []int) {
+	for _, in := range tests {
+		got := add(in)
+		want := value + in
+		if got != want {
 			t.Errorf("(%d) add(%d) = %d; want %d",
 				value,
-				tt.in,
+				in,
 				got,
-				tt.want)
+				want)
 		}
 	}
-
 }
