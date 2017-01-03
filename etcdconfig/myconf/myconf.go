@@ -1,6 +1,7 @@
 package myconf
 
 import (
+	"log"
 	"time"
 
 	"github.com/coreos/etcd/clientv3"
@@ -35,4 +36,14 @@ func New(cfg Config) (*Client, error) {
 
 	return c, nil
 
+}
+
+// Close closes client.
+func Close(c *Client) {
+
+	err := c.cli.Close()
+	if err != nil {
+		// TODO(dvrkps): add better logging
+		log.Fatal(err)
+	}
 }
