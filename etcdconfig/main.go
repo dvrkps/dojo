@@ -1,45 +1,35 @@
 package main
 
 import (
-	"context"
 	"fmt"
 	"log"
 	"time"
 
-	"github.com/coreos/etcd/clientv3"
+	"github.com/dvrkps/dojo/etcdconfig/myconf"
 )
 
 func main() {
-	endpoints := []string{
-		":2379",
-	}
-	dialTimeout := 5 * time.Second
-	cli, err := clientv3.New(clientv3.Config{
-		Endpoints:   endpoints,
-		DialTimeout: dialTimeout,
-	})
+	var (
+		endpoints      = []string{":2379"}
+		dialTimeout    = 5 * time.Second
+		requestTimeout = 1 * time.Second
+	)
+
+	cfg, err := myconf.New(
+		myconf.Config{
+			Endpoints:      endpoints,
+			DialTimeout:    dialTimeout,
+			RequestTimeout: requestTimeout})
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer cli.Close()
+	defer myconf.Close(cfg)
 
-	/*
-		_, err = cli.Put(context.TODO(), "foo", "bar")
-		if err != nil {
-			log.Fatal(err)
-		}
-	*/
+	key := "foo"
 
-	requestTimeout := 5 * time.Second
-
-	ctx, cancel := context.WithTimeout(context.Background(), requestTimeout)
-	resp, err := cli.Get(ctx, "fo", clientv3.WithPrefix())
-	cancel()
-	if err != nil {
-		log.Fatal(err)
+	var val string
+	if err := cfg.Value(key, &val); err != nil {
+		log.Print("value:", err)
 	}
-	fmt.Printf("%#v\n\n", resp)
-	for _, ev := range resp.Kvs {
-		fmt.Printf("%#v : %#v \n", ev.Key, ev.Value)
-	}
+	fmt.Printf("%s: %s", key, val)
 }
