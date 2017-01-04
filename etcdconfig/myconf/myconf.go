@@ -1,6 +1,8 @@
 package myconf
 
 import (
+	"context"
+	"errors"
 	"log"
 	"time"
 
@@ -9,13 +11,15 @@ import (
 
 // Config holds configuration data.
 type Config struct {
-	Endpoints   []string
-	DialTimeout time.Duration
+	Endpoints      []string
+	DialTimeout    time.Duration
+	RequestTimeout time.Duration
 }
 
 // Client is configuration client.
 type Client struct {
 	etcdClient *clientv3.Client
+	timeout    time.Duration
 }
 
 // New creates configuration client.
@@ -32,10 +36,27 @@ func New(cfg Config) (*Client, error) {
 
 	c := &Client{
 		etcdClient: ec,
+		timeout:    cfg.RequestTimeout,
 	}
 
 	return c, nil
 
+}
+
+func (c *Client) Value(key string, value interface{}) error {
+	ctx, cancel := context.WithTimeout(context.Background(), c.timeout)
+	resp, err := c.etcdClient.Get(ctx, key)
+	if err != nil {
+		return err
+	}
+	defer cancel()
+
+	if len(resp.Kvs) < 1 {
+		return errors.New("not exists")
+	}
+
+	value = resp.Kvs[0].Value
+	return nil
 }
 
 // Close closes client.
