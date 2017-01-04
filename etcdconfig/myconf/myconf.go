@@ -15,7 +15,7 @@ type Config struct {
 
 // Client is configuration client.
 type Client struct {
-	cli *clientv3.Client
+	etcdClient *clientv3.Client
 }
 
 // New creates configuration client.
@@ -31,7 +31,7 @@ func New(cfg Config) (*Client, error) {
 	}
 
 	c := &Client{
-		cli: ec,
+		etcdClient: ec,
 	}
 
 	return c, nil
@@ -41,9 +41,9 @@ func New(cfg Config) (*Client, error) {
 // Close closes client.
 func Close(c *Client) {
 
-	err := c.cli.Close()
+	err := c.etcdClient.Close()
 	if err != nil {
 		// TODO(dvrkps): add better logging
-		log.Fatal(err)
+		log.Print(err)
 	}
 }
