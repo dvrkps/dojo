@@ -1,8 +1,9 @@
-package myconf
+package myconfig
 
 import (
 	"context"
 	"errors"
+	"fmt"
 	"log"
 	"time"
 
@@ -55,7 +56,9 @@ func (c *Client) Value(key string, value interface{}) error {
 		return errors.New("not exists")
 	}
 
-	value = resp.Kvs[0].Value
+	v := resp.Kvs[0].Value
+
+	fmt.Printf("%T", v)
 	return nil
 }
 
