@@ -6,9 +6,13 @@ import (
 	"log"
 	"testing"
 	"time"
+
+	"github.com/coreos/etcd/clientv3"
 )
 
 func setup(cli *Client) {
+
+	teardown(cli)
 
 	all := map[string]string{
 		"/com/test/global/words":  "This is sentence.",
@@ -21,8 +25,17 @@ func setup(cli *Client) {
 		_, err := cli.etcdClient.Put(ctx, k, v)
 		cancel()
 		if err != nil {
-			log.Printf("setupTestData: %q:%q err: %v", k, v, err)
+			log.Printf("setup: %q:%q err: %v", k, v, err)
 		}
+	}
+}
+
+func teardown(cli *Client) {
+	ctx, cancel := context.WithTimeout(context.Background(), requestTimeout)
+	_, err := cli.etcdClient.Delete(ctx, "/com/", clientv3.WithPrefix())
+	cancel()
+	if err != nil {
+		log.Printf("teardown: %v", err)
 	}
 }
 
@@ -50,6 +63,7 @@ func Test(t *testing.T) {
 	c, close := testClient(t)
 	defer close()
 
+	setup(c)
 	key := "foo"
 
 	var got string
