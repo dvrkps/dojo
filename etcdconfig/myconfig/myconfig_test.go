@@ -3,24 +3,9 @@ package myconfig
 import (
 	"fmt"
 	"log"
-	"reflect"
 	"testing"
 	"time"
 )
-
-func proba(v interface{}) error {
-	//data := "5"
-	vof := reflect.ValueOf(v)
-	fmt.Println(vof)
-	return nil
-}
-
-func TestProba(t *testing.T) {
-	var v int
-	err := proba(&v)
-	println(err)
-	println(v)
-}
 
 func setup(t *testing.T) (*Client, func()) {
 	var (
