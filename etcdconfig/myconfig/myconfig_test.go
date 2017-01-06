@@ -1,20 +1,39 @@
 package myconfig
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"testing"
 	"time"
 )
 
-func testConfig(t *testing.T) (*Client, func()) {
-	var (
-		endpoints      = []string{":2379"}
-		dialTimeout    = 5 * time.Second
-		requestTimeout = 1 * time.Second
-	)
+func setup(cli *Client) {
 
-	cfg, err := New(
+	all := map[string]string{
+		"/com/test/global/words":  "This is sentence.",
+		"/com/test/global/port":   "1234",
+		"/com/test/global/istest": "test",
+	}
+
+	for k, v := range all {
+		ctx, cancel := context.WithTimeout(context.Background(), requestTimeout)
+		_, err := cli.etcdClient.Put(ctx, k, v)
+		cancel()
+		if err != nil {
+			log.Printf("setupTestData: %q:%q err: %v", k, v, err)
+		}
+	}
+}
+
+var (
+	endpoints      = []string{":2379"}
+	dialTimeout    = 5 * time.Second
+	requestTimeout = 1 * time.Second
+)
+
+func testClient(t *testing.T) (*Client, func()) {
+	c, err := New(
 		Config{
 			Endpoints:      endpoints,
 			DialTimeout:    dialTimeout,
@@ -24,17 +43,17 @@ func testConfig(t *testing.T) (*Client, func()) {
 		return nil, func() {}
 	}
 
-	return cfg, func() { Close(cfg) }
+	return c, func() { Close(c) }
 }
 
 func Test(t *testing.T) {
-	cfg, teardown := testConfig(t)
-	defer teardown()
+	c, close := testClient(t)
+	defer close()
 
 	key := "foo"
 
 	var got string
-	if err := cfg.Value(key, &got); err != nil {
+	if err := c.Value(key, &got); err != nil {
 		log.Print("value:", err)
 	}
 
