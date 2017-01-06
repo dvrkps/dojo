@@ -7,7 +7,7 @@ import (
 	"time"
 )
 
-func setup(t *testing.T) (*Client, func()) {
+func testConfig(t *testing.T) (*Client, func()) {
 	var (
 		endpoints      = []string{":2379"}
 		dialTimeout    = 5 * time.Second
@@ -20,7 +20,7 @@ func setup(t *testing.T) (*Client, func()) {
 			DialTimeout:    dialTimeout,
 			RequestTimeout: requestTimeout})
 	if err != nil {
-		t.Errorf("setup: new: %v", err)
+		t.Errorf("testConfig: %v", err)
 		return nil, func() {}
 	}
 
@@ -28,7 +28,7 @@ func setup(t *testing.T) (*Client, func()) {
 }
 
 func Test(t *testing.T) {
-	cfg, teardown := setup(t)
+	cfg, teardown := testConfig(t)
 	defer teardown()
 
 	key := "foo"
