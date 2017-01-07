@@ -68,7 +68,7 @@ func Test(t *testing.T) {
 	setup(c)
 	//prefix := "/com/test/global"
 	for k, v := range c.storage.all() {
-		fmt.Printf("%20v: %40v \n", k, v)
+		fmt.Printf("%40s: %-s \n", k, v)
 	}
 
 }

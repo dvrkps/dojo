@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"log"
+	"sync"
 	"time"
 
 	"github.com/coreos/etcd/clientv3"
@@ -51,11 +52,26 @@ func New(cfg Config) (*Client, error) {
 		return nil, fmt.Errorf("prefixes: %v", err)
 	}
 
-	dm, err := c.get(c.globalPrefix)
+	var wg sync.WaitGroup
 
-	c.storage.update(dm)
+	go c.updateStorage(&wg, c.globalPrefix)
+
+	go c.updateStorage(&wg, c.servicePrefix)
+
+	wg.Wait()
+
 	return c, nil
 
+}
+
+func (c *Client) updateStorage(wg *sync.WaitGroup, prefix string) {
+	wg.Add(1)
+	defer wg.Done()
+	dm, err := c.get(prefix)
+	if err != nil {
+		log.Printf("update client: %s: %v", prefix, err)
+	}
+	c.storage.update(dm)
 }
 
 const companyKey = "com"
