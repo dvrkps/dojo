@@ -16,7 +16,10 @@ func setup(cli *Client) {
 	all := map[string]string{
 		"/com/test/global/words":  "This is sentence.",
 		"/com/test/global/port":   "1234",
-		"/com/test/global/istest": "test",
+		"/com/test/global/istest": "true",
+		"/com/test/app/server":    "127.0.0.1",
+		"/com/test/app/devil":     "666",
+		"/com/test/app/secret":    "true",
 	}
 
 	for k, v := range all {
@@ -64,20 +67,8 @@ func Test(t *testing.T) {
 
 	setup(c)
 	//prefix := "/com/test/global"
-	for k, v := range c.data.all() {
-		fmt.Printf("a %-20s: %s\n", k, v)
+	for k, v := range c.storage.all() {
+		fmt.Printf("%20v: %40v \n", k, v)
 	}
-	/*
-
-		if err := c.get(prefix); err != nil {
-			log.Print("value:", err)
-		}
-
-				want := "bar"
-				if got != want {
-					t.Errorf("Value(%v, ...) = %v, want %v", key, got, want)
-				}
-			fmt.Printf("%s: %s", key, got)
-	*/
 
 }
