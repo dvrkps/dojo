@@ -47,7 +47,7 @@ func New(cfg Config) (*Client, error) {
 		data:       newData(),
 	}
 
-	if err := c.initKeyPrefixes(cfg.Env, cfg.Service); err != nil {
+	if err := c.setPrefixes(cfg.Env, cfg.Service); err != nil {
 		return nil, fmt.Errorf("prefixes: %v", err)
 	}
 
@@ -60,7 +60,7 @@ func New(cfg Config) (*Client, error) {
 
 const companyKey = "com"
 
-func (c *Client) initKeyPrefixes(env, service string) error {
+func (c *Client) setPrefixes(env, service string) error {
 	if env == "" {
 		return errors.New("empty env")
 	}
