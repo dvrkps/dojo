@@ -2,7 +2,6 @@ package myconfig
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"testing"
 
@@ -46,6 +45,8 @@ func testClient(t *testing.T) (*Client, func()) {
 	c, err := New(
 		Config{
 			Endpoints: testEndpoints,
+			Env:       "test",
+			Service:   "app",
 		},
 	)
 	if err != nil {
@@ -61,17 +62,18 @@ func Test(t *testing.T) {
 	defer close()
 
 	setup(c)
-	key := "foo"
+	prefix := "/com/test/global"
 
-	var got string
-	if err := c.Value(key, &got); err != nil {
+	if err := c.get(prefix); err != nil {
 		log.Print("value:", err)
 	}
 
-	want := "bar"
-	if got != want {
-		t.Errorf("Value(%v, ...) = %v, want %v", key, got, want)
-	}
-	fmt.Printf("%s: %s", key, got)
+	/*
+			want := "bar"
+			if got != want {
+				t.Errorf("Value(%v, ...) = %v, want %v", key, got, want)
+			}
+		fmt.Printf("%s: %s", key, got)
+	*/
 
 }

@@ -18,11 +18,17 @@ const (
 // Config holds configuration data.
 type Config struct {
 	Endpoints []string
+	Env       string
+	Service   string
 }
 
 // Client is configuration client.
 type Client struct {
 	etcdClient *clientv3.Client
+	keyPrefix  struct {
+		global  string
+		service string
+	}
 }
 
 // New creates configuration client.
@@ -41,13 +47,43 @@ func New(cfg Config) (*Client, error) {
 		etcdClient: ec,
 	}
 
+	if err := c.initKeyPrefixes(cfg.Env, cfg.Service); err != nil {
+		return nil, fmt.Errorf("prefixes: %v", err)
+	}
+
+	fmt.Printf("%#v\n", c)
 	return c, nil
 
 }
 
-func (c *Client) Value(key string, value interface{}) error {
+const companyKey = "com"
+
+func (c *Client) initKeyPrefixes(env, service string) error {
+	if env == "" {
+		return errors.New("empty env")
+	}
+	if service == "" {
+		return errors.New("empty service")
+	}
+	root := fmt.Sprintf("/%s/%s", companyKey, env)
+	c.keyPrefix.global = fmt.Sprintf("%s/global", root)
+	c.keyPrefix.service = fmt.Sprintf("%s/%s", root, service)
+	return nil
+}
+
+func (c *Client) get(prefix string) error {
 	ctx, cancel := context.WithTimeout(context.Background(), requestTimeout)
-	resp, err := c.etcdClient.Get(ctx, key)
+	resp, err := c.etcdClient.Get(
+		ctx,
+		prefix,
+		clientv3.WithPrefix(),
+		clientv3.WithSerializable(),
+		clientv3.WithSort(
+			clientv3.SortByKey,
+			clientv3.SortAscend,
+		),
+	)
+	defer cancel()
 	if err != nil {
 		return err
 	}
@@ -57,9 +93,18 @@ func (c *Client) Value(key string, value interface{}) error {
 		return errors.New("not exists")
 	}
 
-	v := resp.Kvs[0].Value
+	m := map[string]string{}
 
-	fmt.Printf("%T", v)
+	var k, v string
+
+	for _, ev := range resp.Kvs {
+		k = string(ev.Key)
+		v = string(ev.Value)
+
+		m[k] = v
+		//fmt.Printf("%s : %s\n", ev.Key, ev.Value)
+	}
+	//fmt.Println(m)
 	return nil
 }
 
