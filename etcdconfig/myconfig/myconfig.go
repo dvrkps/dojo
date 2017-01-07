@@ -24,11 +24,10 @@ type Config struct {
 
 // Client is configuration client.
 type Client struct {
-	etcdClient *clientv3.Client
-	keyPrefix  struct {
-		global  string
-		service string
-	}
+	etcdClient    *clientv3.Client
+	globalPrefix  string
+	servicePrefix string
+	data          *data
 }
 
 // New creates configuration client.
@@ -45,13 +44,16 @@ func New(cfg Config) (*Client, error) {
 
 	c := &Client{
 		etcdClient: ec,
+		data:       newData(),
 	}
 
 	if err := c.initKeyPrefixes(cfg.Env, cfg.Service); err != nil {
 		return nil, fmt.Errorf("prefixes: %v", err)
 	}
 
-	fmt.Printf("%#v\n", c)
+	dm, err := c.get(c.globalPrefix)
+
+	c.data.update(dm)
 	return c, nil
 
 }
@@ -66,34 +68,32 @@ func (c *Client) initKeyPrefixes(env, service string) error {
 		return errors.New("empty service")
 	}
 	root := fmt.Sprintf("/%s/%s", companyKey, env)
-	c.keyPrefix.global = fmt.Sprintf("%s/global", root)
-	c.keyPrefix.service = fmt.Sprintf("%s/%s", root, service)
+	c.globalPrefix = fmt.Sprintf("%s/global", root)
+	c.servicePrefix = fmt.Sprintf("%s/%s", root, service)
 	return nil
 }
 
-func (c *Client) get(prefix string) error {
+func (c *Client) get(prefix string) (dataMap, error) {
+
 	ctx, cancel := context.WithTimeout(context.Background(), requestTimeout)
 	resp, err := c.etcdClient.Get(
 		ctx,
 		prefix,
 		clientv3.WithPrefix(),
 		clientv3.WithSerializable(),
-		clientv3.WithSort(
-			clientv3.SortByKey,
-			clientv3.SortAscend,
-		),
 	)
+
 	defer cancel()
+
+	dm := dataMap{}
+
 	if err != nil {
-		return err
+		return dm, err
 	}
-	defer cancel()
 
 	if len(resp.Kvs) < 1 {
-		return errors.New("not exists")
+		return dm, errors.New("not exists")
 	}
-
-	m := map[string]string{}
 
 	var k, v string
 
@@ -101,11 +101,9 @@ func (c *Client) get(prefix string) error {
 		k = string(ev.Key)
 		v = string(ev.Value)
 
-		m[k] = v
-		//fmt.Printf("%s : %s\n", ev.Key, ev.Value)
+		dm[k] = v
 	}
-	//fmt.Println(m)
-	return nil
+	return dm, nil
 }
 
 // Close closes client.
