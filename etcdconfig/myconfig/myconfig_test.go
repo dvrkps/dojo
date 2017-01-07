@@ -2,6 +2,7 @@ package myconfig
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"testing"
 
@@ -62,18 +63,21 @@ func Test(t *testing.T) {
 	defer close()
 
 	setup(c)
-	prefix := "/com/test/global"
-
-	if err := c.get(prefix); err != nil {
-		log.Print("value:", err)
+	//prefix := "/com/test/global"
+	for k, v := range c.data.all() {
+		fmt.Printf("a %-20s: %s\n", k, v)
 	}
-
 	/*
-			want := "bar"
-			if got != want {
-				t.Errorf("Value(%v, ...) = %v, want %v", key, got, want)
-			}
-		fmt.Printf("%s: %s", key, got)
+
+		if err := c.get(prefix); err != nil {
+			log.Print("value:", err)
+		}
+
+				want := "bar"
+				if got != want {
+					t.Errorf("Value(%v, ...) = %v, want %v", key, got, want)
+				}
+			fmt.Printf("%s: %s", key, got)
 	*/
 
 }
