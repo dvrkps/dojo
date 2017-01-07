@@ -26,9 +26,25 @@ func (d *data) get(key string) (string, bool) {
 	v, ok := m[key]
 	return v, ok
 }
+
 func (d *data) update(dm dataMap) {
 	d.mu.Lock()
 	defer d.mu.Unlock()
+
+	fresh := make(Map)
+
+	// clone old values
+	old := d.av.Load().(Map)
+	for k, v := range old {
+		fresh[k] = v
+	}
+
+	// update values
+	for k, v := range dm {
+		fresh[k] = v
+	}
+
+	d.av.Store(fresh)
 }
 
 /*
