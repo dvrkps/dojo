@@ -8,17 +8,18 @@ import (
 type dataMap map[string]string
 
 type data struct {
-	av atomic.Value
-
 	mu sync.Mutex
-	dm dataMap
+	av atomic.Value
 }
 
 func newData() *data {
 	d := &data{}
-	d.av.Store(d.dm)
-
+	d.av.Store(dataMap{})
 	return d
+}
+
+func (d *data) all() dataMap {
+	return d.av.Load().(dataMap)
 }
 
 func (d *data) get(key string) (string, bool) {
