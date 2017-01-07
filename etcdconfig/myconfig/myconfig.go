@@ -27,7 +27,7 @@ type Client struct {
 	etcdClient    *clientv3.Client
 	globalPrefix  string
 	servicePrefix string
-	data          *data
+	storage       *data
 }
 
 // New creates configuration client.
@@ -44,7 +44,7 @@ func New(cfg Config) (*Client, error) {
 
 	c := &Client{
 		etcdClient: ec,
-		data:       newData(),
+		storage:    newData(),
 	}
 
 	if err := c.setPrefixes(cfg.Env, cfg.Service); err != nil {
@@ -53,7 +53,7 @@ func New(cfg Config) (*Client, error) {
 
 	dm, err := c.get(c.globalPrefix)
 
-	c.data.update(dm)
+	c.storage.update(dm)
 	return c, nil
 
 }
