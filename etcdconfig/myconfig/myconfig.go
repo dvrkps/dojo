@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"log"
+	"strings"
 	"sync"
 	"time"
 
@@ -115,6 +116,11 @@ func (c *Client) get(prefix string) (dataMap, error) {
 
 	for _, ev := range resp.Kvs {
 		k = string(ev.Key)
+		if strings.HasPrefix(k, c.globalPrefix) {
+			k = "/global" + strings.TrimPrefix(k, c.globalPrefix)
+		}
+		k = strings.TrimPrefix(k, c.servicePrefix)
+
 		v = string(ev.Value)
 
 		dm[k] = v
