@@ -10,17 +10,19 @@ import (
 	"github.com/coreos/etcd/clientv3"
 )
 
+const (
+	dialTimeout    = 5 * time.Second
+	requestTimeout = 1 * time.Second
+)
+
 // Config holds configuration data.
 type Config struct {
-	Endpoints      []string
-	DialTimeout    time.Duration
-	RequestTimeout time.Duration
+	Endpoints []string
 }
 
 // Client is configuration client.
 type Client struct {
 	etcdClient *clientv3.Client
-	timeout    time.Duration
 }
 
 // New creates configuration client.
@@ -28,7 +30,7 @@ func New(cfg Config) (*Client, error) {
 
 	ec, err := clientv3.New(clientv3.Config{
 		Endpoints:   cfg.Endpoints,
-		DialTimeout: cfg.DialTimeout,
+		DialTimeout: dialTimeout,
 	})
 
 	if err != nil {
@@ -37,7 +39,6 @@ func New(cfg Config) (*Client, error) {
 
 	c := &Client{
 		etcdClient: ec,
-		timeout:    cfg.RequestTimeout,
 	}
 
 	return c, nil
@@ -45,7 +46,7 @@ func New(cfg Config) (*Client, error) {
 }
 
 func (c *Client) Value(key string, value interface{}) error {
-	ctx, cancel := context.WithTimeout(context.Background(), c.timeout)
+	ctx, cancel := context.WithTimeout(context.Background(), requestTimeout)
 	resp, err := c.etcdClient.Get(ctx, key)
 	if err != nil {
 		return err

@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log"
 	"testing"
-	"time"
 
 	"github.com/coreos/etcd/clientv3"
 )
@@ -40,17 +39,15 @@ func teardown(cli *Client) {
 }
 
 var (
-	endpoints      = []string{":2379"}
-	dialTimeout    = 5 * time.Second
-	requestTimeout = 1 * time.Second
+	testEndpoints = []string{":2379"}
 )
 
 func testClient(t *testing.T) (*Client, func()) {
 	c, err := New(
 		Config{
-			Endpoints:      endpoints,
-			DialTimeout:    dialTimeout,
-			RequestTimeout: requestTimeout})
+			Endpoints: testEndpoints,
+		},
+	)
 	if err != nil {
 		t.Errorf("testConfig: %v", err)
 		return nil, func() {}
