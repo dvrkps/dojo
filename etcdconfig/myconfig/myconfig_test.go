@@ -66,9 +66,27 @@ func Test(t *testing.T) {
 	defer close()
 
 	setup(c)
-	//prefix := "/com/test/global"
+	// allStorage(t, c)
+
+}
+
+func allStorage(t *testing.T, c *Client) {
 	for k, v := range c.storage.all() {
-		fmt.Printf("%40s: %-s \n", k, v)
+		fmt.Printf("%20s: %-s \n", k, v)
 	}
 
+}
+
+func TestString(t *testing.T) {
+	c, close := testClient(t)
+	defer close()
+
+	key := "/global/words"
+	got, ok := c.String(key)
+	want := "This is sentence."
+	if got != want || !ok {
+		t.Errorf(
+			"String(%q) = %q, %v; want %q, true",
+			key, got, ok, want)
+	}
 }
