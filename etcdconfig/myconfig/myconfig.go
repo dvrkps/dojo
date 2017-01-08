@@ -54,6 +54,7 @@ func New(cfg Config) (*Client, error) {
 	}
 
 	var wg sync.WaitGroup
+	wg.Add(2)
 
 	go c.updateStorage(&wg, c.globalPrefix)
 
@@ -66,7 +67,6 @@ func New(cfg Config) (*Client, error) {
 }
 
 func (c *Client) updateStorage(wg *sync.WaitGroup, prefix string) {
-	wg.Add(1)
 	defer wg.Done()
 	dm, err := c.get(prefix)
 	if err != nil {
