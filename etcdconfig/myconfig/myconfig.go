@@ -68,6 +68,7 @@ func New(cfg Config) (*Client, error) {
 
 }
 
+// String returns value as string.
 func (c *Client) String(key string) (string, error) {
 	err := checkKey(key)
 	if err != nil {
@@ -78,16 +79,23 @@ func (c *Client) String(key string) (string, error) {
 	return v, err
 }
 
+// Int returns value as integer.
 func (c *Client) Int(key string) (int, error) {
 	sv, err := c.String(key)
 	if err != nil {
 		return 0, err
 	}
 	v, err := strconv.Atoi(sv)
-	if err != nil {
-		return 0, err
-	}
+	return v, err
+}
 
+// Bool returns value as boolean.
+func (c *Client) Bool(key string) (bool, error) {
+	sv, err := c.String(key)
+	if err != nil {
+		return false, err
+	}
+	v, err := strconv.ParseBool(sv)
 	return v, err
 }
 

@@ -104,3 +104,17 @@ func TestInt(t *testing.T) {
 			key, got, err, want)
 	}
 }
+
+func TestBool(t *testing.T) {
+	c, close := testClient(t)
+	defer close()
+
+	key := "/secret"
+	got, err := c.Bool(key)
+	want := true
+	if got != want || err != nil {
+		t.Errorf(
+			"Bool(%q) = %v, %v; want %v, <nil>",
+			key, got, err, want)
+	}
+}
