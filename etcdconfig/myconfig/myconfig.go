@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"path"
+	"strconv"
 	"strings"
 	"sync"
 	"time"
@@ -73,6 +74,19 @@ func (c *Client) String(key string) (string, error) {
 		return "", err
 	}
 	v, err := c.storage.get(key)
+
+	return v, err
+}
+
+func (c *Client) Int(key string) (int, error) {
+	sv, err := c.String(key)
+	if err != nil {
+		return 0, err
+	}
+	v, err := strconv.Atoi(sv)
+	if err != nil {
+		return 0, err
+	}
 
 	return v, err
 }

@@ -90,3 +90,17 @@ func TestString(t *testing.T) {
 			key, got, err, want)
 	}
 }
+
+func TestInt(t *testing.T) {
+	c, close := testClient(t)
+	defer close()
+
+	key := "/devil"
+	got, err := c.Int(key)
+	want := 666
+	if got != want || err != nil {
+		t.Errorf(
+			"Int(%q) = %v, %v; want %v, <nil>",
+			key, got, err, want)
+	}
+}
