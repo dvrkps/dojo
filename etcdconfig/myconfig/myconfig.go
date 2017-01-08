@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"log"
+	"path"
 	"strings"
 	"sync"
 	"time"
@@ -141,4 +142,14 @@ func Close(c *Client) {
 		// TODO(dvrkps): add better logging
 		log.Print(err)
 	}
+}
+
+func checkKey(key string) error {
+	if key == "" || key == "/" {
+		return errors.New("empty key")
+	}
+	if path.IsAbs(key) {
+		return errors.New("relative key")
+	}
+	return nil
 }
