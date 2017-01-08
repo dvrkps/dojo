@@ -1,6 +1,7 @@
 package myconfig
 
 import (
+	"errors"
 	"sync"
 	"sync/atomic"
 )
@@ -22,10 +23,13 @@ func (d *data) all() dataMap {
 	return d.av.Load().(dataMap)
 }
 
-func (d *data) get(key string) (string, bool) {
+func (d *data) get(key string) (string, error) {
 	m := d.av.Load().(dataMap)
 	v, ok := m[key]
-	return v, ok
+	if !ok {
+		return "", errors.New("not exists")
+	}
+	return v, nil
 }
 
 func (d *data) update(dm dataMap) {
