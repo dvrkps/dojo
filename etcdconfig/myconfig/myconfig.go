@@ -148,7 +148,7 @@ func checkKey(key string) error {
 	if key == "" || key == "/" {
 		return errors.New("empty key")
 	}
-	if path.IsAbs(key) {
+	if !path.IsAbs(key) {
 		return errors.New("relative key")
 	}
 	return nil
