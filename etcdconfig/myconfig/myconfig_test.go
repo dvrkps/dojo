@@ -82,11 +82,11 @@ func TestString(t *testing.T) {
 	defer close()
 
 	key := "/global/words"
-	got, ok := c.String(key)
+	got, err := c.String(key)
 	want := "This is sentence."
-	if got != want || !ok {
+	if got != want || err != nil {
 		t.Errorf(
-			"String(%q) = %q, %v; want %q, true",
-			key, got, ok, want)
+			"String(%q) = %q, %v; want %q, <nil>",
+			key, got, err, want)
 	}
 }

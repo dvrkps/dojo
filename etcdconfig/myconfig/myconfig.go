@@ -67,9 +67,14 @@ func New(cfg Config) (*Client, error) {
 
 }
 
-func (c *Client) String(key string) (string, bool) {
-	v, ok := c.storage.get(key)
-	return v, ok
+func (c *Client) String(key string) (string, error) {
+	err := checkKey(key)
+	if err != nil {
+		return "", err
+	}
+	v, err := c.storage.get(key)
+
+	return v, err
 }
 
 func (c *Client) updateStorage(wg *sync.WaitGroup, prefix string) {
