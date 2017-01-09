@@ -24,7 +24,9 @@ func main() {
 		log.Fatal(err)
 	}
 
-	global(cfg)
+	go global(cfg)
+
+	service(cfg)
 
 	defer myconfig.Close(cfg)
 
@@ -47,6 +49,28 @@ func global(c *myconfig.Client) {
 			i = ni
 			s = ns
 			fmt.Printf("global: istest: %v port: %v words: %q \n", b, i, s)
+		}
+
+	}
+}
+
+func service(c *myconfig.Client) {
+	var (
+		b bool
+		i int
+		s string
+	)
+
+	for {
+		time.Sleep(1e9)
+		nb, _ := c.Bool("/secret")
+		ni, _ := c.Int("/devil")
+		ns, _ := c.String("/server")
+		if b != nb || i != ni || s != ns {
+			b = nb
+			i = ni
+			s = ns
+			fmt.Printf("service: secret: %v devil: %v server: %q \n", b, i, s)
 		}
 
 	}
