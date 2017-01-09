@@ -5,31 +5,49 @@ import (
 	"log"
 	"time"
 
-	"github.com/dvrkps/dojo/etcdconfig/myconf"
+	"github.com/dvrkps/dojo/etcdconfig/myconfig"
 )
 
 func main() {
 	var (
-		endpoints      = []string{":2379"}
-		dialTimeout    = 5 * time.Second
-		requestTimeout = 1 * time.Second
+		endpoints = []string{":2379"}
 	)
 
-	cfg, err := myconf.New(
-		myconf.Config{
-			Endpoints:      endpoints,
-			DialTimeout:    dialTimeout,
-			RequestTimeout: requestTimeout})
+	cfg, err := myconfig.New(
+		myconfig.Config{
+			Endpoints: endpoints,
+			Env:       "test",
+			Service:   "app",
+		},
+	)
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer myconf.Close(cfg)
 
-	key := "foo"
+	global(cfg)
 
-	var val string
-	if err := cfg.Value(key, &val); err != nil {
-		log.Print("value:", err)
+	defer myconfig.Close(cfg)
+
+}
+
+func global(c *myconfig.Client) {
+	var (
+		b bool
+		i int
+		s string
+	)
+
+	for {
+		time.Sleep(1e9)
+		nb, _ := c.Bool("/global/istest")
+		ni, _ := c.Int("/global/port")
+		ns, _ := c.String("/global/words")
+		if b != nb || i != ni || s != ns {
+			b = nb
+			i = ni
+			s = ns
+			fmt.Printf("global: istest: %v port: %v words: %q \n", b, i, s)
+		}
+
 	}
-	fmt.Printf("%s: %s", key, val)
 }
