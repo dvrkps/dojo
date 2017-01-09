@@ -209,7 +209,6 @@ func (c *Client) startWatch(prefix string) {
 				}
 			}
 			if len(dm) > 0 {
-				fmt.Println(dm)
 				c.storage.update(dm)
 			}
 		}
