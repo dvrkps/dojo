@@ -12,6 +12,7 @@ import (
 	"time"
 
 	"github.com/coreos/etcd/clientv3"
+	"github.com/coreos/etcd/mvcc/mvccpb"
 )
 
 const (
@@ -57,12 +58,12 @@ func New(cfg Config) (*Client, error) {
 
 	var wg sync.WaitGroup
 	wg.Add(2)
-
 	go c.updateStorage(&wg, c.globalPrefix)
-
 	go c.updateStorage(&wg, c.servicePrefix)
-
 	wg.Wait()
+
+	c.startWatch(c.globalPrefix)
+	c.startWatch(c.servicePrefix)
 
 	return c, nil
 
@@ -165,6 +166,7 @@ func (c *Client) get(prefix string) (dataMap, error) {
 func Close(c *Client) {
 
 	err := c.etcdClient.Close()
+
 	if err != nil {
 		// TODO(dvrkps): add better logging
 		log.Print(err)
@@ -179,4 +181,37 @@ func checkKey(key string) error {
 		return errors.New("relative key")
 	}
 	return nil
+}
+
+func (c *Client) startWatch(prefix string) {
+	ch := c.etcdClient.Watch(context.Background(), prefix, clientv3.WithPrefix(), clientv3.WithFilterDelete())
+	go func() {
+		for wresp := range ch {
+
+			if wresp.Canceled {
+				log.Print("watch cancel: ", wresp.Err())
+				c.startWatch(prefix)
+				return
+			}
+
+			dm := dataMap{}
+			var k, v string
+			for _, ev := range wresp.Events {
+				if ev.Type == mvccpb.PUT {
+					k = string(ev.Kv.Key)
+					if strings.HasPrefix(k, c.globalPrefix) {
+						k = "/global" + strings.TrimPrefix(k, c.globalPrefix)
+					}
+					k = strings.TrimPrefix(k, c.servicePrefix)
+
+					v = string(ev.Kv.Value)
+					dm[k] = v
+				}
+			}
+			if len(dm) > 0 {
+				fmt.Println(dm)
+				c.storage.update(dm)
+			}
+		}
+	}()
 }
