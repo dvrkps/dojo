@@ -42,7 +42,7 @@ func main() {
 	stop := setupTrace("trace.out")
 	defer stop()
 
-	out := sq(sq(gen(2, 3)))
+	out := sq(gen(2, 3))
 
 	for n := range out {
 		fmt.Println(n)
