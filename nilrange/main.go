@@ -1,9 +1,6 @@
 package main
 
-func main() {
-	sum := one([]int{1, 2, 3})
-	println(sum)
-}
+func main() {}
 
 func one(data []int) int {
 	var sum int
