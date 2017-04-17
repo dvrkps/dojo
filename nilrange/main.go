@@ -20,3 +20,14 @@ func two(data []int) int {
 	}
 	return sum
 }
+
+func three(data []int) int {
+	if data == nil {
+		return 0
+	}
+	var sum int
+	for _, i := range data {
+		sum += i
+	}
+	return sum
+}
