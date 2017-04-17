@@ -14,6 +14,8 @@ var testCases = []struct {
 	{"one(1,2,3)", one, []int{1, 2, 3}, 6},
 	{"two(nil)", two, nil, 0},
 	{"two(1,2,3)", two, []int{1, 2, 3}, 6},
+	{"three(nil)", three, nil, 0},
+	{"three(1,2,3)", three, []int{1, 2, 3}, 6},
 }
 
 func TestAll(t *testing.T) {
