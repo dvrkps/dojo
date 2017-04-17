@@ -21,8 +21,8 @@ var benchCases = []struct {
 	fn   func([]int) int
 	args []int
 }{
-	{"one", one, nil},
-	{"one", one, []int{1, 2, 3}},
+	{"one(nil)", one, nil},
+	{"one(1,2,3)", one, []int{1, 2, 3}},
 }
 
 func BenchmarkAll(b *testing.B) {
