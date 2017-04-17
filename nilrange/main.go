@@ -9,3 +9,14 @@ func one(data []int) int {
 	}
 	return sum
 }
+
+func two(data []int) int {
+	var sum int
+	if data == nil {
+		return sum
+	}
+	for _, i := range data {
+		sum += i
+	}
+	return sum
+}
