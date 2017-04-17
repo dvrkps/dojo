@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"testing"
 )
 
@@ -27,8 +26,7 @@ var benchCases = []struct {
 
 func BenchmarkAll(b *testing.B) {
 	for _, bc := range benchCases {
-		name := fmt.Sprintf("%s(%v)", bc.name, bc.args)
-		b.Run(name, func(b *testing.B) {
+		b.Run(bc.name, func(b *testing.B) {
 			benchmarkHelper(b, bc.fn, bc.args)
 		})
 	}
