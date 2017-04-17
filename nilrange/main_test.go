@@ -28,3 +28,9 @@ func TestAll(t *testing.T) {
 		})
 	}
 }
+
+func TestRun(t *testing.T) {
+	if run() != 0 {
+		t.Error("run() != 0")
+	}
+}
