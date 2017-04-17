@@ -1,6 +1,10 @@
 package main
 
-func main() {}
+import "os"
+
+func main() {
+	os.Exit(run())
+}
 
 func one(data []int) int {
 	var sum int
