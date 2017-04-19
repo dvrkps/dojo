@@ -55,3 +55,17 @@ func complements(sum int, nums ...int) bool {
 	}
 	return false
 }
+
+func optim(sum int, nums ...int) bool {
+	comp := []int{}
+	for _, n := range nums {
+		v := sum - n
+		for _, c := range comp {
+			if c == v {
+				return true
+			}
+		}
+		comp = append(comp, v)
+	}
+	return false
+}
