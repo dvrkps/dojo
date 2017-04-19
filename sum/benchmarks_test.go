@@ -43,6 +43,14 @@ var benchCases = []struct {
 		fn:   linear,
 		sum:  8,
 		nums: []int{1, 2, 4, 4}},
+	{name: "complements(8,1,2,3,9)",
+		fn:   complements,
+		sum:  8,
+		nums: []int{1, 2, 3, 9}},
+	{name: "complements(8,1,2,4,4)",
+		fn:   complements,
+		sum:  8,
+		nums: []int{1, 2, 4, 4}},
 }
 
 func BenchmarkAll(b *testing.B) {
