@@ -39,6 +39,16 @@ var testCases = []struct {
 		sum:  8,
 		in:   []int{1, 2, 4, 4},
 		want: true},
+	{name: "complements(8,1,2,3,9)",
+		fn:   complements,
+		sum:  8,
+		in:   []int{1, 2, 3, 9},
+		want: false},
+	{name: "complements(8,1,2,4,4)",
+		fn:   complements,
+		sum:  8,
+		in:   []int{1, 2, 4, 4},
+		want: true},
 }
 
 func TestAll(t *testing.T) {
