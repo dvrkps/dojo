@@ -3,8 +3,8 @@ package sum
 func basic(sum int, nums ...int) bool {
 	for _, x := range nums {
 		for _, y := range nums {
-			v := x + y
-			if sum == v {
+			s := x + y
+			if sum == s {
 				return true
 			}
 		}
