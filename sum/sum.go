@@ -43,3 +43,15 @@ func linear(sum int, nums ...int) bool {
 	}
 	return false
 }
+
+func complements(sum int, nums ...int) bool {
+	comp := map[int]struct{}{}
+	for _, n := range nums {
+		v := sum - n
+		if _, ok := comp[v]; ok {
+			return true
+		}
+		comp[v] = struct{}{}
+	}
+	return false
+}
