@@ -29,6 +29,16 @@ var testCases = []struct {
 		sum:  8,
 		in:   []int{1, 2, 4, 4},
 		want: true},
+	{name: "linear(8,1,2,3,9)",
+		fn:   linear,
+		sum:  8,
+		in:   []int{1, 2, 3, 9},
+		want: false},
+	{name: "linear(8,1,2,4,4)",
+		fn:   linear,
+		sum:  8,
+		in:   []int{1, 2, 4, 4},
+		want: true},
 }
 
 func TestAll(t *testing.T) {
