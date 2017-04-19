@@ -26,3 +26,21 @@ func better(sum int, nums ...int) bool {
 	}
 	return false
 }
+
+func linear(sum int, nums ...int) bool {
+	min := 0
+	max := len(nums) - 1
+	for min < max {
+
+		s := nums[min] + nums[max]
+		switch {
+		case s == sum:
+			return true
+		case s > sum:
+			max--
+		case s < sum:
+			min++
+		}
+	}
+	return false
+}
