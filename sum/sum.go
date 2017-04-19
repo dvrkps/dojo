@@ -31,7 +31,6 @@ func linear(sum int, nums ...int) bool {
 	min := 0
 	max := len(nums) - 1
 	for min < max {
-
 		s := nums[min] + nums[max]
 		switch {
 		case s == sum:
