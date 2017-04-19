@@ -19,6 +19,16 @@ var testCases = []struct {
 		sum:  8,
 		in:   []int{1, 2, 4, 4},
 		want: true},
+	{name: "better(8,1,2,3,9)",
+		fn:   better,
+		sum:  8,
+		in:   []int{1, 2, 3, 9},
+		want: false},
+	{name: "better(8,1,2,4,4)",
+		fn:   better,
+		sum:  8,
+		in:   []int{1, 2, 4, 4},
+		want: true},
 }
 
 func TestAll(t *testing.T) {
