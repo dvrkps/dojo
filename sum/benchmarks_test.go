@@ -12,3 +12,27 @@ func benchmarkHelper(b *testing.B, fn func(int, ...int) bool, sum int, nums ...i
 	}
 	result = r
 }
+
+var benchCases = []struct {
+	name string
+	fn   func(int, ...int) bool
+	sum  int
+	nums []int
+}{
+	{name: "basic(8,1,2,3,9)",
+		fn:   basic,
+		sum:  8,
+		nums: []int{1, 2, 3, 9}},
+	{name: "basic(8,1,2,4,4)",
+		fn:   basic,
+		sum:  8,
+		nums: []int{1, 2, 4, 4}},
+}
+
+func BenchmarkAll(b *testing.B) {
+	for _, bc := range benchCases {
+		b.Run(bc.name, func(b *testing.B) {
+			benchmarkHelper(b, bc.fn, bc.sum, bc.nums...)
+		})
+	}
+}
