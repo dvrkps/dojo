@@ -27,6 +27,14 @@ var benchCases = []struct {
 		fn:   basic,
 		sum:  8,
 		nums: []int{1, 2, 4, 4}},
+	{name: "better(8,1,2,3,9)",
+		fn:   better,
+		sum:  8,
+		nums: []int{1, 2, 3, 9}},
+	{name: "better(8,1,2,4,4)",
+		fn:   better,
+		sum:  8,
+		nums: []int{1, 2, 4, 4}},
 }
 
 func BenchmarkAll(b *testing.B) {
