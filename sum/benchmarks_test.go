@@ -35,6 +35,14 @@ var benchCases = []struct {
 		fn:   better,
 		sum:  8,
 		nums: []int{1, 2, 4, 4}},
+	{name: "linear(8,1,2,3,9)",
+		fn:   linear,
+		sum:  8,
+		nums: []int{1, 2, 3, 9}},
+	{name: "linear(8,1,2,4,4)",
+		fn:   linear,
+		sum:  8,
+		nums: []int{1, 2, 4, 4}},
 }
 
 func BenchmarkAll(b *testing.B) {
