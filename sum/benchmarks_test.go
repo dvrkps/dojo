@@ -51,6 +51,14 @@ var benchCases = []struct {
 		fn:   complements,
 		sum:  8,
 		nums: []int{1, 2, 4, 4}},
+	{name: "optim(8,1,2,3,9)",
+		fn:   optim,
+		sum:  8,
+		nums: []int{1, 2, 3, 9}},
+	{name: "optim(8,1,2,4,4)",
+		fn:   optim,
+		sum:  8,
+		nums: []int{1, 2, 4, 4}},
 }
 
 func BenchmarkAll(b *testing.B) {
