@@ -6,6 +6,11 @@ import (
 	"time"
 )
 
+func main() {
+	test("matchExp", matchExp)
+	test("matchLinear", matchLinear)
+}
+
 func matchExp(pattern, name string) bool {
 	px := 0
 	nx := 0
