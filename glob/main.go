@@ -1,5 +1,7 @@
 package main
 
+import "strings"
+
 func matchExp(pattern, name string) bool {
 	px := 0
 	nx := 0
@@ -74,4 +76,28 @@ func matchLinear(pattern, name string) bool {
 	}
 	// Matched all of pattern to all of name. Success.
 	return true
+}
+
+var tests = []struct {
+	pattern string
+	name    string
+	ok      bool
+}{
+	{"", "", true},
+	{"x", "", false},
+	{"", "x", false},
+	{"abc", "abc", true},
+	{"*", "abc", true},
+	{"*c", "abc", true},
+	{"*b", "abc", false},
+	{"a*", "abc", true},
+	{"b*", "abc", false},
+	{"a*", "a", true},
+	{"*a", "a", true},
+	{"a*b*c*d*e*", "axbxcxdxe", true},
+	{"a*b*c*d*e*", "axbxcxdxexxx", true},
+	{"a*b?c*x", "abxbbxdbxebxczzx", true},
+	{"a*b?c*x", "abxbbxdbxebxczzy", false},
+	{"a*a*a*a*b", strings.Repeat("a", 100), false},
+	{"*x", "xxx", true},
 }
