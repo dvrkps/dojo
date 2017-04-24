@@ -1,6 +1,10 @@
 package main
 
-import "strings"
+import (
+	"fmt"
+	"strings"
+	"time"
+)
 
 func matchExp(pattern, name string) bool {
 	px := 0
@@ -100,4 +104,25 @@ var tests = []struct {
 	{"a*b?c*x", "abxbbxdbxebxczzy", false},
 	{"a*a*a*a*b", strings.Repeat("a", 100), false},
 	{"*x", "xxx", true},
+}
+
+func test(desc string, f func(pattern, name string) bool) {
+	ok := true
+	for _, tt := range tests {
+		start := time.Now()
+		if f(tt.pattern, tt.name) != tt.ok {
+			ok = false
+			fmt.Printf("%s(%q, %q) = %v, want %v\n", desc, tt.pattern, tt.name, !tt.ok, tt.ok)
+		}
+		dt := time.Since(start)
+		if dt > 1*time.Millisecond {
+			ok = false
+			fmt.Printf("%s(%q, %q) took %.3fs - too slow\n", desc, tt.pattern, tt.name, dt.Seconds())
+		}
+	}
+	if ok {
+		fmt.Printf("%s ok\n", desc)
+	} else {
+		fmt.Printf("%s FAIL\n", desc)
+	}
 }
