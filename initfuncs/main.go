@@ -1,13 +1,13 @@
 package main
 
 func init() {
-	println("main: top init")
+	println("main/main: top init")
 }
 
 func main() {
-	println("main: main")
+	println("main/main: main")
 }
 
 func init() {
-	println("main: bottom init")
+	println("main/main: bottom init")
 }
