@@ -7,3 +7,7 @@ func init() {
 func main() {
 	println("main: main")
 }
+
+func init() {
+	println("main: bottom init")
+}
