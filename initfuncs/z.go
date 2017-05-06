@@ -1,9 +1,9 @@
 package main
 
 func init() {
-	println("z: top init")
+	println("main/z: top init")
 }
 
 func init() {
-	println("z: bottom init")
+	println("main/z: bottom init")
 }
