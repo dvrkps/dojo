@@ -5,7 +5,7 @@ func init() {
 }
 
 func Aaa() {
-	println("aaa/main: main")
+	println("aaa")
 }
 
 func init() {
