@@ -57,7 +57,7 @@ func complements(sum int, nums ...int) bool {
 }
 
 func optim(sum int, nums ...int) bool {
-	comp := []int{}
+	comp := make([]int, 0, len(nums))
 	for _, n := range nums {
 		v := sum - n
 		for _, c := range comp {
