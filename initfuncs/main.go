@@ -20,3 +20,8 @@ func main() {
 func init() {
 	println("main/main: bottom init")
 }
+
+func setGlobal(s string) {
+	global = s
+	println(global)
+}
