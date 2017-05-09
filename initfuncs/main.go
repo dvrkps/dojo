@@ -5,6 +5,8 @@ import (
 	"github.com/dvrkps/dojo/initfuncs/zzz"
 )
 
+var global string
+
 func init() {
 	println("main/main: top init")
 }
