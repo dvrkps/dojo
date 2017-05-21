@@ -10,7 +10,7 @@ const (
 	minLimit     = 1
 )
 
-func value(name string, max int) chan string {
+func payload(name string, max int) chan string {
 	if name == "" {
 		name = defaultName
 	}
