@@ -33,7 +33,6 @@ func gen(name string, max int) chan string {
 	ch := make(chan string)
 	go func() {
 		for i := 1; i <= max; i++ {
-			//time.Sleep(1e9)
 			ch <- payload(name, i)
 		}
 		close(ch)
