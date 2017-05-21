@@ -44,18 +44,17 @@ func gen(name string, max int) chan string {
 func merge(a, b chan string) chan string {
 	out := make(chan string)
 	go func() {
-		var aClosed, bClosed bool
-		for !aClosed || !bClosed {
+		for a != nil || b != nil {
 			select {
 			case v, ok := <-a:
 				if !ok {
-					aClosed = true
+					a = nil
 					continue
 				}
 				out <- v
 			case v, ok := <-b:
 				if !ok {
-					bClosed = true
+					b = nil
 					continue
 				}
 				out <- v
