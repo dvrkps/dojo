@@ -15,3 +15,10 @@ func testRange(t *testing.T, fn func(t *testing.T, got, want int)) {
 		fn(t, got, tc.want)
 	}
 }
+
+func one(t *testing.T, got, want int) {
+	t.Helper()
+	if got != want {
+		t.Errorf("one: got %v; want %v", got, want)
+	}
+}
