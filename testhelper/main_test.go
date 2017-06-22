@@ -6,7 +6,7 @@ var testCases = []struct {
 	in   []int
 	want int
 }{
-	{in: []int{1, 2}, want: 3},
+	{in: []int{1, 2}, want: 1},
 }
 
 func testRange(t *testing.T, fn func(t *testing.T, got, want int)) {
@@ -27,4 +27,8 @@ func two(t *testing.T, got, want int) {
 	if got != want {
 		t.Errorf("two: got %v; want %v", got, want)
 	}
+}
+
+func TestOne(t *testing.T) {
+	testRange(t, one)
 }
