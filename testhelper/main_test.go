@@ -22,3 +22,9 @@ func one(t *testing.T, got, want int) {
 		t.Errorf("one: got %v; want %v", got, want)
 	}
 }
+
+func two(t *testing.T, got, want int) {
+	if got != want {
+		t.Errorf("two: got %v; want %v", got, want)
+	}
+}
