@@ -7,7 +7,7 @@ type T struct {
 	Number interface{} `json:"number,omitempty"`
 }
 
-func normalize(t *T) error {
+func normalize(t T) T {
 	fields := []interface{}{
 		t.Label,
 		t.Active,
@@ -34,6 +34,5 @@ func normalize(t *T) error {
 		//	*v = nil
 		//}
 	}
-
-	return nil
+	return t
 }
