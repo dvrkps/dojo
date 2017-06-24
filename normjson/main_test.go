@@ -18,8 +18,8 @@ var testCases = []struct {
 func Test(t *testing.T) {
 	for _, tc := range testCases {
 
-		normalize(&tc.in)
-		got, err := json.Marshal(&tc.in)
+		aa := normalize(tc.in)
+		got, err := json.Marshal(&aa)
 		if err != nil {
 			t.Error(err)
 		}
