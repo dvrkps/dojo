@@ -10,7 +10,7 @@ type T struct {
 func normalize(t *T) error {
 	fields := []interface{}{
 		t.Label,
-		t.State,
+		t.Active,
 		t.Number,
 	}
 
@@ -18,15 +18,15 @@ func normalize(t *T) error {
 		switch v.(type) {
 		case int, int8, int16, int32, int64, uint, uint8, uint16, uint32, uint64:
 			if v == 0 {
-				*v = nil
+				v = nil
 			}
 		case float32, float64:
-			if *v == 0 {
-				*v = nil
+			if v == 0 {
+				v = nil
 			}
 		case string:
-			if *v == "" {
-				*v = nil
+			if v == "" {
+				v = nil
 			}
 		}
 
