@@ -10,7 +10,11 @@ var testCases = []struct {
 	want []byte
 }{
 	{
-		in:   T{Label: "", Active: false, Number: 0.000},
+		in:   T{Label: "", Active: false, Number: 0},
+		want: []byte(`{}`),
+	},
+	{
+		in:   T{Label: "0", Active: "false", Number: 0.000},
 		want: []byte(`{}`),
 	},
 }
@@ -18,8 +22,8 @@ var testCases = []struct {
 func Test(t *testing.T) {
 	for _, tc := range testCases {
 
-		aa := normalize(tc.in)
-		got, err := json.Marshal(&aa)
+		tc.in.normalize()
+		got, err := json.Marshal(&tc.in)
 		if err != nil {
 			t.Error(err)
 		}
