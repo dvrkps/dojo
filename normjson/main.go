@@ -17,7 +17,8 @@ type T struct {
 	Active interface{} `json:"active,omitempty"`
 	Number interface{} `json:"number,omitempty"`
 
-	abc.Doer
+	abc.Doer  `json:"-"`
+	abc.Empty `json:"-"`
 }
 
 func (t *T) normalize() {
