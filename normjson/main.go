@@ -2,6 +2,8 @@ package normjson
 
 import (
 	"reflect"
+
+	"github.com/dvrkps/dojo/normjson/abc"
 )
 
 // T holds data.
@@ -14,17 +16,21 @@ type T struct {
 	Label  interface{} `json:"label,omitempty"`
 	Active interface{} `json:"active,omitempty"`
 	Number interface{} `json:"number,omitempty"`
+
+	abc.Doer
 }
 
 func (t *T) normalize() {
 	e := reflect.ValueOf(t).Elem()
-	//et := e.Type()
 	var f reflect.Value
 	for i, max := 0, e.NumField(); i < max; i++ {
 		f = e.Field(i)
-		if f.Type().String() != "interface {}" {
+		if f.Kind() != reflect.Interface || f.NumMethod() != 0 {
 			continue
 		}
+		//if f.Type().String() != "interface {}" {
+		//	continue
+		//}
 
 		v := f.Interface()
 		if v == "" ||
