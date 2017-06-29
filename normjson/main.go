@@ -32,7 +32,7 @@ func (t *T) normalize() {
 	}
 }
 
-func isEmptyInterfaceField(f reflect.Value) bool {
+func isInterfaceFieldEmpty(f reflect.Value) bool {
 	if f.Kind() != reflect.Interface {
 		return false
 	}
