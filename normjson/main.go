@@ -26,27 +26,25 @@ func (t *T) normalize() {
 	var f reflect.Value
 	for i, max := 0, e.NumField(); i < max; i++ {
 		f = e.Field(i)
-		if f.Kind() != reflect.Interface || f.NumMethod() != 0 {
-			continue
-		}
-		//if f.Type().String() != "interface {}" {
-		//	continue
-		//}
-
-		v := f.Interface()
-		if v == "" ||
-			v == "undefined" ||
-			v == "null" ||
-			v == "NaN" ||
-			v == "0" ||
-			v == float64(0) ||
-			v == int64(0) ||
-			v == 0 ||
-			v == false ||
-			v == "false" {
+		if isEmptyInterfaceField(f) {
 			f.Set(reflect.Zero(f.Type()))
 		}
-		//fmt.Printf("%q %q = %v\n",
-		//	et.Field(i).Name, f.Type(), f.Interface())
 	}
+}
+
+func isEmptyInterfaceField(f reflect.Value) bool {
+	if f.Kind() != reflect.Interface {
+		return false
+	}
+	if f.NumMethod() != 0 {
+		return false
+	}
+	v := f.Interface()
+	all := []interface{}{"", "0", 0, float64(0), int64(0), false, "false"}
+	for i := range all {
+		if v == all[i] {
+			return true
+		}
+	}
+	return false
 }
