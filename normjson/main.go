@@ -41,8 +41,8 @@ func isInterfaceFieldEmpty(f reflect.Value) bool {
 	}
 	v := f.Interface()
 	all := []interface{}{"", "0", 0, float64(0), int64(0), false, "false"}
-	for i := range all {
-		if v == all[i] {
+	for _, a := range all {
+		if v == a {
 			return true
 		}
 	}
