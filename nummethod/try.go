@@ -7,6 +7,7 @@ type UnExer interface {
 	Ex()
 }
 
+// I holds embedded interface.
 type EmbeddedInterface struct {
 	UnExer
 }
