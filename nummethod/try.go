@@ -2,14 +2,23 @@ package nummethod
 
 import "reflect"
 
-type FooBar interface {
-	foo()
-	Bar()
+type UnExer interface {
+	un()
+	Ex()
 }
 
-type O struct {
-	FooBar
+type EmbeddedInterface struct {
+	UnExer
 }
+
+type EmbeddedStruct struct {
+	Data
+}
+
+type Data struct{}
+
+func (Data) un() {}
+func (Data) Ex() {}
 
 func Num(in interface{}) int {
 	v := reflect.ValueOf(in)
