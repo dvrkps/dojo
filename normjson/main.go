@@ -26,7 +26,7 @@ func (t *T) normalize() {
 	var f reflect.Value
 	for i, max := 0, e.NumField(); i < max; i++ {
 		f = e.Field(i)
-		if isEmptyInterfaceField(f) {
+		if isInterfaceFieldEmpty(f) {
 			f.Set(reflect.Zero(f.Type()))
 		}
 	}
