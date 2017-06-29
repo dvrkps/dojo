@@ -1,4 +1,4 @@
-package nummethod
+package main
 
 import "reflect"
 
