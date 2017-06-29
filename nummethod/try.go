@@ -7,21 +7,20 @@ type UnExer interface {
 	Ex()
 }
 
-// I holds embedded interface.
-type EmbeddedInterface struct {
+type embeddedInterface struct {
 	UnExer
 }
 
-type EmbeddedStruct struct {
+type embeddedStruct struct {
 	Data
 }
 
-type Data struct{}
+type data struct{}
 
-func (Data) un() {}
-func (Data) Ex() {}
+func (data) un() {}
+func (data) Ex() {}
 
-func Num(in interface{}) int {
+func ValueNum(in interface{}) int {
 	v := reflect.ValueOf(in)
 	return v.Field(0).NumMethod()
 }
