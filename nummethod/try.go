@@ -11,7 +11,7 @@ type O struct {
 	FooBar
 }
 
-func Num(o O) int {
+func Num(in interface{}) int {
 	v := reflect.ValueOf(in)
 	return v.Field(0).NumMethod()
 }
