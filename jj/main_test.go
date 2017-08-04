@@ -1,6 +1,10 @@
 package main
 
-import "testing"
+import (
+	"encoding/json"
+	"reflect"
+	"testing"
+)
 
 type testUnmarshalCase struct {
 	ok   bool
@@ -20,3 +24,17 @@ func testUnmarshalCases() map[string]testUnmarshalCase {
 }
 
 func TestUnmarshal(t *testing.T) {}
+
+func testUnmarshal(t *testing.T, tc testUnmarshalCase) {
+	var got T
+	err := json.Unmarshal(tc.in, got)
+	if !tc.ok {
+		if !reflect.DeepEqual(got, tc.want) || err == nil {
+			t.Errorf("got %+v, %v; want %+v, <error>", got, err, tc.want)
+		}
+		return
+	}
+	if !reflect.DeepEqual(got, tc.want) || err != nil {
+		t.Errorf("got %+v, %+v; want %+v, <nil>", got, err, tc.want)
+	}
+}
