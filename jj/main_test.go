@@ -24,7 +24,7 @@ func testUnmarshalCases() map[string]testUnmarshalCase {
 }
 
 func TestUnmarshal(t *testing.T) {
-	for name, tc := range testUnmarshalCases() {
+	for name, tc := range unOneTestCases() {
 		t.Run(name, func(t *testing.T) {
 			testUnmarshal(t, tc)
 		})
