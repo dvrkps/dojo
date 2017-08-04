@@ -17,7 +17,7 @@ func unOneTestCases() map[string]unOneTestCase {
 		"ok": {
 			ok:   true,
 			in:   []byte(`{"i":123, "f":123.456, "b":true,"s":"abc"}`),
-			want: One{I: int64(123), F: float64(123.456), B: true, S: "abc"},
+			want: One{I: 123, F: 123.456, B: true, S: "abc"},
 		},
 	}
 	return c
@@ -33,6 +33,7 @@ func TestUnmarshal(t *testing.T) {
 
 func testUnmarshal(t *testing.T, tc unOneTestCase) {
 	var got One
+	//in := bytes.Replace(tc.in, []byte(":NaN"), []byte(":null"), -1)
 	err := json.Unmarshal(tc.in, &got)
 	if !tc.ok {
 		if !reflect.DeepEqual(got, tc.want) || err == nil {
