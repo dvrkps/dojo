@@ -12,7 +12,7 @@ type testUnmarshalCase struct {
 	want interface{}
 }
 
-func testUnmarshalCases() map[string]testUnmarshalCase {
+func unOneTestCases() map[string]testUnmarshalCase {
 	c := map[string]testUnmarshalCase{
 		"ok": {
 			ok:   true,
