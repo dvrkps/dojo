@@ -6,14 +6,14 @@ import (
 	"testing"
 )
 
-type testUnmarshalCase struct {
+type unOneTestCase struct {
 	ok   bool
 	in   []byte
 	want interface{}
 }
 
-func unOneTestCases() map[string]testUnmarshalCase {
-	c := map[string]testUnmarshalCase{
+func unOneTestCases() map[string]unOneTestCase {
+	c := map[string]unOneTestCase{
 		"ok": {
 			ok:   true,
 			in:   []byte(`{"i":123, "f":123.456, "b":true,"s":"abc"}`),
@@ -31,7 +31,7 @@ func TestUnmarshal(t *testing.T) {
 	}
 }
 
-func testUnmarshal(t *testing.T, tc testUnmarshalCase) {
+func testUnmarshal(t *testing.T, tc unOneTestCase) {
 	var got One
 	err := json.Unmarshal(tc.in, &got)
 	if !tc.ok {
