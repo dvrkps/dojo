@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"reflect"
 	"testing"
 )
@@ -26,12 +27,19 @@ func testCases() map[string]testCase {
 
 var result []string
 
-func TestOriginal(t *testing.T) {
+func testFunc(t *testing.T, fname string, fn func([]string) []string) {
 	for name, tc := range testCases() {
-		got := original(tc.in)
-		want := tc.out
-		if !reflect.DeepEqual(got, want) {
-			t.Errorf("%s\t: original(%v) = %v; want %v", name, tc.in, got, want)
-		}
+		name = fmt.Sprintf("%s(%s)", fname, name)
+		t.Run(name, func(t *testing.T) {
+			got := fn(tc.in)
+			want := tc.out
+			if !reflect.DeepEqual(got, want) {
+				t.Errorf("got %v; want %v", got, want)
+			}
+		})
 	}
+}
+
+func TestOriginal(t *testing.T) {
+	testFunc(t, "original", original)
 }
