@@ -25,8 +25,6 @@ func testCases() map[string]testCase {
 	return m
 }
 
-var result []string
-
 func testFunc(t *testing.T, fname string, fn func([]string) []string) {
 	for name, tc := range testCases() {
 		name = fmt.Sprintf("%s(%s)", fname, name)
