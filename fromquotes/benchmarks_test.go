@@ -10,6 +10,7 @@ var result []string
 func benchCases() map[string]func([]string) []string {
 	m := map[string]func([]string) []string{
 		"original": original,
+		"better":   better,
 	}
 	return m
 }
