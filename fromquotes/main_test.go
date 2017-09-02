@@ -13,11 +13,11 @@ type testCase struct {
 func testCases() []testCase {
 	r := []testCase{
 		{
-			in:  []string{".hi", "\"My", "name", "is", "Omar\"", "\"123\""},
+			in:  short(),
 			out: []string{".hi", "My name is Omar", "\"123\""},
 		},
 		{
-			in:  []string{"\".hi", "I'm", "the", "real", "Slim", "Shady", "\"My", "name", "is", "Omar\"", "hello", "world", "\"123\"", "a"},
+			in:  long(),
 			out: []string{".hi I'm the real Slim ShadyMy name is Omar", "hello", "world", "\"123\"", "a"},
 		},
 	}
