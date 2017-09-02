@@ -41,3 +41,7 @@ func testFunc(t *testing.T, fname string, fn func([]string) []string) {
 func TestOriginal(t *testing.T) {
 	testFunc(t, "original", original)
 }
+
+func TestBetter(t *testing.T) {
+	testFunc(t, "better", better)
+}
