@@ -2,6 +2,7 @@ package main
 
 import (
 	"regexp"
+	"strconv"
 	"strings"
 )
 
@@ -53,6 +54,12 @@ func noooRegexp(query map[string]string) bool {
 }
 
 func isValid(key, prefix string) bool {
-	strings.HasPrefix(key, prefix)
+	if strings.HasPrefix(key, prefix) {
+		rem := key[len(prefix):]
+		if _, err := strconv.ParseInt(rem, 10, 64); err != nil {
+			return false
+		}
+		return true
+	}
 	return false
 }
