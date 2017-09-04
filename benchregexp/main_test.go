@@ -8,12 +8,22 @@ func benchQuery() map[string]string {
 
 var result bool
 
-func BenchmarkWihRegexp(b *testing.B) {
+func BenchmarkWithRegexp(b *testing.B) {
 	var r bool
 	q := benchQuery()
 	b.ResetTimer()
 	for n := 0; n < b.N; n++ {
 		r = withRegexp(q)
+	}
+	result = r
+}
+
+func BenchmarkNoooRegexp(b *testing.B) {
+	var r bool
+	q := benchQuery()
+	b.ResetTimer()
+	for n := 0; n < b.N; n++ {
+		r = noooRegexp(q)
 	}
 	result = r
 }
