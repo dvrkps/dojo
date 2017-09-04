@@ -1,6 +1,9 @@
 package main
 
-import "regexp"
+import (
+	"regexp"
+	"strings"
+)
 
 func main() {}
 
@@ -23,5 +26,33 @@ func withRegexp(query map[string]string) bool {
 			return true
 		}
 	}
+	return false
+}
+
+func noooRegexp(query map[string]string) bool {
+	for key := range query {
+		key := strings.TrimSpace(key)
+		a := isValid(key, "a")
+		if a {
+			return true
+		}
+		pv := isValid(key, "pv")
+		if pv {
+			return true
+		}
+		pu := isValid(key, "pu")
+		if pu {
+			return true
+		}
+		sv := isValid(key, "sv")
+		if sv {
+			return true
+		}
+	}
+	return false
+}
+
+func isValid(key, prefix string) bool {
+	strings.HasPrefix(key, prefix)
 	return false
 }
