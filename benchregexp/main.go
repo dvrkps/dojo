@@ -56,7 +56,11 @@ func noooRegexp(query map[string]string) bool {
 func isValid(key, prefix string) bool {
 	if strings.HasPrefix(key, prefix) {
 		rem := key[len(prefix):]
-		if _, err := strconv.ParseInt(rem, 10, 64); err != nil {
+		nbr, err := strconv.ParseInt(rem, 10, 64)
+		if err != nil {
+			return false
+		}
+		if nbr < 0 {
 			return false
 		}
 		return true
