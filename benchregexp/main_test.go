@@ -1,6 +1,9 @@
 package main
 
-import "testing"
+import (
+	"regexp"
+	"testing"
+)
 
 func benchQuery() map[string]string {
 	return map[string]string{"sv": "value of sv"}
@@ -24,6 +27,26 @@ func BenchmarkNoooRegexp(b *testing.B) {
 	b.ResetTimer()
 	for n := 0; n < b.N; n++ {
 		r = noooRegexp(q)
+	}
+	result = r
+}
+
+func BenchmarkOneIsValid(b *testing.B) {
+	var r bool
+	key := "sv101"
+	b.ResetTimer()
+	for n := 0; n < b.N; n++ {
+		r = isValid(key, "sv")
+	}
+	result = r
+}
+
+func BenchmarkOneRegexp(b *testing.B) {
+	var r bool
+	key := "sv101"
+	b.ResetTimer()
+	for n := 0; n < b.N; n++ {
+		r, _ = regexp.MatchString("(?i)^sv[0-9]{1,3}$", key)
 	}
 	result = r
 }
