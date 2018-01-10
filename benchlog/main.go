@@ -7,7 +7,7 @@ type nilLog struct {
 }
 
 func (l *nilLog) Print(v ...interface{}) {
-	if l == nil {
+	if l.log == nil {
 		return
 	}
 	l.Print(v...)

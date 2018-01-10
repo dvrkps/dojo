@@ -2,7 +2,10 @@ package main
 
 import "testing"
 
-func BenchNil(b *testing.B) {
+func BenchmarkNil(b *testing.B) {
+	l := nilLog{}
+	b.ResetTimer()
 	for n := 0; n < b.N; n++ {
+		l.Print("nillog")
 	}
 }
