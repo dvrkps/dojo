@@ -13,11 +13,11 @@ func (l *nilLog) Print(v ...interface{}) {
 	l.log.Print(v...)
 }
 
-type discardLog struct {
+type normalLog struct {
 	log *log.Logger
 }
 
-func (l *discardLog) Print(v ...interface{}) {
+func (l *normalLog) Print(v ...interface{}) {
 	l.log.Print(v...)
 }
 
