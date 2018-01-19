@@ -13,3 +13,13 @@ func BenchmarkCAdd(b *testing.B) {
 	}
 	result = r
 }
+
+func BenchmarkPAdd(b *testing.B) {
+	var r []int
+	b.ResetTimer()
+	for n := 0; n < b.N; n++ {
+		pAdd(&r, 1)
+		pAdd(&r, 1, 2, 3)
+	}
+	result = r
+}
