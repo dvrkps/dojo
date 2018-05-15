@@ -23,6 +23,10 @@ func TestAnonymizeIP(t *testing.T) {
 			in:   "0.0.3.4",
 			want: "0.0.0.0",
 		},
+		{
+			in:   "invalid",
+			want: "<nil>",
+		},
 	}
 	for _, tc := range cases {
 		got := AnonymizeIP(tc.in)
