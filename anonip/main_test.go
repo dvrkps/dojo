@@ -8,8 +8,20 @@ func TestAnonymizeIP(t *testing.T) {
 		want string
 	}{
 		{
-			in:   "8.8.8.8",
-			want: "8.8.0.0",
+			in:   "1.2.3.4",
+			want: "1.2.0.0",
+		},
+		{
+			in:   "1:2:3:4:5:6:7:8",
+			want: "1:2:3::",
+		},
+		{
+			in:   "::6:7:8",
+			want: "::",
+		},
+		{
+			in:   "0.0.3.4",
+			want: "0.0.0.0",
 		},
 	}
 	for _, tc := range cases {
