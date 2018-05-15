@@ -29,7 +29,7 @@ func TestAnonymizeIP(t *testing.T) {
 		},
 	}
 	for _, tc := range cases {
-		got := AnonymizeIP(tc.in)
+		got := anonymizeIP(tc.in)
 		if got.String() != tc.want {
 			t.Errorf("AnonymizeIP( %s ) = %s; want %s",
 				tc.in, got.String(), tc.want)
