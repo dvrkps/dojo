@@ -4,7 +4,11 @@ import (
 	"net"
 )
 
-func AnonymizeIP(rawIP string) net.IP {
+func main() {
+	_ = anonymizeIP("1.2.3.4")
+}
+
+func anonymizeIP(rawIP string) net.IP {
 	ip := net.ParseIP(rawIP)
 	if ip == nil {
 		// invalid ip
