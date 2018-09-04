@@ -23,3 +23,12 @@ func BenchmarkLookup(b *testing.B) {
 	}
 	result = r
 }
+
+func BenchmarkLeftShift(b *testing.B) {
+	var r bool
+	const x = 11
+	for n := 0; n < b.N; n++ {
+		r = leftShift(11)
+	}
+	result = r
+}

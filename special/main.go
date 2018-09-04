@@ -33,3 +33,7 @@ func lookup(n uint32) bool {
 		lookupTable[uint8(n>>21)] ||
 		lookupTable[uint8(n>>24)]
 }
+
+func leftShift(n uint32) bool {
+	return (n & (n << 1)) > 0
+}
