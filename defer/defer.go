@@ -1,20 +1,41 @@
 package main
 
 import (
-	"log"
+	"fmt"
 	"time"
 )
 
 func main() {
-	defer trackTime("start msg")("end msg")
-	time.Sleep(1 * time.Millisecond)
+	println("start")
+	now := time.Now()
+	c := client{msg: "message"}
+
+	defer trackTime(now, c.message())
+
+	time.Sleep(50 * time.Millisecond)
+
+	now = time.Now()
+
+	c.msg = "new one"
+
+	proba()
+
+	println("end")
 }
 
-func trackTime(msg string) func(msg string) {
-	now := time.Now()
-	log.Print("start:", msg)
-	return func(msg string) {
-		since := time.Since(now)
-		log.Printf("end: %s %s", msg, since)
-	}
+func proba() {
+	time.Sleep(1e9)
+}
+func trackTime(start time.Time, msg string) {
+	end := time.Since(start)
+	fmt.Printf("tt: %v: %q\n", end, msg)
+}
+
+type client struct {
+	msg string
+}
+
+func (c *client) message() string {
+	println("client message run")
+	return c.msg
 }
