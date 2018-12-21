@@ -23,7 +23,7 @@ func worker(in chan int) {
 		select {
 		case ch, ok := <-in:
 			if !ok {
-				println("end")
+				println("chan close")
 				return
 			}
 			time.Sleep(1e6)
