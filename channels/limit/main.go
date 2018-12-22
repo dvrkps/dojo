@@ -4,10 +4,10 @@ import "time"
 
 func main() {
 	const (
-		cap = 4
-		max = 8
+		capacity = 4
+		max      = 8
 	)
-	ch := make(chan int, cap)
+	ch := make(chan int, capacity)
 	go worker(ch)
 	for i := 0; i < max; i++ {
 		select {
