@@ -2,11 +2,20 @@ package packa
 
 import "fmt"
 
-type temporaryError string
+// New creates packa.
+func New(x int) error {
+	if x < 0 {
+	}
+	return nil
+}
+
+type temporaryError struct {
+	value int
+}
 
 // Error implements error interface.
-func (*temporaryError) Error() string {
-	return "packa: temporary error"
+func (e *temporaryError) Error() string {
+	return fmt.Sprintf("packa: temporary: value %v", e.value)
 }
 
 func (*temporaryError) temporary() bool {
