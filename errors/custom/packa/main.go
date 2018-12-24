@@ -42,5 +42,5 @@ func IsTemporary(err error) bool {
 		temporary() bool
 	}
 	te, ok := err.(temporary)
-	return ok && te.Temporary()
+	return ok && te.temporary()
 }
