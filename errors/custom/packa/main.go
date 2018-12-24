@@ -3,8 +3,12 @@ package packa
 import "fmt"
 
 // New creates packa.
-func New(x int) error {
+func New(x int, max int) error {
 	if x < 0 {
+		return &temporaryError{value: x}
+	}
+	if x < max {
+		return &basicError{value: x, max: max}
 	}
 	return nil
 }
