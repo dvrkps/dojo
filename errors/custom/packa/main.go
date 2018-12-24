@@ -28,11 +28,12 @@ func (*temporaryError) temporary() bool {
 
 type basicError struct {
 	value int
+	max   int
 }
 
 // Error implements error interface.
 func (e *basicError) Error() string {
-	return fmt.Sprintf("packa: value %v", e.value)
+	return fmt.Sprintf("packa: value %v is less than %v", e.value, e.max)
 }
 
 // IsTemporary returns true if err is temporary.
