@@ -4,6 +4,7 @@ import "fmt"
 
 type temporaryError string
 
+// Error implements error interface.
 func (*temporaryError) Error() string {
 	return "packa: temporary error"
 }
@@ -16,6 +17,7 @@ type basicError struct {
 	value int
 }
 
+// Error implements error interface.
 func (e *basicError) Error() string {
 	return fmt.Sprintf("packa: value %v", e.value)
 }
