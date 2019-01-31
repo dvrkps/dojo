@@ -1,5 +1,7 @@
 package main
 
+// https://play.golang.org/p/WdQCVp7rIU-
+
 import "time"
 
 func main() {
@@ -8,24 +10,27 @@ func main() {
 		max      = 8
 	)
 	ch := make(chan int, capacity)
-	go worker(ch)
+	quit := make(chan struct{})
+
+	go worker(ch, quit)
 	for i := 0; i < max; i++ {
 		select {
 		case ch <- i:
 			println("send", i)
 		default:
-			println("block", i)
+			println("*** block", i)
 			ch <- i
 		}
 	}
 	close(ch)
-	println("end of sending")
-	time.Sleep(3e9)
+	println("sending done")
+	<-quit
 }
 
-func worker(ch chan int) {
+func worker(ch chan int, quit chan struct{}) {
 	for v := range ch {
-		time.Sleep(1e6)
+		time.Sleep(1e9)
 		println("receive", v)
 	}
+	close(quit)
 }
