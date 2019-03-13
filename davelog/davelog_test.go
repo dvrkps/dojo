@@ -10,22 +10,30 @@ import (
 
 // A Log represents an active logger.
 type Log struct {
-	log     *log.Logger
+	output  *log.Logger
 	verbose bool
 }
 
 // New creates logger.
 func New(w io.Writer, verbose bool) *Log {
 	l := Log{
-		log:     log.New(w, "", 0),
+		output:  log.New(w, "", 0),
 		verbose: verbose,
 	}
 	return &l
 }
 
 func (l *Log) logf(format string, v ...interface{}) {
-	if l.log == nil {
+	if l.output == nil {
 		return
 	}
-	l.log.Printf(format, v...)
+	l.output.Printf(format, v...)
+}
+
+// Debugf logs debug messages.
+func (l *Log) Debugf(format string, v ...interface{}) {
+	if !l.verbose {
+		return
+	}
+	l.logf(format, v...)
 }
