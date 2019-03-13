@@ -23,17 +23,22 @@ func New(w io.Writer, verbose bool) *Log {
 	return &l
 }
 
-func (l *Log) logf(format string, v ...interface{}) {
-	if l.output == nil {
-		return
-	}
-	l.output.Printf(format, v...)
+// Infof logs formatted info message.
+func (l *Log) Infof(format string, v ...interface{}) {
+	l.logf(format, v...)
 }
 
-// Debugf logs debug messages.
+// Debugf logs formatted debug message.
 func (l *Log) Debugf(format string, v ...interface{}) {
 	if !l.verbose {
 		return
 	}
 	l.logf(format, v...)
+}
+
+func (l *Log) logf(format string, v ...interface{}) {
+	if l.output == nil {
+		return
+	}
+	l.output.Printf(format, v...)
 }
