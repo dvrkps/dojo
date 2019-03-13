@@ -14,8 +14,10 @@ type Log struct {
 // New creates logger.
 func New(w io.Writer, verbose bool) *Log {
 	l := Log{
-		output:  log.New(w, "", 0),
 		verbose: verbose,
+	}
+	if w != nil {
+		l.output = log.New(w, "", 0)
 	}
 	return &l
 }

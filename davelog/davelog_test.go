@@ -13,6 +13,7 @@ func TestNew(t *testing.T) {
 	if l == nil {
 		t.Error("New( ... ) == nil")
 	}
+	l.Infof("write to nil log")
 }
 
 func testSetup(verbose bool) (*Log, *bytes.Buffer) {
@@ -36,7 +37,7 @@ func TestLog(t *testing.T) {
 			want: "info 42\n",
 		},
 		{
-			name:    "debugf",
+			name:    "debugf verbose",
 			verbose: true,
 			action: func(log *Log) {
 				log.Debugf("debug %v", 42)
