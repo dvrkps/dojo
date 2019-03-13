@@ -22,3 +22,10 @@ func New(w io.Writer, verbose bool) *Log {
 	}
 	return &l
 }
+
+func (l *Log) logf(format string, v ...interface{}) {
+	if l.log == nil {
+		return
+	}
+	l.log.Printf(format, v...)
+}
