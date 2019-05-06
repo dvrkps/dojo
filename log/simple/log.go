@@ -5,11 +5,10 @@ import (
 	"log"
 )
 
-// Log contains loggers for info and error level.
+// Log contains standard and error loggers.
 type Log struct {
-	verbose bool
-	ol      *log.Logger
-	el      *log.Logger
+	ol *log.Logger
+	el *log.Logger
 }
 
 // New creates log.
