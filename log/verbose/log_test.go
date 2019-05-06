@@ -13,13 +13,13 @@ type testLogger struct {
 
 func testNew(verbose bool) testLogger {
 	var (
-		bufOut = &bytes.Buffer{}
-		bufErr = &bytes.Buffer{}
+		bufOut bytes.Buffer
+		bufErr bytes.Buffer
 	)
 	l := testLogger{
-		lgr:    New(verbose, bufOut, bufErr),
-		bufOut: bufOut,
-		bufErr: bufErr,
+		lgr:    New(verbose, &bufOut, &bufErr),
+		bufOut: &bufOut,
+		bufErr: &bufErr,
 	}
 	return l
 }
