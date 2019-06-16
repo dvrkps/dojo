@@ -5,8 +5,6 @@ import (
 	"testing"
 )
 
-const newID = 42
-
 func TestNewClientCopy(t *testing.T) {
 	c := newClientCopy(newID)
 	if c.id != newID {
