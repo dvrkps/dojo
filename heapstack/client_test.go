@@ -5,6 +5,15 @@ import (
 	"testing"
 )
 
+const newID = 42
+
+func TestNewClientCopy(t *testing.T) {
+	c := newClientCopy(newID)
+	if c.id != newID {
+		t.Errorf("newClientCopy(%v) = %v; want %v", newID, c.id, newID)
+	}
+}
+
 func TestClientSetAndString(t *testing.T) {
 	tests := []int{
 		5,
