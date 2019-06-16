@@ -14,6 +14,13 @@ func TestNewClientCopy(t *testing.T) {
 	}
 }
 
+func TestNewClientPointer(t *testing.T) {
+	c := newClientPointer(newID)
+	if c.id != newID {
+		t.Errorf("newClientPointer(%v) = %v; want %v", newID, c.id, newID)
+	}
+}
+
 func TestClientSetAndString(t *testing.T) {
 	tests := []int{
 		5,
