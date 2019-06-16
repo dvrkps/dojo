@@ -10,9 +10,9 @@ func TestClientSetAndString(t *testing.T) {
 		5,
 	}
 	const newID = 42
-	c := newClient(newID)
+	c := newClientCopy(newID)
 	if c.id != newID {
-		t.Errorf("newClient(%v) = %v; want %v", newID, c.id, newID)
+		t.Errorf("newClientCopy(%v) = %v; want %v", newID, c.id, newID)
 	}
 	for _, id := range tests {
 		c.setID(id)

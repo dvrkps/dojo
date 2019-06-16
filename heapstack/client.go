@@ -6,7 +6,7 @@ type client struct {
 	id int
 }
 
-func newClient(id int) client {
+func newClientCopy(id int) client {
 	return client{id: id}
 }
 
