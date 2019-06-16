@@ -11,7 +11,8 @@ func newClientCopy(id int) client {
 }
 
 func newClientPointer(id int) *client {
-	return &client{id: id}
+	c := client{id: id}
+	return &c
 }
 
 func (c *client) setID(id int) {
