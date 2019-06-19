@@ -4,12 +4,12 @@ const newID = 42
 
 //go:noinline
 func main() {
-	c := newClientCopy(newID)
-	setID(&c)
+	c := newClient(newID)
+	updateClientID(&c)
 }
 
 //go:noinline
-func setID(c *client) {
+func updateClientID(c *client) {
 	c.setID(newID + 1)
 }
 
