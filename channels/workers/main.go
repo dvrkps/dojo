@@ -43,7 +43,6 @@ func startWorkers(max int, ch chan int) *sync.WaitGroup {
 func worker(initWG *sync.WaitGroup, wg *sync.WaitGroup, ch chan int) {
 	initWG.Done()
 	for v := range ch {
-		//time.Sleep(1e9)
 		println("receive", v)
 	}
 	wg.Done()
