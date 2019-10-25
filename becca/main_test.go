@@ -30,13 +30,8 @@ func TestValidArgs(t *testing.T) {
 	if err != nil {
 		t.Fatalf("os.Getwd() error: %v", err)
 	}
-	// valid
-	s, d := wd+"/.git", wd
-	if got := validArgs(s, d); got != nil {
-		t.Errorf("validArgs(%v, %v) = %v; want nil", s, d, got)
-	}
 	// source
-	s, d = "invalidpath", wd
+	s, d := "invalidpath", wd
 	if got := validArgs(s, d); got == nil {
 		t.Errorf("validArgs(%v, %v) = %v; want nil", s, d, got)
 	}
