@@ -3,7 +3,7 @@ package main
 import (
 	"errors"
 
-	"github.com/dvrkps/consuldojo/logger"
+	"github.com/dvrkps/dojo/consul/logger"
 )
 
 type Printer interface {

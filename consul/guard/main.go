@@ -6,7 +6,7 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/dvrkps/consuldojo/logger"
+	"github.com/dvrkps/dojo/consul/logger"
 )
 
 // Guard guards quit.

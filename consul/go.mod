@@ -1,4 +1,4 @@
-module github.com/dvrkps/consuldojo
+module github.com/dvrkps/dojo/consul
 
 require (
 	github.com/google/btree v1.0.0 // indirect

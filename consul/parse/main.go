@@ -1,6 +1,6 @@
 package parse
 
-import "github.com/dvrkps/consuldojo/logger"
+import "github.com/dvrkps/dojo/consul/logger"
 
 type generateOutput struct {
 	Worker    int64 `json:"worker,string"`

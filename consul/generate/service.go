@@ -7,7 +7,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/dvrkps/consuldojo/logger"
+	"github.com/dvrkps/dojo/consul/logger"
 )
 
 // Service is generator service.

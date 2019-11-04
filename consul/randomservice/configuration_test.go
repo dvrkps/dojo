@@ -3,8 +3,8 @@ package randomservice
 import (
 	"testing"
 
-	"github.com/dvrkps/consuldojo/guard"
-	"github.com/dvrkps/consuldojo/logger"
+	"github.com/dvrkps/dojo/consul/guard"
+	"github.com/dvrkps/dojo/consul/logger"
 )
 
 func TestConfigurationErr(t *testing.T) {

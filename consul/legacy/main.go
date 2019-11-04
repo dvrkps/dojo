@@ -6,9 +6,9 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/dvrkps/consuldojo/guard"
-	"github.com/dvrkps/consuldojo/logger"
-	"github.com/dvrkps/consuldojo/randomservice"
+	"github.com/dvrkps/dojo/consul/guard"
+	"github.com/dvrkps/dojo/consul/logger"
+	"github.com/dvrkps/dojo/consul/randomservice"
 )
 
 func main() {

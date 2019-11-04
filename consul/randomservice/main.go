@@ -7,8 +7,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/dvrkps/consuldojo/guard"
-	"github.com/dvrkps/consuldojo/logger"
+	"github.com/dvrkps/dojo/consul/guard"
+	"github.com/dvrkps/dojo/consul/logger"
 )
 
 const defaultMaxNumber = 100
