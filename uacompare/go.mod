@@ -1,4 +1,4 @@
-module github.com/dvrkps/uacompare
+module github.com/dvrkps/dojo/uacompare
 
 require (
 	github.com/avct/uasurfer v0.0.0-20190821150637-906cc7dc6197
