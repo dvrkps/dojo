@@ -1,3 +1,3 @@
-module github.com/dvrkps/becca
+module github.com/dvrkps/dojo/becca
 
 go 1.13
