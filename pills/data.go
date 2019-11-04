@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dvrkps/pills/medicament"
+	"github.com/dvrkps/dojo/pills/medicament"
 )
 
 // Data holds pills data.
