@@ -5,7 +5,7 @@ import (
 	"os"
 	"path"
 
-	"github.com/dvrkps/aha/log"
+	"github.com/dvrkps/dojo/aha/log"
 )
 
 func main() {

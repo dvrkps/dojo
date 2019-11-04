@@ -1,3 +1,3 @@
-module github.com/dvrkps/aha
+module github.com/dvrkps/dojo/aha
 
-go 1.12
+go 1.13
