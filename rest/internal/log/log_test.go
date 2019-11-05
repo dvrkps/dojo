@@ -11,13 +11,13 @@ type testLogger struct {
 	bufErr *bytes.Buffer
 }
 
-func testNew() testLogger {
+func testNew(verbose bool) testLogger {
 	var (
 		bufOut bytes.Buffer
 		bufErr bytes.Buffer
 	)
 	l := testLogger{
-		lgr:    New(&bufOut, &bufErr),
+		lgr:    New(verbose, &bufOut, &bufErr),
 		bufOut: &bufOut,
 		bufErr: &bufErr,
 	}
@@ -26,10 +26,15 @@ func testNew() testLogger {
 
 const (
 	infoLevel  = "Infof"
+	debugLevel = "Debugf"
 	errorLevel = "Errorf"
 )
 
 func TestLogger(t *testing.T) {
+	const (
+		verboseTrue  = true
+		verboseFalse = false
+	)
 
 	tests := []struct {
 		lgr    testLogger
@@ -39,14 +44,28 @@ func TestLogger(t *testing.T) {
 		want   string
 	}{
 		{
-			lgr:    testNew(),
+			lgr:    testNew(verboseFalse),
 			level:  infoLevel,
 			format: "%v %v %v",
 			args:   []interface{}{"info", 42, 3.14},
 			want:   "info 42 3.14\n",
 		},
 		{
-			lgr:    testNew(),
+			lgr:    testNew(verboseTrue),
+			level:  debugLevel,
+			format: "%v %v %v",
+			args:   []interface{}{"debug", 42, 3.14},
+			want:   "debug 42 3.14\n",
+		},
+		{
+			lgr:    testNew(verboseFalse),
+			level:  debugLevel,
+			format: "%v %v %v",
+			args:   []interface{}{"debug", 42, 3.14},
+			want:   "",
+		},
+		{
+			lgr:    testNew(verboseFalse),
 			level:  errorLevel,
 			format: "%v %v %v",
 			args:   []interface{}{"error", 42, 3.14},
@@ -65,6 +84,9 @@ func testLevel(t *testing.T, tl *testLogger, level string, format string, args [
 	switch level {
 	case infoLevel:
 		tl.lgr.Infof(format, args...)
+		got = tl.bufOut.String()
+	case debugLevel:
+		tl.lgr.Debugf(format, args...)
 		got = tl.bufOut.String()
 	case errorLevel:
 		tl.lgr.Errorf(format, args...)
