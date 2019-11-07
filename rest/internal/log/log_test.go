@@ -16,11 +16,13 @@ func testNew(verbose bool) testLogger {
 		bufOut bytes.Buffer
 		bufErr bytes.Buffer
 	)
+
 	l := testLogger{
 		lgr:    New(verbose, &bufOut, &bufErr),
 		bufOut: &bufOut,
 		bufErr: &bufErr,
 	}
+
 	return l
 }
 
@@ -80,7 +82,9 @@ func TestLogger(t *testing.T) {
 
 func testLevel(t *testing.T, tl *testLogger, level string, format string, args []interface{}, want string) {
 	t.Helper()
+
 	var got string
+
 	switch level {
 	case infoLevel:
 		tl.lgr.Infof(format, args...)
@@ -94,6 +98,7 @@ func testLevel(t *testing.T, tl *testLogger, level string, format string, args [
 	default:
 		t.Errorf("invalid level %q", level)
 	}
+
 	if got != want {
 		t.Errorf("%v(%q, %v) = %q; want %q",
 			level, format, args, got, want)

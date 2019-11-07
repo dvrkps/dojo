@@ -1,3 +1,5 @@
+// Package log provides support for using
+// standard and error loggers.
 package log
 
 import (
@@ -18,9 +20,11 @@ func New(verbose bool, stdout, stderr io.Writer) *Log {
 	if stdout != nil {
 		l.ol = log.New(stdout, "", 0)
 	}
+
 	if stderr != nil {
 		l.el = log.New(stderr, "", 0)
 	}
+
 	return &l
 }
 
