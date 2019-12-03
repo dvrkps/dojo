@@ -10,9 +10,9 @@ func main() {
 }
 
 const (
-	exitOk   = 0
-	exitErr  = 1
-	exitUser = 2
+	exitOk = 0
+	// exitErr  = 1
+	// exitUser = 2
 )
 
 func run(args []string, stdout, stderr io.Writer) int {

@@ -10,20 +10,20 @@ func TestNew(t *testing.T) {
 	tests := []struct {
 		fail bool
 		args string
-		want Configuration
+		want *Configuration
 	}{
 		{
 			args: "cmd",
-			want: Configuration{
-				Debug: defaultFlagDebug,
-				Port:  defaultFlagPort,
+			want: &Configuration{
+				Verbose: defaultFlagVerbose,
+				Port:    defaultFlagPort,
 			},
 		},
 		{
-			args: "cmd -debug -port 6666",
-			want: Configuration{
-				Debug: true,
-				Port:  6666,
+			args: "cmd -v -port 8080",
+			want: &Configuration{
+				Verbose: true,
+				Port:    defaultFlagPort,
 			},
 		},
 	}
@@ -51,9 +51,9 @@ func TestNew(t *testing.T) {
 	}
 }
 
-func compareTestConfigurations(t *testing.T, got, want Configuration) {
-	if got.Debug != want.Debug {
-		t.Errorf("debug: got %v; want %v", got.Debug, want.Debug)
+func compareTestConfigurations(t *testing.T, got, want *Configuration) {
+	if got.Verbose != want.Verbose {
+		t.Errorf("verbose: got %v; want %v", got.Verbose, want.Verbose)
 	}
 
 	if got.Port != want.Port {
