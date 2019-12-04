@@ -45,6 +45,11 @@ func (l *Log) Errorf(format string, v ...interface{}) {
 	outf(l.el, format, v...)
 }
 
+// Verbose sets verbose output.
+func (l *Log) Verbose() {
+	l.verbose = true
+}
+
 func outf(l *log.Logger, format string, v ...interface{}) {
 	if l != nil {
 		l.Printf(format, v...)
