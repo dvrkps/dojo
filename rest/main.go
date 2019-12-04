@@ -1,9 +1,15 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"io"
+	"math/rand"
+	"net/http"
 	"os"
+	"os/signal"
+	"syscall"
+	"time"
 
 	"github.com/dvrkps/dojo/rest/internal/configuration"
 	"github.com/dvrkps/dojo/rest/internal/log"
@@ -14,23 +20,73 @@ func main() {
 }
 
 const (
-	exitOk = 0
-	//exitErr  = 1
+	exitOk   = 0
+	exitErr  = 1
 	exitUser = 2
 )
 
 func run(args []string, stdout, stderr io.Writer) int {
-	config, err := configuration.New(args, stderr)
+	log := log.New(stdout, stderr)
+
+	cfg, err := configuration.New(args, stderr)
 	if err != nil {
-		fmt.Fprintf(stderr, "configuration: %v", err)
+		log.Errorf("configuration: %v", err)
 		return exitUser
 	}
+	if cfg.Verbose {
+		log.Verbose()
+	}
 
-	log := log.New(config.Verbose, stdout, stderr)
+	const (
+		apiAddress      = "localhost:8000"
+		readTimeout     = 5 * time.Second
+		writeTimeout    = 5 * time.Second
+		shutdownTimeout = 5 * time.Second
+	)
 
-	log.Infof("%v", "info")
-	log.Debugf("%v", "debug")
-	log.Errorf("%v", "err")
+	api := http.Server{
+		Addr:         apiAddress,
+		Handler:      http.HandlerFunc(echo),
+		ReadTimeout:  readTimeout,
+		WriteTimeout: writeTimeout,
+	}
+
+	serverErrors := make(chan error, 1)
+
+	go func() {
+		log.Infof("api listening on %s", api.Addr)
+		serverErrors <- api.ListenAndServe()
+	}()
+
+	shutdown := make(chan os.Signal, 1)
+	signal.Notify(shutdown, os.Interrupt, syscall.SIGTERM)
+
+	select {
+	case err := <-serverErrors:
+		log.Errorf("api error: %v", err)
+		return exitErr
+
+	case <-shutdown:
+		ctx, cancel := context.WithTimeout(context.Background(), shutdownTimeout)
+		defer cancel()
+
+		err = api.Shutdown(ctx)
+		if err != nil {
+			log.Errorf("api shutdown timeout: %v", err)
+			err = api.Close()
+		}
+
+		if err != nil {
+			log.Errorf("api stop: %v", err)
+			return exitErr
+		}
+	}
 
 	return exitOk
+}
+
+func echo(w http.ResponseWriter, r *http.Request) {
+	n := rand.Intn(1000)
+
+	fmt.Fprintf(w, "You asked to %s %s result: %d\n", r.Method, r.URL.Path, n)
 }
