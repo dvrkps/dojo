@@ -18,9 +18,13 @@ func testNew(verbose bool) testLogger {
 	)
 
 	l := testLogger{
-		lgr:    New(verbose, &bufOut, &bufErr),
+		lgr:    New(&bufOut, &bufErr),
 		bufOut: &bufOut,
 		bufErr: &bufErr,
+	}
+
+	if verbose {
+		l.lgr.Verbose()
 	}
 
 	return l

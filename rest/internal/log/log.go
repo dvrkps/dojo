@@ -15,8 +15,8 @@ type Log struct {
 }
 
 // New creates log.
-func New(verbose bool, stdout, stderr io.Writer) *Log {
-	l := Log{verbose: verbose}
+func New(stdout, stderr io.Writer) *Log {
+	var l Log
 	if stdout != nil {
 		l.ol = log.New(stdout, "", 0)
 	}
