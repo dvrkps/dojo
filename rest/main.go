@@ -38,10 +38,9 @@ func run(args []string, stdout, stderr io.Writer) int {
 	}
 
 	const (
-		apiAddress      = "localhost:8000"
-		readTimeout     = 5 * time.Second
-		writeTimeout    = 5 * time.Second
-		shutdownTimeout = 5 * time.Second
+		apiAddress   = "localhost:8000"
+		readTimeout  = 5 * time.Second
+		writeTimeout = 5 * time.Second
 	)
 
 	api := http.Server{
@@ -67,6 +66,7 @@ func run(args []string, stdout, stderr io.Writer) int {
 		return exitErr
 
 	case <-shutdown:
+		const shutdownTimeout = 5 * time.Second
 		ctx, cancel := context.WithTimeout(context.Background(), shutdownTimeout)
 		defer cancel()
 
