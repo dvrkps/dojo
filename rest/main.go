@@ -45,7 +45,7 @@ func run(args []string, stdout, stderr io.Writer) int {
 
 	api := http.Server{
 		Addr:         apiAddress,
-		Handler:      http.HandlerFunc(echo),
+		Handler:      newServer(),
 		ReadTimeout:  readTimeout,
 		WriteTimeout: writeTimeout,
 	}
@@ -85,8 +85,30 @@ func run(args []string, stdout, stderr io.Writer) int {
 	return exitOk
 }
 
-func echo(w http.ResponseWriter, r *http.Request) {
-	n := rand.Intn(1000)
+type server struct {
+	router http.Handler
+}
 
-	fmt.Fprintf(w, "You asked to %s %s result: %d\n", r.Method, r.URL.Path, n)
+func (s *server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	s.router.ServeHTTP(w, r)
+}
+
+func newServer() *server {
+	m := http.NewServeMux()
+	m.HandleFunc("/a", aecho)
+	m.HandleFunc("/b", becho)
+	s := server{
+		router: m,
+	}
+	return &s
+}
+
+func aecho(w http.ResponseWriter, r *http.Request) {
+	n := rand.Intn(1000)
+	fmt.Fprintf(w, "a) You asked to %s %s result: %d\n", r.Method, r.URL.Path, n)
+}
+
+func becho(w http.ResponseWriter, r *http.Request) {
+	n := rand.Intn(1000)
+	fmt.Fprintf(w, "b) You asked to %s %s result: %d\n", r.Method, r.URL.Path, n)
 }
