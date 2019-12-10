@@ -28,16 +28,16 @@ func main() {
 }
 
 func startWorkers(max int, ch chan int) *sync.WaitGroup {
-	initWG := &sync.WaitGroup{}
+	var initWG sync.WaitGroup
 	initWG.Add(max)
-	wg := &sync.WaitGroup{}
+	var wg sync.WaitGroup
 	wg.Add(max)
 	for i := 0; i < max; i++ {
-		go worker(initWG, wg, ch)
+		go worker(&initWG, &wg, ch)
 	}
 	initWG.Wait()
 	println("workers init")
-	return wg
+	return &wg
 }
 
 func worker(initWG *sync.WaitGroup, wg *sync.WaitGroup, ch chan int) {
