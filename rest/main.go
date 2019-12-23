@@ -95,12 +95,19 @@ func (s *server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 func newServer() *server {
 	m := http.NewServeMux()
-	m.HandleFunc("/a", aecho)
-	m.HandleFunc("/b", becho)
+	m.HandleFunc("/a", jsonContentType(aecho))
+	m.HandleFunc("/b", jsonContentType(becho))
 	s := server{
 		router: m,
 	}
 	return &s
+}
+
+func jsonContentType(next http.HandlerFunc) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		next(w, r)
+	}
 }
 
 func aecho(w http.ResponseWriter, r *http.Request) {
