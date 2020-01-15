@@ -14,7 +14,9 @@ import (
 
 // Server is http server with graceful shutdown.
 type Server struct {
-	Addr             string
+	Addr string
+
+	Handler          http.Handler
 	Log              *log.Log
 	TerminateSignals []os.Signal
 }
@@ -28,6 +30,7 @@ func (s *Server) Run() error {
 
 	hs := http.Server{
 		Addr:         s.Addr,
+		Handler:      s.Handler,
 		ReadTimeout:  readTimeout,
 		WriteTimeout: writeTimeout,
 	}
