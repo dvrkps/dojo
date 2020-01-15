@@ -41,7 +41,7 @@ func run(args []string, stdout, stderr io.Writer) int {
 	api := handlers.API{}
 
 	s := server.Server{
-		Addr:             apiAddress,
+		Addr:             cfg.Addr,
 		Handler:          api.Routes(),
 		Log:              log,
 		TerminateSignals: []os.Signal{os.Interrupt, syscall.SIGTERM},
