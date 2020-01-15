@@ -7,21 +7,23 @@ import (
 	"net/http"
 )
 
-// Api holds all routes.
-type Api struct {
+// API holds all routes.
+type API struct {
 	mux *http.ServeMux
 }
 
-//
-func (a *Api) New() http.Handler {
+// Routes inits all api routes.
+func (a *API) Routes() http.Handler {
 	m := http.NewServeMux()
 	m.HandleFunc("/a", aecho)
 	m.HandleFunc("/b", becho)
 	a.mux = m
+
 	return a
 }
 
-func (a *Api) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+// ServeHTTP implements http.Handler.
+func (a *API) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	a.mux.ServeHTTP(w, r)
 }
 
