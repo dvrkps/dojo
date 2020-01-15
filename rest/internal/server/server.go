@@ -8,11 +8,14 @@ import (
 	"os"
 	"os/signal"
 	"time"
+
+	"github.com/dvrkps/dojo/rest/internal/log"
 )
 
 // Server is http server with graceful shutdown.
 type Server struct {
 	Addr             string
+	Log              *log.Log
 	TerminateSignals []os.Signal
 }
 
@@ -35,6 +38,7 @@ func (s *Server) Run() error {
 	srvErr := make(chan error, 1)
 
 	go func() {
+		s.Log.Infof("listening on %s", s.Addr)
 		srvErr <- hs.ListenAndServe()
 	}()
 
@@ -49,6 +53,7 @@ func (s *Server) Run() error {
 
 		err := hs.Shutdown(ctx)
 		if err != nil {
+			s.Log.Errorf("shutdown: %v", err)
 			err = hs.Close()
 		}
 

@@ -39,6 +39,7 @@ func run(args []string, stdout, stderr io.Writer) int {
 
 	s := server.Server{
 		Addr:             apiAddress,
+		Log:              log,
 		TerminateSignals: []os.Signal{os.Interrupt, syscall.SIGTERM},
 	}
 
