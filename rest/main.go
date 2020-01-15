@@ -6,6 +6,7 @@ import (
 	"syscall"
 
 	"github.com/dvrkps/dojo/rest/internal/configuration"
+	"github.com/dvrkps/dojo/rest/internal/handlers"
 	"github.com/dvrkps/dojo/rest/internal/log"
 	"github.com/dvrkps/dojo/rest/internal/server"
 )
@@ -37,8 +38,11 @@ func run(args []string, stdout, stderr io.Writer) int {
 		apiAddress = "localhost:8000"
 	)
 
+	api := handlers.API{}
+
 	s := server.Server{
 		Addr:             apiAddress,
+		Handler:          api.Routes(),
 		Log:              log,
 		TerminateSignals: []os.Signal{os.Interrupt, syscall.SIGTERM},
 	}
