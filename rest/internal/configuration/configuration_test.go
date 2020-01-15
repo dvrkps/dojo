@@ -15,15 +15,15 @@ func TestNew(t *testing.T) {
 		{
 			args: "cmd",
 			want: &Configuration{
+				Addr:    defaultFlagAddr,
 				Verbose: defaultFlagVerbose,
-				Port:    defaultFlagPort,
 			},
 		},
 		{
-			args: "cmd -v -port 8080",
+			args: "cmd -addr localhost:8080 -v",
 			want: &Configuration{
+				Addr:    defaultFlagAddr,
 				Verbose: true,
-				Port:    defaultFlagPort,
 			},
 		},
 	}
@@ -52,11 +52,11 @@ func TestNew(t *testing.T) {
 }
 
 func compareTestConfigurations(t *testing.T, got, want *Configuration) {
-	if got.Verbose != want.Verbose {
-		t.Errorf("verbose: got %v; want %v", got.Verbose, want.Verbose)
+	if got.Addr != want.Addr {
+		t.Errorf("addr: got %v; want %v", got.Addr, want.Addr)
 	}
 
-	if got.Port != want.Port {
-		t.Errorf("port: got %v; want %v", got.Port, want.Port)
+	if got.Verbose != want.Verbose {
+		t.Errorf("verbose: got %v; want %v", got.Verbose, want.Verbose)
 	}
 }
