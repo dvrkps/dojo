@@ -15,8 +15,8 @@ type API struct {
 // Routes inits all api routes.
 func (a *API) Routes() http.Handler {
 	m := http.NewServeMux()
-	m.HandleFunc("/a", jsonContentType(aecho))
-	m.HandleFunc("/b", jsonContentType(becho))
+	m.HandleFunc("/a", a.withContentTypeJSON(aecho))
+	m.HandleFunc("/b", a.withContentTypeJSON(becho))
 
 	a.mux = m
 
@@ -40,7 +40,7 @@ func becho(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "b) You asked to %s %s result: %d\n", r.Method, r.URL.Path, n)
 }
 
-func jsonContentType(next http.HandlerFunc) http.HandlerFunc {
+func (a *API) withContentTypeJSON(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		next(w, r)
