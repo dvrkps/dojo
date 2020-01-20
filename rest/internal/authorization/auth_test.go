@@ -4,13 +4,15 @@ import (
 	"testing"
 )
 
-func TestParseAuthField(t *testing.T) {
-	tests := []struct {
-		name  string
-		fail  bool
-		input string
-		want  *authField
-	}{
+type parseAuthFieldTestType []struct {
+	name  string
+	fail  bool
+	input string
+	want  *authField
+}
+
+func parseAuthFieldTests() parseAuthFieldTestType {
+	tests := parseAuthFieldTestType{
 		{
 			name: "valid",
 			input: `"algorithm="hmac-sha256",` +
@@ -58,10 +60,17 @@ func TestParseAuthField(t *testing.T) {
 			input: "",
 		},
 	}
-	for _, tt := range tests {
+
+	return tests
+}
+
+func TestParseAuthField(t *testing.T) {
+	for _, tt := range parseAuthFieldTests() {
 		got, err := parseAuthField(tt.input)
+		fail := tt.fail
+		want := tt.want
 		t.Run(tt.name, func(t *testing.T) {
-			if tt.fail {
+			if fail {
 				if err == nil {
 					t.Error("fail error: got nil; want error")
 				}
@@ -70,8 +79,8 @@ func TestParseAuthField(t *testing.T) {
 			if err != nil {
 				t.Errorf("error: got %v; want nil", err)
 			}
-			if got.testString() != tt.want.testString() {
-				t.Errorf("got %v, want %v", got.testString(), tt.want.testString())
+			if got.testString() != want.testString() {
+				t.Errorf("got %v, want %v", got.testString(), want.testString())
 			}
 		})
 	}

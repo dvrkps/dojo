@@ -5,22 +5,30 @@ import (
 	"testing"
 )
 
-func TestValidate(t *testing.T) {
-	tests := []struct {
-		name   string
-		fail   bool
-		header http.Header
-	}{
+type validateTestType []struct {
+	name   string
+	fail   bool
+	header http.Header
+}
+
+func validateTests() validateTestType {
+	t := validateTestType{
 		{
 			name:   "nil header",
 			fail:   true,
 			header: nil,
 		},
 	}
-	for _, tt := range tests {
+
+	return t
+}
+
+func TestValidate(t *testing.T) {
+	for _, tt := range validateTests() {
 		got := Validate(tt.header)
+		fail := tt.fail
 		t.Run(tt.name, func(t *testing.T) {
-			if tt.fail {
+			if fail {
 				if got == nil {
 					t.Error("got nil; want error")
 				}

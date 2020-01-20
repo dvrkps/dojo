@@ -15,13 +15,12 @@ type authField struct {
 }
 
 func (af *authField) testString() string {
-	s := fmt.Sprintf("algorithm:%q headerKeys:%q signature:%q apiKey:%q",
+	return fmt.Sprintf("algorithm:%q headerKeys:%q signature:%q apiKey:%q",
 		af.algorithm,
 		af.headerKeys,
 		af.signature,
 		af.apiKey,
 	)
-	return s
 }
 
 func parseAuthField(value string) (*authField, error) {

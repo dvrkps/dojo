@@ -19,5 +19,6 @@ func Validate(header http.Header) error {
 	}
 
 	_ = f
+
 	return nil
 }
