@@ -15,18 +15,21 @@ func TestLogger(t *testing.T) {
 	for _, tt := range loggerTests() {
 		var got string
 
-		lgr := testNew(tt.verbose)
+		l, bufOut, bufErr := newTestLog(tt.verbose)
 
 		switch tt.level {
 		case infoLevel:
-			lgr.out.Infof(tt.format, tt.args...)
-			got = lgr.bufOut.String()
+			l.Infof(tt.format, tt.args...)
+
+			got = bufOut.String()
 		case debugLevel:
-			lgr.out.Debugf(tt.format, tt.args...)
-			got = lgr.bufOut.String()
+			l.Debugf(tt.format, tt.args...)
+
+			got = bufOut.String()
 		case errorLevel:
-			lgr.out.Errorf(tt.format, tt.args...)
-			got = lgr.bufErr.String()
+			l.Errorf(tt.format, tt.args...)
+
+			got = bufErr.String()
 		default:
 			t.Errorf("invalid level %q", tt.level)
 		}
@@ -38,29 +41,19 @@ func TestLogger(t *testing.T) {
 	}
 }
 
-type testLogger struct {
-	out    *Log
-	bufOut *bytes.Buffer
-	bufErr *bytes.Buffer
-}
-
-func testNew(verbose bool) testLogger {
+func newTestLog(verbose bool) (*Log, *bytes.Buffer, *bytes.Buffer) {
 	var (
 		bufOut bytes.Buffer
 		bufErr bytes.Buffer
 	)
 
-	l := testLogger{
-		out:    New(&bufOut, &bufErr),
-		bufOut: &bufOut,
-		bufErr: &bufErr,
-	}
+	l := New(&bufOut, &bufErr)
 
 	if verbose {
-		l.out.Verbose()
+		l.Verbose()
 	}
 
-	return l
+	return l, &bufOut, &bufErr
 }
 
 type loggerTest struct {
