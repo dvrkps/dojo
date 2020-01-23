@@ -64,11 +64,12 @@ func testNew(verbose bool) testLogger {
 }
 
 type loggerTest struct {
-	lgr    testLogger
-	level  string
-	format string
-	args   []interface{}
-	want   string
+	verbose bool
+	lgr     testLogger
+	level   string
+	format  string
+	args    []interface{}
+	want    string
 }
 
 func loggerTests() []loggerTest {
@@ -79,32 +80,36 @@ func loggerTests() []loggerTest {
 
 	tests := []loggerTest{
 		{
-			lgr:    testNew(verboseFalse),
-			level:  infoLevel,
-			format: "%v %v %v",
-			args:   []interface{}{"info", 42, 3.14},
-			want:   "info 42 3.14\n",
+			verbose: false,
+			lgr:     testNew(verboseFalse),
+			level:   infoLevel,
+			format:  "%v %v %v",
+			args:    []interface{}{"info", 42, 3.14},
+			want:    "info 42 3.14\n",
 		},
 		{
-			lgr:    testNew(verboseTrue),
-			level:  debugLevel,
-			format: "%v %v %v",
-			args:   []interface{}{"debug", 42, 3.14},
-			want:   "debug 42 3.14\n",
+			verbose: true,
+			lgr:     testNew(verboseTrue),
+			level:   debugLevel,
+			format:  "%v %v %v",
+			args:    []interface{}{"debug", 42, 3.14},
+			want:    "debug 42 3.14\n",
 		},
 		{
-			lgr:    testNew(verboseFalse),
-			level:  debugLevel,
-			format: "%v %v %v",
-			args:   []interface{}{"debug", 42, 3.14},
-			want:   "",
+			verbose: false,
+			lgr:     testNew(verboseFalse),
+			level:   debugLevel,
+			format:  "%v %v %v",
+			args:    []interface{}{"debug", 42, 3.14},
+			want:    "",
 		},
 		{
-			lgr:    testNew(verboseFalse),
-			level:  errorLevel,
-			format: "%v %v %v",
-			args:   []interface{}{"error", 42, 3.14},
-			want:   "error 42 3.14\n",
+			verbose: false,
+			lgr:     testNew(verboseFalse),
+			level:   errorLevel,
+			format:  "%v %v %v",
+			args:    []interface{}{"error", 42, 3.14},
+			want:    "error 42 3.14\n",
 		},
 	}
 
