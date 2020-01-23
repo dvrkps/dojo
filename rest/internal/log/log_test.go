@@ -11,8 +11,8 @@ const (
 	errorLevel = "Errorf"
 )
 
-func TestLogger(t *testing.T) {
-	for _, tt := range loggerTests() {
+func TestLog(t *testing.T) {
+	for _, tt := range logTests() {
 		var got string
 
 		l, bufOut, bufErr := newTestLog(tt.verbose)
@@ -56,7 +56,7 @@ func newTestLog(verbose bool) (*Log, *bytes.Buffer, *bytes.Buffer) {
 	return l, &bufOut, &bufErr
 }
 
-type loggerTest struct {
+type logTest struct {
 	verbose bool
 	level   string
 	format  string
@@ -64,8 +64,8 @@ type loggerTest struct {
 	want    string
 }
 
-func loggerTests() []loggerTest {
-	tests := []loggerTest{
+func logTests() []logTest {
+	tests := []logTest{
 		{
 			verbose: false,
 			level:   infoLevel,
