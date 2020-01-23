@@ -12,7 +12,7 @@ func TestSignatureCheck(t *testing.T) {
 			err := tt.signature.check()
 			if tt.fail {
 				if err == nil {
-					t.Error("fail error: got nil; want error")
+					t.Error("fail: got nil; want error")
 				}
 				return
 			}

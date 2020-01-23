@@ -11,7 +11,7 @@ func TestNewHeader(t *testing.T) {
 			got, err := newHeader(tt.input)
 			if tt.fail {
 				if err == nil {
-					t.Error("fail error: got nil; want error")
+					t.Error("fail: got nil; want error")
 				}
 				return
 			}

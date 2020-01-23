@@ -9,7 +9,7 @@ func TestAlgorithmCheck(t *testing.T) {
 			err := tt.algorithm.check(tt.message, tt.signature)
 			if tt.fail {
 				if err == nil {
-					t.Error("fail error: got nil; want error")
+					t.Error("fail: got nil; want error")
 				}
 				return
 			}
