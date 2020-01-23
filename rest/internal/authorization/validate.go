@@ -6,19 +6,23 @@ import (
 	"net/http"
 )
 
-const headerKey = "Authorization"
-
-func Validate(header http.Header) error {
-	if len(header) == 0 {
-		return errors.New("nil or empty header")
+// Validate checks authorization header and signature.
+func Validate(all http.Header) error {
+	if len(all) == 0 {
+		return errors.New("nil or empty http headers")
 	}
 
-	f, err := parseAuthField(header.Get(headerKey))
+	h, err := newHeader(all.Get(headerKey))
 	if err != nil {
-		return fmt.Errorf("field: %v", err)
+		return fmt.Errorf("header: %v", err)
 	}
 
-	_ = f
+	s := signature{
+		header:    all,
+		algorithm: h.algorithm,
+		keys:      h.keys,
+		value:     h.signature,
+	}
 
-	return nil
+	return s.check()
 }

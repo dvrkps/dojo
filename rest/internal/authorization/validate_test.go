@@ -5,24 +5,6 @@ import (
 	"testing"
 )
 
-type validateTestType []struct {
-	name   string
-	fail   bool
-	header http.Header
-}
-
-func validateTests() validateTestType {
-	t := validateTestType{
-		{
-			name:   "nil header",
-			fail:   true,
-			header: nil,
-		},
-	}
-
-	return t
-}
-
 func TestValidate(t *testing.T) {
 	for _, tt := range validateTests() {
 		got := Validate(tt.header)
@@ -39,4 +21,43 @@ func TestValidate(t *testing.T) {
 			}
 		})
 	}
+}
+
+type validateTest struct {
+	name   string
+	fail   bool
+	header http.Header
+}
+
+func validateTests() []validateTest {
+	tests := []validateTest{
+		{
+			name: "valid",
+			fail: false,
+			header: http.Header{
+				"Authorization": []string{`algorithm="hmac-sha256",` +
+					`headers="date",` +
+					`signature="` +
+					testSignatureValue +
+					`",` +
+					`apikey="_here_is_the_api_key_"`,
+				},
+				"Date": []string{"Tue, 07 Jun 2011 20:51:35 GMT"},
+			},
+		},
+		{
+			name: "no auth header",
+			fail: true,
+			header: http.Header{
+				"Date": []string{"Tue, 07 Jun 2011 20:51:35 GMT"},
+			},
+		},
+		{
+			name:   "nil header",
+			fail:   true,
+			header: nil,
+		},
+	}
+
+	return tests
 }
