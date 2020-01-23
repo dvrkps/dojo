@@ -7,17 +7,17 @@ import (
 
 func TestValidate(t *testing.T) {
 	for _, tt := range validateTests() {
-		got := Validate(tt.header)
-		fail := tt.fail
+		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
-			if fail {
-				if got == nil {
+			err := Validate(tt.header)
+			if tt.fail {
+				if err == nil {
 					t.Error("got nil; want error")
 				}
 				return
 			}
-			if got != nil {
-				t.Errorf("got %v; want nil", got)
+			if err != nil {
+				t.Errorf("got %v; want nil", err)
 			}
 		})
 	}
