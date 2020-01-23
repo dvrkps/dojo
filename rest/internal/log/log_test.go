@@ -5,8 +5,41 @@ import (
 	"testing"
 )
 
+const (
+	infoLevel  = "Infof"
+	debugLevel = "Debugf"
+	errorLevel = "Errorf"
+)
+
+func TestLogger(t *testing.T) {
+	for _, tt := range loggerTests() {
+		var got string
+
+		lgr := tt.lgr
+
+		switch tt.level {
+		case infoLevel:
+			lgr.out.Infof(tt.format, tt.args...)
+			got = lgr.bufOut.String()
+		case debugLevel:
+			lgr.out.Debugf(tt.format, tt.args...)
+			got = lgr.bufOut.String()
+		case errorLevel:
+			lgr.out.Errorf(tt.format, tt.args...)
+			got = lgr.bufErr.String()
+		default:
+			t.Errorf("invalid level %q", tt.level)
+		}
+
+		if got != tt.want {
+			t.Errorf("%v(%q, %v) = %q; want %q",
+				tt.level, tt.format, tt.args, got, tt.want)
+		}
+	}
+}
+
 type testLogger struct {
-	lgr    *Log
+	out    *Log
 	bufOut *bytes.Buffer
 	bufErr *bytes.Buffer
 }
@@ -18,37 +51,33 @@ func testNew(verbose bool) testLogger {
 	)
 
 	l := testLogger{
-		lgr:    New(&bufOut, &bufErr),
+		out:    New(&bufOut, &bufErr),
 		bufOut: &bufOut,
 		bufErr: &bufErr,
 	}
 
 	if verbose {
-		l.lgr.Verbose()
+		l.out.Verbose()
 	}
 
 	return l
 }
 
-const (
-	infoLevel  = "Infof"
-	debugLevel = "Debugf"
-	errorLevel = "Errorf"
-)
+type loggerTest struct {
+	lgr    testLogger
+	level  string
+	format string
+	args   []interface{}
+	want   string
+}
 
-func TestLogger(t *testing.T) {
+func loggerTests() []loggerTest {
 	const (
 		verboseTrue  = true
 		verboseFalse = false
 	)
 
-	tests := []struct {
-		lgr    testLogger
-		level  string
-		format string
-		args   []interface{}
-		want   string
-	}{
+	tests := []loggerTest{
 		{
 			lgr:    testNew(verboseFalse),
 			level:  infoLevel,
@@ -79,32 +108,5 @@ func TestLogger(t *testing.T) {
 		},
 	}
 
-	for _, tt := range tests {
-		testLevel(t, &tt.lgr, tt.level, tt.format, tt.args, tt.want)
-	}
-}
-
-func testLevel(t *testing.T, tl *testLogger, level string, format string, args []interface{}, want string) {
-	t.Helper()
-
-	var got string
-
-	switch level {
-	case infoLevel:
-		tl.lgr.Infof(format, args...)
-		got = tl.bufOut.String()
-	case debugLevel:
-		tl.lgr.Debugf(format, args...)
-		got = tl.bufOut.String()
-	case errorLevel:
-		tl.lgr.Errorf(format, args...)
-		got = tl.bufErr.String()
-	default:
-		t.Errorf("invalid level %q", level)
-	}
-
-	if got != want {
-		t.Errorf("%v(%q, %v) = %q; want %q",
-			level, format, args, got, want)
-	}
+	return tests
 }
