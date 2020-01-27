@@ -3,6 +3,7 @@ package server
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"net/http"
 	"os"
@@ -26,6 +27,18 @@ func (s *Server) Run() error {
 		readTimeout  = 5 * time.Second
 		writeTimeout = 5 * time.Second
 	)
+
+	if s.Addr == "" {
+		return errors.New("empty addr")
+	}
+
+	if s.Handler == nil {
+		return errors.New("nil handler")
+	}
+
+	if s.Log == nil {
+		return errors.New("nil log")
+	}
 
 	hs := http.Server{
 		Addr:         s.Addr,
