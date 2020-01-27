@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"syscall"
 	"time"
 
 	"github.com/dvrkps/dojo/rest/internal/log"
@@ -14,11 +15,9 @@ import (
 
 // Server is http server with graceful shutdown.
 type Server struct {
-	Addr string
-
-	Handler          http.Handler
-	Log              *log.Log
-	TerminateSignals []os.Signal
+	Addr    string
+	Handler http.Handler
+	Log     *log.Log
 }
 
 // Run runs the server.
@@ -36,7 +35,7 @@ func (s *Server) Run() error {
 	}
 
 	shutdown := make(chan os.Signal, 1)
-	signal.Notify(shutdown, s.TerminateSignals...)
+	signal.Notify(shutdown, os.Interrupt, syscall.SIGTERM)
 
 	srvErr := make(chan error, 1)
 
