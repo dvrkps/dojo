@@ -23,29 +23,12 @@ type Server struct {
 
 // Run runs the server.
 func (s *Server) Run() error {
-	const (
-		readTimeout  = 5 * time.Second
-		writeTimeout = 5 * time.Second
-	)
-
-	if s.Addr == "" {
-		return errors.New("empty addr")
+	err := s.checkOptions()
+	if err != nil {
+		return err
 	}
 
-	if s.Handler == nil {
-		return errors.New("nil handler")
-	}
-
-	if s.Log == nil {
-		return errors.New("nil log")
-	}
-
-	hs := http.Server{
-		Addr:         s.Addr,
-		Handler:      s.Handler,
-		ReadTimeout:  readTimeout,
-		WriteTimeout: writeTimeout,
-	}
+	hs := s.newHTTPServer()
 
 	shutdown := make(chan os.Signal, 1)
 	signal.Notify(shutdown, os.Interrupt, syscall.SIGTERM)
@@ -61,20 +44,56 @@ func (s *Server) Run() error {
 	case err := <-srvErr:
 		return fmt.Errorf("http: %v", err)
 	case <-shutdown:
-		const shutdownTimeout = 5 * time.Second
+		return s.shutdown(hs)
+	}
+}
 
-		ctx, cancel := context.WithTimeout(context.Background(), shutdownTimeout)
-		defer cancel()
+func (s *Server) checkOptions() error {
+	if s.Addr == "" {
+		return errors.New("empty addr")
+	}
 
-		err := hs.Shutdown(ctx)
-		if err != nil {
-			s.Log.Errorf("shutdown: %v", err)
-			err = hs.Close()
-		}
+	if s.Handler == nil {
+		return errors.New("nil handler")
+	}
 
-		if err != nil {
-			return fmt.Errorf("close: %v", err)
-		}
+	if s.Log == nil {
+		return errors.New("nil log")
+	}
+
+	return nil
+}
+
+func (s *Server) newHTTPServer() *http.Server {
+	const (
+		readTimeout  = 5 * time.Second
+		writeTimeout = 5 * time.Second
+	)
+
+	hs := http.Server{
+		Addr:         s.Addr,
+		Handler:      s.Handler,
+		ReadTimeout:  readTimeout,
+		WriteTimeout: writeTimeout,
+	}
+
+	return &hs
+}
+
+func (s *Server) shutdown(hs *http.Server) error {
+	const shutdownTimeout = 5 * time.Second
+
+	ctx, cancel := context.WithTimeout(context.Background(), shutdownTimeout)
+	defer cancel()
+
+	err := hs.Shutdown(ctx)
+	if err != nil {
+		s.Log.Errorf("shutdown: %v", err)
+		err = hs.Close()
+	}
+
+	if err != nil {
+		return fmt.Errorf("close: %v", err)
 	}
 
 	return nil
