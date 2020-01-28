@@ -3,7 +3,6 @@ package main
 import (
 	"io"
 	"os"
-	"syscall"
 
 	"github.com/dvrkps/dojo/rest/internal/configuration"
 	"github.com/dvrkps/dojo/rest/internal/handlers"
@@ -41,10 +40,9 @@ func run(args []string, stdout, stderr io.Writer) int {
 	api := handlers.API{}
 
 	s := server.Server{
-		Addr:             cfg.Addr,
-		Handler:          api.Routes(),
-		Log:              log,
-		TerminateSignals: []os.Signal{os.Interrupt, syscall.SIGTERM},
+		Addr:    cfg.Addr,
+		Handler: api.Routes(),
+		Log:     log,
 	}
 
 	if err := s.Run(); err != nil {
