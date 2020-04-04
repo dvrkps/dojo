@@ -17,7 +17,9 @@ func (d *Data) Add(in []byte, cd time.Time) error {
 	if err != nil {
 		return fmt.Errorf("data: %s", err)
 	}
+
 	*d = append(*d, &m)
+
 	return nil
 }
 
@@ -34,9 +36,11 @@ func (d Data) Less(i, j int) bool {
 // String return formated list of pills.
 func (d Data) String() string {
 	buf := bytes.NewBuffer(nil)
+
 	for _, p := range d {
 		_, _ = fmt.Fprint(buf, p)
 	}
+
 	return buf.String()
 }
 

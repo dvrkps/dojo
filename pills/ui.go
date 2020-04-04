@@ -5,6 +5,7 @@ import (
 	"bytes"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"os"
 	"sort"
 	"time"
@@ -13,6 +14,31 @@ import (
 // Version is command version.
 const Version = "0.4.11"
 
+func main() {
+	log := log.New(os.Stderr, "", 0)
+
+	const (
+		exitErr  = 1
+		exitUser = 2
+	)
+
+	fmt.Print("pills " + Version + "\n\n")
+
+	path, err := filePath("marija")
+	if err != nil {
+		log.Printf("file path: %v", err)
+		os.Exit(exitUser)
+	}
+
+	pills, err := PillsOldWay(path, midnight(time.Now()))
+	if err != nil {
+		log.Printf("pills: %v", err)
+		os.Exit(exitErr)
+	}
+
+	fmt.Println(pills)
+}
+
 func filePath(user string) (string, error) {
 	d, err := os.UserConfigDir()
 	if err != nil {
@@ -20,6 +46,7 @@ func filePath(user string) (string, error) {
 	}
 
 	p := fmt.Sprintf("%s/pills/%s/pills.txt", d, user)
+
 	return p, nil
 }
 
@@ -31,24 +58,6 @@ func fileScanner(path string) (*bufio.Scanner, error) {
 	}
 
 	return bufio.NewScanner(bytes.NewReader(c)), nil
-}
-
-func main() {
-	fmt.Print("pills " + Version + "\n\n")
-
-	path, err := filePath("davor")
-	if err != nil {
-		fmt.Fprintln(os.Stderr, err)
-		os.Exit(2)
-	}
-
-	pills, err := PillsOldWay(path, midnight(time.Now()))
-	if err != nil {
-		fmt.Fprintln(os.Stderr, err)
-		os.Exit(1)
-	}
-
-	fmt.Println(pills)
 }
 
 // midnight returns date with zeroed time.
@@ -69,11 +78,13 @@ func PillsOldWay(path string, date time.Time) (*Data, error) {
 // parseFile returns parsed and sorted pills data.
 func parseFile(s *bufio.Scanner, date time.Time) (*Data, error) {
 	var d Data
+
 	for s.Scan() {
 		line := bytes.TrimSpace(s.Bytes())
 		if bytes.HasPrefix(line, []byte{'/', '/'}) {
 			continue
 		}
+
 		err := d.Add(line, date)
 		if err != nil {
 			return nil, err

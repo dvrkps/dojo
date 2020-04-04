@@ -19,6 +19,7 @@ func fakeFileContent() *bufio.Scanner {
 2015-02-28,92,Preductal MR 35 mg,2
 2015-02-28,61,Statex 40 mg,1
 2015-02-01,109,Tyraq 25,2,2,3`)
+
 	return bufio.NewScanner(bytes.NewReader(c))
 }
 
@@ -26,6 +27,7 @@ func TestFileScanner(t *testing.T) {
 	if _, err := fileScanner("pills.txt"); err != nil {
 		t.Errorf("fileScanner(\"pills.txt\") = _, %v; want <nil>", err)
 	}
+
 	if _, err := fileScanner("invalidpath"); err == nil {
 		t.Error("fileScanner(\"invalidpath\") = _, <nil>; want error")
 	}
@@ -34,6 +36,7 @@ func TestFileScanner(t *testing.T) {
 func TestMidnight(t *testing.T) {
 	in := time.Date(2015, 8, 11, 1, 2, 3, 4, time.UTC)
 	want := time.Date(2015, 8, 11, 0, 0, 0, 0, time.UTC)
+
 	if got := midnight(in); got != want {
 		t.Errorf("midnight(%v) = %v, want %v", in, got, want)
 	}
@@ -43,12 +46,15 @@ func TestParseFile(t *testing.T) {
 	date := midnight(time.Date(2015, 8, 11, 1, 2, 3, 4, time.UTC))
 	d, err := parseFile(fakeFileContent(), date)
 	size := len(*d)
+
 	if size != 11 || err != nil {
 		t.Errorf("len(parseFile(valid, date)) = %v, %v; want 11, nil", size, err)
 	}
+
 	s := bufio.NewScanner(bytes.NewReader([]byte("")))
 	d, err = parseFile(s, date)
 	size = len(*d)
+
 	if size != 0 || err != nil {
 		t.Errorf("len(parseFile(invalid, date)) = %v, %v; want 0, nil", size, err)
 	}
@@ -63,6 +69,7 @@ func TestParseFileCommentedLine(t *testing.T) {
 	s := bufio.NewScanner(bytes.NewReader(fileContent))
 	d, err := parseFile(s, date)
 	size := len(*d)
+
 	if size != 1 || err != nil {
 		t.Errorf("len(parseFile(commentedlines, date)) = %v, %v; want 0, nil", size, err)
 	}

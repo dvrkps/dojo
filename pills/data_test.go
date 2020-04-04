@@ -11,6 +11,7 @@ func fakeDate(y, m, d int) time.Time {
 		var t time.Time
 		return t
 	}
+
 	return time.Date(y, time.Month(m), d, 0, 0, 0, 0, time.UTC)
 }
 
@@ -28,6 +29,7 @@ func fakePills() [][]byte {
 		[]byte("2015-02-28,61,Statex 40 mg,1"),
 		[]byte("2015-02-01,109,Tyraq 25,2,2,3"),
 	}
+
 	return r
 }
 
@@ -35,12 +37,15 @@ func TestData_Add(t *testing.T) {
 	today := fakeDate(2015, 3, 1)
 	f := fakePills()
 	d := Data{}
+
 	for _, p := range f {
 		_ = d.Add(p, today)
 	}
+
 	if got, want := len(f), len(d); got != want {
 		t.Errorf("len(Data) = %v; want %v", got, want)
 	}
+
 	// invalid pill
 	d = Data{}
 	if err := d.Add([]byte(""), today); err == nil {
@@ -55,9 +60,11 @@ func TestData_String(t *testing.T) {
 	today := fakeDate(2015, 3, 1)
 	f := fakePills()
 	d := Data{}
+
 	for _, p := range f {
 		_ = d.Add(p, today)
 	}
+
 	want := 451
 	if got := len(d.String()); got != want {
 		t.Errorf("len(String()) = %v, want %v", got, want)
@@ -67,13 +74,18 @@ func TestData_String(t *testing.T) {
 func TestSortData(t *testing.T) {
 	today := fakeDate(2015, 3, 1)
 	f := fakePills()
+
 	d := Data{}
+
 	for _, p := range f {
 		_ = d.Add(p, today)
 	}
+
 	sort.Sort(d)
+
 	d0 := d[0].DaysToExpire
 	d10 := d[10].DaysToExpire
+
 	if d0 != 18 || d10 != 126 {
 		t.Error("Data sort order not valid")
 	}
