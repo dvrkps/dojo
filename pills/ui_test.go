@@ -41,12 +41,16 @@ func TestMidnight(t *testing.T) {
 
 func TestParseFile(t *testing.T) {
 	date := midnight(time.Date(2015, 8, 11, 1, 2, 3, 4, time.UTC))
-	if d := parseFile(fakeFileContent(), date); len(d) != 11 {
-		t.Errorf("len(parseFile(valid, date)) = %v, want 11", len(d))
+	d, err := parseFile(fakeFileContent(), date)
+	size := len(*d)
+	if size != 11 || err != nil {
+		t.Errorf("len(parseFile(valid, date)) = %v, %v; want 11, nil", size, err)
 	}
 	s := bufio.NewScanner(bytes.NewReader([]byte("")))
-	if d := parseFile(s, date); len(d) != 0 {
-		t.Errorf("len(parseFile(invalid, date)) = %v, want 0", len(d))
+	d, err = parseFile(s, date)
+	size = len(*d)
+	if size != 0 || err != nil {
+		t.Errorf("len(parseFile(invalid, date)) = %v, %v; want 0, nil", size, err)
 	}
 }
 
@@ -57,7 +61,9 @@ func TestParseFileCommentedLine(t *testing.T) {
 //2015-02-28,73,Carvelol 12.5 mg,2
  //2015-02-28,27,Dualtis 1000 mg,1`)
 	s := bufio.NewScanner(bytes.NewReader(fileContent))
-	if d := parseFile(s, date); len(d) != 1 {
-		t.Errorf("len(parseFile(commentedlines, date)) = %v, want 1", len(d))
+	d, err := parseFile(s, date)
+	size := len(*d)
+	if size != 1 || err != nil {
+		t.Errorf("len(parseFile(commentedlines, date)) = %v, %v; want 0, nil", size, err)
 	}
 }

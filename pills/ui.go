@@ -57,18 +57,17 @@ func midnight(t time.Time) time.Time {
 }
 
 // PillsOldWay returns loaded pills data.
-func PillsOldWay(path string, date time.Time) (Data, error) {
+func PillsOldWay(path string, date time.Time) (*Data, error) {
 	fs, err := fileScanner(path)
 	if err != nil {
-		return Data{}, err
+		return nil, err
 	}
-	// parse data
-	pills := parseFile(fs, date)
-	return pills, nil
+
+	return parseFile(fs, date)
 }
 
 // parseFile returns parsed and sorted pills data.
-func parseFile(s *bufio.Scanner, date time.Time) Data {
+func parseFile(s *bufio.Scanner, date time.Time) (*Data, error) {
 	var d Data
 	for s.Scan() {
 		line := bytes.TrimSpace(s.Bytes())
@@ -76,10 +75,17 @@ func parseFile(s *bufio.Scanner, date time.Time) Data {
 			continue
 		}
 		err := d.Add(line, date)
-		if err != nil || s.Err() != nil {
-			return d
+		if err != nil {
+			return nil, err
 		}
 	}
+
+	err := s.Err()
+	if err != nil {
+		return nil, err
+	}
+
 	sort.Sort(d)
-	return d
+
+	return &d, nil
 }
