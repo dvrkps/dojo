@@ -15,7 +15,7 @@ import (
 )
 
 // Version is command version.
-const Version = "0.4.11"
+const Version = "0.5.0"
 
 func main() {
 	flagVersion := flag.Bool("version", false, "show version")
