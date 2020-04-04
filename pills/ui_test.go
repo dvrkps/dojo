@@ -3,7 +3,6 @@ package main
 import (
 	"bufio"
 	"bytes"
-	"os/user"
 	"testing"
 	"time"
 )
@@ -21,16 +20,6 @@ func fakeFileContent() *bufio.Scanner {
 2015-02-28,61,Statex 40 mg,1
 2015-02-01,109,Tyraq 25,2,2,3`)
 	return bufio.NewScanner(bytes.NewReader(c))
-}
-
-func TestFilePath(t *testing.T) {
-	u, _ := user.Current()
-	hd := u.HomeDir
-	want := hd + "/pills.txt"
-	got := filePath()
-	if got != want {
-		t.Errorf("filePath()= %v; want %v", got, want)
-	}
 }
 
 func TestFileScanner(t *testing.T) {

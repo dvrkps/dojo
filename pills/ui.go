@@ -6,19 +6,21 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
-	"os/user"
 	"sort"
 	"time"
 )
 
 // Version is command version.
-const Version = "0.4.10"
+const Version = "0.4.11"
 
-// filePath returns path of pills file.
-func filePath() string {
-	u, _ := user.Current()
-	hd := u.HomeDir
-	return hd + "/pills.txt"
+func filePath(user string) (string, error) {
+	d, err := os.UserConfigDir()
+	if err != nil {
+		return "", err
+	}
+
+	p := fmt.Sprintf("%s/pills/%s/pills.txt", d, user)
+	return p, nil
 }
 
 // fileScanner converts file content to scanner.
@@ -27,17 +29,25 @@ func fileScanner(path string) (*bufio.Scanner, error) {
 	if err != nil {
 		return nil, err
 	}
+
 	return bufio.NewScanner(bytes.NewReader(c)), nil
 }
 
 func main() {
 	fmt.Print("pills " + Version + "\n\n")
-	// load file content
-	pills, err := PillsOldWay(filePath(), midnight(time.Now()))
+
+	path, err := filePath("davor")
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(2)
 	}
+
+	pills, err := PillsOldWay(path, midnight(time.Now()))
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
+
 	fmt.Println(pills)
 }
 
