@@ -3,10 +3,13 @@ package main
 import (
 	"bufio"
 	"bytes"
+	"errors"
+	"flag"
 	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
+	"os/exec"
 	"sort"
 	"time"
 )
@@ -15,6 +18,18 @@ import (
 const Version = "0.4.11"
 
 func main() {
+	flagVersion := flag.Bool("version", false, "show version")
+	flagEdit := flag.Bool("edit", false, "edit user data")
+	flagUser := flag.String("user", "davor", "choose user")
+
+	flag.Parse()
+
+	if *flagVersion {
+		fmt.Print("pills " + Version + "\n\n")
+
+		return
+	}
+
 	log := log.New(os.Stderr, "", 0)
 
 	const (
@@ -22,12 +37,18 @@ func main() {
 		exitUser = 2
 	)
 
-	fmt.Print("pills " + Version + "\n\n")
-
-	path, err := filePath("marija")
+	path, err := filePath(*flagUser)
 	if err != nil {
 		log.Printf("file path: %v", err)
 		os.Exit(exitUser)
+	}
+
+	if *flagEdit {
+		err = startEditor(path)
+		if err != nil {
+			log.Printf("edit: %v", err)
+			os.Exit(exitUser)
+		}
 	}
 
 	pills, err := PillsOldWay(path, midnight(time.Now()))
@@ -37,6 +58,25 @@ func main() {
 	}
 
 	fmt.Println(pills)
+}
+
+func startEditor(path string) error {
+	editor := os.Getenv("EDITOR")
+	if editor == "" {
+		return errors.New("empty env editor")
+	}
+
+	cmd := exec.Command(editor, path)
+	cmd.Stdin = os.Stdin
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+
+	err := cmd.Run()
+	if err != nil {
+		return fmt.Errorf("run: %v", err)
+	}
+
+	return nil
 }
 
 func filePath(user string) (string, error) {
