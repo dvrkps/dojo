@@ -13,6 +13,7 @@ func TestNewRefill(t *testing.T) {
 		Quantity: 12.6,
 	}
 	got, err := newRefill(date, quantity)
+
 	if !reflect.DeepEqual(got, want) || err != nil {
 		t.Errorf("newRefill(%q,%q) = %v, %v; want %v, nil",
 			date,
@@ -32,6 +33,7 @@ func TestNewRefill_errors(t *testing.T) {
 		{[]byte("2015-09-29"), []byte("abc")},
 		{[]byte("2015-09-29"), []byte("-14.876")},
 	}
+
 	for _, tt := range tests {
 		_, err := newRefill(tt.date, tt.quantity)
 		if err == nil {

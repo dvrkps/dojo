@@ -31,6 +31,7 @@ func TestDosageCalcRatio(t *testing.T) {
 func TestDosage_Ratio(t *testing.T) {
 	want := 5.0
 	in := Dosage{ratio: want}
+
 	if got := in.Ratio(); got != want {
 		t.Errorf("Ratio() = %v; want %v", got, want)
 	}
@@ -39,6 +40,7 @@ func TestDosage_Ratio(t *testing.T) {
 func TestDosage_String(t *testing.T) {
 	in := Dosage{doses: []float64{1, 0, 0.25, 0.5, 2.0, 4}}
 	want := "1 - q h 2 4"
+
 	if got := in.String(); got != want {
 		t.Errorf("String() = %q; want %q", got, want)
 	}
@@ -53,6 +55,7 @@ func TestNewDosage(t *testing.T) {
 		[]byte("3"),
 	}
 	want := Dosage{doses: []float64{1, 0.5, 2, 0.25, 3}, ratio: 1.35}
+
 	if got, err := newDosage(in...); !reflect.DeepEqual(got, want) || err != nil {
 		t.Errorf("newDosage(%q) = %v, %v; want %v, <nil>",
 			in,

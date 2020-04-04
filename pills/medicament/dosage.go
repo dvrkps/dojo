@@ -12,13 +12,16 @@ func calcDosageRatio(in ...float64) float64 {
 	if size < 1 {
 		return 0
 	}
+
 	var sum float64
 	for _, v := range in {
 		sum += v
 	}
+
 	if sum < 0 {
 		return 0
 	}
+
 	return sum / float64(size)
 }
 
@@ -33,48 +36,55 @@ func (d Dosage) Ratio() float64 {
 	return d.ratio
 }
 
+const (
+	minusChar    = `-`
+	quarterValue = 0.25
+	quarterChar  = `q`
+	halfValue    = 0.5
+	halfChar     = `h`
+)
+
 // String returns Dosage string representation.
 func (d Dosage) String() string {
-	const (
-		minus   = `-`
-		quarter = `q`
-		half    = `h`
-	)
-	var result, sep []byte
-	for _, n := range d.doses {
-		result = append(result, sep...)
+	result := make([][]byte, len(d.doses))
+
+	for i, n := range d.doses {
 		switch {
 		case n <= 0:
-			result = append(result, minus...)
-		case n == 0.25:
-			result = append(result, quarter...)
-		case n == 0.5:
-			result = append(result, half...)
+			result[i] = append(result[i], []byte(minusChar)...)
+		case n == quarterValue:
+			result[i] = append(result[i], []byte(quarterChar)...)
+		case n == halfValue:
+			result[i] = append(result[i], []byte(halfChar)...)
 		default:
-			result = strconv.AppendFloat(result, n, 'g', -1, 64)
-		}
-		// separator char
-		if sep == nil {
-			sep = []byte{' '}
+			result[i] = strconv.AppendFloat(result[i], n, 'g', -1, 64)
 		}
 	}
-	return string(result)
+
+	j := bytes.Join(result, []byte(" "))
+
+	return string(j)
 }
 
 // newDosage creates Dosage.
 func newDosage(doses ...[]byte) (Dosage, error) {
 	empty := Dosage{}
-	var dss []float64
+
 	if len(doses) < 1 {
 		return empty, errors.New("dosage: empty")
 	}
+
+	dss := []float64{}
+
 	for _, d := range doses {
 		nd, err := newDose(d)
 		if err != nil {
 			return empty, err
 		}
+
 		dss = append(dss, nd)
 	}
+
 	return Dosage{
 		doses: dss,
 		ratio: calcDosageRatio(dss...),
@@ -85,20 +95,23 @@ func newDosage(doses ...[]byte) (Dosage, error) {
 func newDose(in []byte) (float64, error) {
 	dot := []byte{'.'}
 	doseErr := errors.New("dosage: invalid dose")
+
 	if bytes.HasPrefix(in, dot) || bytes.HasSuffix(in, dot) {
 		return 0, doseErr
 	}
-	half := []byte{'h'}
-	quarter := []byte{'q'}
-	if bytes.EqualFold(in, half) {
-		return 0.5, nil
+
+	if bytes.EqualFold(in, []byte(halfChar)) {
+		return halfValue, nil
 	}
-	if bytes.EqualFold(in, quarter) {
-		return 0.25, nil
+
+	if bytes.EqualFold(in, []byte(quarterChar)) {
+		return quarterValue, nil
 	}
+
 	result, err := strconv.ParseFloat(string(in), 64)
 	if result < 0 || err != nil {
 		return 0, doseErr
 	}
+
 	return result, nil
 }

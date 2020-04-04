@@ -41,7 +41,9 @@ func New(date time.Time, in []byte) (Medicament, error) {
 	empty := Medicament{}
 	// format
 	all := bytes.Split(in, []byte{','})
-	if len(all) < 4 {
+
+	const parts = 4
+	if len(all) < parts {
 		return empty, errors.New("medicament: format error")
 	}
 	// init
@@ -51,23 +53,28 @@ func New(date time.Time, in []byte) (Medicament, error) {
 	if err != nil {
 		return empty, fmt.Errorf("medicament: %s", err)
 	}
+
 	m.refill = r
 	// name
 	n, err := parseName(all[2])
 	if err != nil {
 		return empty, err
 	}
+
 	m.Name = n
+
 	// dosage
 	d, err := newDosage(all[3:]...)
 	if err != nil {
 		return empty, fmt.Errorf("medicament: %s", err)
 	}
+
 	m.Dosage = d
 
 	// expire
 	e := newExpire(date, r, d.ratio)
 	m.expire = e
+
 	return m, nil
 }
 
@@ -77,5 +84,6 @@ func parseName(in []byte) (string, error) {
 	if s == "" {
 		return "", errors.New("medicament: empty name")
 	}
+
 	return s, nil
 }
