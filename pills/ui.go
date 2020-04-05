@@ -15,7 +15,7 @@ import (
 )
 
 // Version is command version.
-const Version = "0.5.1"
+const Version = "0.5.2"
 
 func main() {
 	flagVersion := flag.Bool("version", false, "show version")
@@ -25,7 +25,7 @@ func main() {
 	flag.Parse()
 
 	if *flagVersion {
-		fmt.Print("pills " + Version + "\n\n")
+		fmt.Printf("pills v%s\n", Version)
 
 		return
 	}
