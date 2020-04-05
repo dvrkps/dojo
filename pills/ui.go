@@ -15,7 +15,7 @@ import (
 )
 
 // Version is command version.
-const Version = "0.5.0"
+const Version = "0.5.1"
 
 func main() {
 	flagVersion := flag.Bool("version", false, "show version")
@@ -86,6 +86,10 @@ func filePath(user string) (string, error) {
 	}
 
 	p := fmt.Sprintf("%s/pills/%s/pills.txt", d, user)
+
+	if _, err := os.Stat(p); os.IsNotExist(err) {
+		return "", err
+	}
 
 	return p, nil
 }
