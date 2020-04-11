@@ -18,6 +18,7 @@ func main() {
 		log.Print(err)
 		os.Exit(1)
 	}
+
 	fmt.Print(&d)
 }
 
