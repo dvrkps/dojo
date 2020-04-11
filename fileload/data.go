@@ -26,14 +26,15 @@ func (d *Data) Add(in []byte) error {
 
 // String returns string representation.
 func (d *Data) String() string {
-	if len(*d) < 1 {
+	size := len(*d)
+	if size < 1 {
 		return "empty data"
 	}
 
-	all := make([]string, len(*d))
+	all := make([]string, 0, size)
 
-	for _, v := range *d {
-		s := fmt.Sprintf("%v", v)
+	for _, r := range *d {
+		s := fmt.Sprintf("%v", &r)
 		all = append(all, s)
 	}
 
