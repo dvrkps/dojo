@@ -6,20 +6,15 @@ import (
 	"github.com/dvrkps/dojo/fileload"
 )
 
-var data fileload.Data
+func TestParse(t *testing.T) {
+	fileload.TestParse(t, parse)
+}
 
-func BenchmarkRun(b *testing.B) {
-	var (
-		d   fileload.Data
-		err error
-	)
+func BenchmarkParse(b *testing.B) {
+	var data fileload.Data
 
-	for n := 0; n < b.N; n++ {
-		d, err = run()
-		if err != nil {
-			b.Fatal(err)
-		}
-	}
-
-	data = d
+	b.Run("99", func(b *testing.B) {
+		data = fileload.BenchParse(b, parse, fileload.Rows99)
+		_ = len(data)
+	})
 }

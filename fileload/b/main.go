@@ -4,39 +4,13 @@ import (
 	"bufio"
 	"fmt"
 	"io"
-	"log"
 	"os"
 
 	"github.com/dvrkps/dojo/fileload"
 )
 
 func main() {
-	d, err := run()
-	if err != nil {
-		log.Print(err)
-		os.Exit(1)
-	}
-
-	fmt.Print(&d)
-}
-
-func run() (fileload.Data, error) {
-	empty := fileload.Data{}
-
-	f, err := os.Open(fileload.Path)
-	if err != nil {
-		return empty, fmt.Errorf("open: %v", err)
-	}
-	defer f.Close()
-
-	d := fileload.NewData()
-
-	err = parse(f, &d)
-	if err != nil {
-		return empty, fmt.Errorf("parse: %v", err)
-	}
-
-	return d, nil
+	os.Exit(fileload.Run(parse, fileload.Rows99))
 }
 
 func parse(r io.Reader, d *fileload.Data) error {
@@ -56,8 +30,9 @@ func parse(r io.Reader, d *fileload.Data) error {
 		}
 	}()
 
+	var err error
 	for b := range ch {
-		err := d.Add(b)
+		*d, err = d.Add(b)
 		if err != nil {
 			return err
 		}
