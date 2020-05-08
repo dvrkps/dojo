@@ -24,7 +24,7 @@ func (d *Data) Add(in []byte, cd time.Time) error {
 	return nil
 }
 
-// String return formated list of pills.
+// String returns all pills.
 func (d Data) String() string {
 	s := make([]string, len(d))
 
@@ -32,7 +32,9 @@ func (d Data) String() string {
 		s[i] = d[i].String()
 	}
 
-	return strings.Join(s, "")
+	const newline = "\n"
+
+	return strings.Join(s, newline) + newline
 }
 
 func sortData(d Data) Data {
