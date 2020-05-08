@@ -6,6 +6,7 @@ import (
 	"errors"
 	"flag"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"log"
 	"os"
@@ -50,7 +51,7 @@ func main() {
 		}
 	}
 
-	pills, err := PillsOldWay(path, midnight(time.Now()))
+	pills, err := openFile(path, midnight(time.Now()))
 	if err != nil {
 		log.Printf("pills: %v", err)
 		os.Exit(exitErr)
@@ -108,18 +109,20 @@ func midnight(t time.Time) time.Time {
 	return time.Date(t.Year(), t.Month(), t.Day(), 0, 0, 0, 0, time.UTC)
 }
 
-// PillsOldWay returns loaded pills data.
-func PillsOldWay(path string, date time.Time) (*Data, error) {
-	fs, err := fileScanner(path)
+func openFile(path string, date time.Time) (*Data, error) {
+	f, err := os.Open(path)
 	if err != nil {
 		return nil, err
 	}
+	defer f.Close()
 
-	return parseFile(fs, date)
+	return parseFile(f, date)
 }
 
 // parseFile returns parsed and sorted pills data.
-func parseFile(s *bufio.Scanner, date time.Time) (*Data, error) {
+func parseFile(r io.Reader, date time.Time) (*Data, error) {
+	s := bufio.NewScanner(r)
+
 	var d Data
 	var err error
 
