@@ -29,7 +29,7 @@ func TestMedicament_String(t *testing.T) {
 		},
 	}
 
-	want := "  0     1.3. Sun   abc [- 1]\n"
+	want := "  0     1.3. Sun   abc [- 1]"
 	if got := m.String(); got != want {
 		t.Errorf("String() = %v; want %v", got, want)
 	}

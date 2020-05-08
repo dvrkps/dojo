@@ -18,7 +18,7 @@ type Medicament struct {
 
 // String returns medicament string representation.
 func (m Medicament) String() string {
-	return fmt.Sprintf("%3d   %6s %3s   %s [%s]\n",
+	return fmt.Sprintf("%3d   %6s %3s   %s [%s]",
 		m.DaysToExpire,
 		m.ExpireDate.Format("2.1."),
 		m.ExpireDate.Format("Mon"),
