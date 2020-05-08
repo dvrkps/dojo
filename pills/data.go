@@ -1,9 +1,9 @@
 package main
 
 import (
-	"bytes"
 	"fmt"
 	"sort"
+	"strings"
 	"time"
 
 	"github.com/dvrkps/dojo/pills/medicament"
@@ -26,13 +26,13 @@ func (d *Data) Add(in []byte, cd time.Time) error {
 
 // String return formated list of pills.
 func (d Data) String() string {
-	buf := bytes.NewBuffer(nil)
+	s := make([]string, len(d))
 
-	for _, p := range d {
-		_, _ = fmt.Fprint(buf, p)
+	for i := range d {
+		s[i] = d[i].String()
 	}
 
-	return buf.String()
+	return strings.Join(s, "")
 }
 
 func sortData(d Data) Data {
