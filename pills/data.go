@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"fmt"
+	"sort"
 	"time"
 
 	"github.com/dvrkps/dojo/pills/medicament"
@@ -23,16 +24,6 @@ func (d *Data) Add(in []byte, cd time.Time) error {
 	return nil
 }
 
-// Len returns Data length.
-func (d Data) Len() int {
-	return len(d)
-}
-
-// Less holds custom sort logic.
-func (d Data) Less(i, j int) bool {
-	return d[i].DaysToExpire < d[j].DaysToExpire
-}
-
 // String return formated list of pills.
 func (d Data) String() string {
 	buf := bytes.NewBuffer(nil)
@@ -44,7 +35,10 @@ func (d Data) String() string {
 	return buf.String()
 }
 
-// Swap swaps elements.
-func (d Data) Swap(i, j int) {
-	d[i], d[j] = d[j], d[i]
+func sortData(d Data) Data {
+	sort.Slice(d, func(i, j int) bool {
+		return d[i].DaysToExpire < d[j].DaysToExpire
+	})
+
+	return d
 }

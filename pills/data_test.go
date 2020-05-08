@@ -1,7 +1,6 @@
 package main
 
 import (
-	"sort"
 	"testing"
 	"time"
 )
@@ -81,7 +80,7 @@ func TestSortData(t *testing.T) {
 		_ = d.Add(p, today)
 	}
 
-	sort.Sort(d)
+	d = sortData(d)
 
 	d0 := d[0].DaysToExpire
 	d10 := d[10].DaysToExpire

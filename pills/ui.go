@@ -10,7 +10,6 @@ import (
 	"log"
 	"os"
 	"os/exec"
-	"sort"
 	"time"
 )
 
@@ -140,9 +139,7 @@ func parseFile(s *bufio.Scanner, date time.Time) (*Data, error) {
 		return nil, err
 	}
 
-	sort.Slice(d, func(i, j int) bool {
-		return d[i].DaysToExpire < d[j].DaysToExpire
-	})
+	d = sortData(d)
 
 	return &d, nil
 }
