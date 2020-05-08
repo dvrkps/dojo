@@ -32,7 +32,7 @@ func fakePills() [][]byte {
 	return r
 }
 
-func TestData_Add(t *testing.T) {
+func TestDataAdd(t *testing.T) {
 	today := fakeDate(2015, 3, 1)
 	f := fakePills()
 	d := Data{}
@@ -57,7 +57,7 @@ func TestData_Add(t *testing.T) {
 	}
 }
 
-func TestData_String(t *testing.T) {
+func TestDataString(t *testing.T) {
 	today := fakeDate(2015, 3, 1)
 	f := fakePills()
 	d := Data{}
