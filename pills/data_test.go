@@ -51,7 +51,7 @@ func TestDataAdd(t *testing.T) {
 
 	// invalid pill
 	d = Data{}
-	d, err = d.Add([]byte(""), today)
+	_, err = d.Add([]byte(""), today)
 	if err == nil {
 		t.Fatal("add empty pill must be error")
 	}
