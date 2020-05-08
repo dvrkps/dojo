@@ -140,7 +140,9 @@ func parseFile(s *bufio.Scanner, date time.Time) (*Data, error) {
 		return nil, err
 	}
 
-	sort.Sort(d)
+	sort.Slice(d, func(i, j int) bool {
+		return d[i].DaysToExpire < d[j].DaysToExpire
+	})
 
 	return &d, nil
 }
