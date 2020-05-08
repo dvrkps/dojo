@@ -13,15 +13,15 @@ import (
 type Data []medicament.Medicament
 
 // Add adds pill.
-func (d *Data) Add(in []byte, cd time.Time) error {
+func (d Data) Add(in []byte, cd time.Time) (Data, error) {
 	m, err := medicament.New(cd, in)
 	if err != nil {
-		return fmt.Errorf("data: %v", err)
+		return Data{}, fmt.Errorf("data: %v", err)
 	}
 
-	*d = append(*d, m)
+	d = append(d, m)
 
-	return nil
+	return d, nil
 }
 
 // String returns all pills.

@@ -121,6 +121,7 @@ func PillsOldWay(path string, date time.Time) (*Data, error) {
 // parseFile returns parsed and sorted pills data.
 func parseFile(s *bufio.Scanner, date time.Time) (*Data, error) {
 	var d Data
+	var err error
 
 	for s.Scan() {
 		line := bytes.TrimSpace(s.Bytes())
@@ -128,13 +129,13 @@ func parseFile(s *bufio.Scanner, date time.Time) (*Data, error) {
 			continue
 		}
 
-		err := d.Add(line, date)
+		d, err = d.Add(line, date)
 		if err != nil {
 			return nil, err
 		}
 	}
 
-	err := s.Err()
+	err = s.Err()
 	if err != nil {
 		return nil, err
 	}
