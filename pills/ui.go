@@ -7,7 +7,6 @@ import (
 	"flag"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"log"
 	"os"
 	"os/exec"
@@ -92,16 +91,6 @@ func filePath(user string) (string, error) {
 	}
 
 	return p, nil
-}
-
-// fileScanner converts file content to scanner.
-func fileScanner(path string) (*bufio.Scanner, error) {
-	c, err := ioutil.ReadFile(path)
-	if err != nil {
-		return nil, err
-	}
-
-	return bufio.NewScanner(bytes.NewReader(c)), nil
 }
 
 // midnight returns date with zeroed time.

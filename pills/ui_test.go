@@ -23,16 +23,6 @@ func fakeFileContent() io.Reader {
 	return bytes.NewReader(c)
 }
 
-func TestFileScanner(t *testing.T) {
-	if _, err := fileScanner("pills.txt"); err != nil {
-		t.Errorf("fileScanner(\"pills.txt\") = _, %v; want <nil>", err)
-	}
-
-	if _, err := fileScanner("invalidpath"); err == nil {
-		t.Error("fileScanner(\"invalidpath\") = _, <nil>; want error")
-	}
-}
-
 func TestMidnight(t *testing.T) {
 	in := time.Date(2015, 8, 11, 1, 2, 3, 4, time.UTC)
 	want := time.Date(2015, 8, 11, 0, 0, 0, 0, time.UTC)
