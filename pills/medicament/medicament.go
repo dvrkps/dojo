@@ -12,18 +12,18 @@ import (
 type Medicament struct {
 	refill
 	Name string
-	Dosage
+	dosage
 	expire
 }
 
 // String returns medicament string representation.
 func (m Medicament) String() string {
-	return fmt.Sprintf("%3d   %6s %3s   %s [%s]",
+	return fmt.Sprintf("%3d   %6s %3s   %s %v",
 		m.DaysToExpire,
 		m.ExpireDate.Format("2.1."),
 		m.ExpireDate.Format("Mon"),
 		m.Name,
-		m.Dosage)
+		m.dosage)
 }
 
 // Compare compares medicaments by days to expiration.
@@ -69,10 +69,10 @@ func New(date time.Time, in []byte) (Medicament, error) {
 		return empty, fmt.Errorf("medicament: %s", err)
 	}
 
-	m.Dosage = d
+	m.dosage = d
 
 	// expire
-	e := newExpire(date, r, d.ratio)
+	e := newExpire(date, r, d.ratio())
 	m.expire = e
 
 	return m, nil

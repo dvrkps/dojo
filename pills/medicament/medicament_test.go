@@ -18,18 +18,15 @@ func fakeDate(y, m, d int) time.Time {
 
 func TestMedicament_String(t *testing.T) {
 	m := Medicament{
-		Name: "abc",
-		Dosage: Dosage{
-			doses: []float64{0, 1},
-			ratio: float64(0.5),
-		},
+		Name:   "abc",
+		dosage: dosage{0, 1},
 		expire: expire{
 			ExpireDate:   fakeDate(2015, 3, 1),
 			DaysToExpire: 0,
 		},
 	}
 
-	want := "  0     1.3. Sun   abc [- 1]"
+	want := "  0     1.3. Sun   abc [0 1]"
 	if got := m.String(); got != want {
 		t.Errorf("String() = %v; want %v", got, want)
 	}
@@ -78,11 +75,8 @@ func TestNew(t *testing.T) {
 			Date:     fakeDate(2015, 2, 24),
 			Quantity: 12,
 		},
-		Name: "abc",
-		Dosage: Dosage{
-			doses: []float64{0, 1},
-			ratio: float64(0.5),
-		},
+		Name:   "abc",
+		dosage: dosage{0, 1},
 		expire: expire{
 			ExpireDate:   fakeDate(2015, 3, 20),
 			DaysToExpire: 19,
