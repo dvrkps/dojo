@@ -23,18 +23,12 @@ func fakeFileContent() io.Reader {
 	return bytes.NewReader(c)
 }
 
-func TestMidnight(t *testing.T) {
-	in := time.Date(2015, 8, 11, 1, 2, 3, 4, time.UTC)
-	want := time.Date(2015, 8, 11, 0, 0, 0, 0, time.UTC)
-
-	if got := midnight(in); got != want {
-		t.Errorf("midnight(%v) = %v, want %v", in, got, want)
-	}
+func testDate() time.Time {
+	return time.Date(2015, 8, 11, 0, 0, 0, 0, time.UTC)
 }
 
 func TestParseFile(t *testing.T) {
-	date := midnight(time.Date(2015, 8, 11, 1, 2, 3, 4, time.UTC))
-	d, err := parseFile(fakeFileContent(), date)
+	d, err := parseFile(fakeFileContent(), testDate())
 	size := len(*d)
 
 	if size != 11 || err != nil {
@@ -42,7 +36,7 @@ func TestParseFile(t *testing.T) {
 	}
 
 	s := bytes.NewReader([]byte(""))
-	d, err = parseFile(s, date)
+	d, err = parseFile(s, testDate())
 	size = len(*d)
 
 	if size != 0 || err != nil {
@@ -51,13 +45,12 @@ func TestParseFile(t *testing.T) {
 }
 
 func TestParseFileCommentedLine(t *testing.T) {
-	date := midnight(time.Date(2015, 8, 11, 1, 2, 3, 4, time.UTC))
 	fileContent := []byte(`// 2015-02-28,62,Cardiopirin 100 mg,1
 2015-02-28,73,Carvelol 12.5 mg,2
 //2015-02-28,73,Carvelol 12.5 mg,2
  //2015-02-28,27,Dualtis 1000 mg,1`)
 	s := bytes.NewReader(fileContent)
-	d, err := parseFile(s, date)
+	d, err := parseFile(s, testDate())
 	size := len(*d)
 
 	if size != 1 || err != nil {

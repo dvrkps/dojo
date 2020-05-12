@@ -45,16 +45,11 @@ func main() {
 		}
 	}
 
-	pills, err := openFile(path, midnight(time.Now()))
+	pills, err := openFile(path, time.Now())
 	if err != nil {
 		log.Printf("pills: %v", err)
 		os.Exit(exitErr)
 	}
 
 	fmt.Println(pills)
-}
-
-// midnight returns date with zeroed time.
-func midnight(t time.Time) time.Time {
-	return time.Date(t.Year(), t.Month(), t.Day(), 0, 0, 0, 0, time.UTC)
 }
