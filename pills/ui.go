@@ -113,6 +113,7 @@ func parseFile(r io.Reader, date time.Time) (*Data, error) {
 	s := bufio.NewScanner(r)
 
 	var d Data
+
 	var err error
 
 	for s.Scan() {

@@ -22,7 +22,7 @@ func fakePills() [][]byte {
 		[]byte("2015-02-28,27,Dualtis 1000 mg,1"),
 		[]byte("2015-02-14,33,Fursemid 40 mg,0,1,0,0,0,1,0"),
 		[]byte("2015-02-28,89,Gluformin 850 mg,3"),
-		[]byte("2015-02-01,22,Kalinor,q,0,q,0,q,0,q"),
+		[]byte("2015-02-01,22,Kalinor,0.25,0,0.25,0,0.25,0,0.25"),
 		[]byte("2015-02-28,36,Lotar 50 mg,1"),
 		[]byte("2015-02-28,92,Preductal MR 35 mg,2"),
 		[]byte("2015-02-28,61,Statex 40 mg,1"),
@@ -36,6 +36,7 @@ func TestDataAdd(t *testing.T) {
 	today := fakeDate(2015, 3, 1)
 	f := fakePills()
 	d := Data{}
+
 	var err error
 
 	for _, p := range f {
@@ -51,6 +52,7 @@ func TestDataAdd(t *testing.T) {
 
 	// invalid pill
 	d = Data{}
+
 	_, err = d.Add([]byte(""), today)
 	if err == nil {
 		t.Fatal("add empty pill must be error")
@@ -61,6 +63,7 @@ func TestDataString(t *testing.T) {
 	today := fakeDate(2015, 3, 1)
 	f := fakePills()
 	d := Data{}
+
 	var err error
 
 	for _, p := range f {
@@ -70,7 +73,7 @@ func TestDataString(t *testing.T) {
 		}
 	}
 
-	want := 451
+	want := 463
 	if got := len(d.String()); got != want {
 		t.Errorf("len(String()) = %v, want %v", got, want)
 	}
@@ -80,6 +83,7 @@ func TestSortData(t *testing.T) {
 	today := fakeDate(2015, 3, 1)
 	f := fakePills()
 	d := Data{}
+
 	var err error
 
 	for _, p := range f {

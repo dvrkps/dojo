@@ -14,7 +14,7 @@ func fakeFileContent() io.Reader {
 2015-02-28,27,Dualtis 1000 mg,1
 2015-02-14,33,Fursemid 40 mg,0,1,0,0,0,1,0
 2015-02-28,89,Gluformin 850 mg,3
-2015-02-01,22,Kalinor,q,0,q,0,q,0,q
+2015-02-01,22,Kalinor,0.25,0,0.25,0,0.25,0,0.25
 2015-02-28,36,Lotar 50 mg,1
 2015-02-28,92,Preductal MR 35 mg,2
 2015-02-28,61,Statex 40 mg,1
