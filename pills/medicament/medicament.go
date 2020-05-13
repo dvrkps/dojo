@@ -26,11 +26,6 @@ func (m Medicament) String() string {
 		m.dosage)
 }
 
-// Compare compares medicaments by days to expiration.
-func Compare(m1, m2 Medicament) bool {
-	return m1.DaysToExpire < m2.DaysToExpire
-}
-
 // midnight returns date with zeroed time.
 func midnight(t time.Time) time.Time {
 	return time.Date(t.Year(), t.Month(), t.Day(), 0, 0, 0, 0, time.UTC)

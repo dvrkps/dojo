@@ -32,32 +32,6 @@ func TestMedicament_String(t *testing.T) {
 	}
 }
 
-func TestCompare(t *testing.T) {
-	a := Medicament{
-		expire: expire{
-			DaysToExpire: 10,
-		},
-	}
-
-	b := Medicament{
-		expire: expire{
-			DaysToExpire: 12,
-		},
-	}
-
-	if got, want := Compare(a, b), true; got != want {
-		t.Errorf("Compare(m1 < m2) = %v; want %v", got, want)
-	}
-
-	if got, want := Compare(b, a), false; got != want {
-		t.Errorf("Compare(m1 > m2) = %v; want %v", got, want)
-	}
-
-	if got, want := Compare(a, a), false; got != want {
-		t.Errorf("Compare(m1 == m2) = %v; want %v", got, want)
-	}
-}
-
 func TestMidnight(t *testing.T) {
 	in := time.Date(2015, 9, 29, 1, 2, 3, 4, time.UTC)
 	want := time.Date(2015, 9, 29, 0, 0, 0, 0, time.UTC)
