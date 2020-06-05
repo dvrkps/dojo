@@ -4,7 +4,6 @@ package pharma
 import (
 	"bufio"
 	"bytes"
-	"fmt"
 	"io"
 	"strings"
 	"time"
@@ -12,59 +11,41 @@ import (
 	"github.com/dvrkps/dojo/pills/medicament"
 )
 
-// All holds pills.
-type All struct {
-	pills []medicament.Medicament
-}
+// All parses pills from file.
+func All(r io.Reader, t time.Time) ([]medicament.Medicament, error) {
+	s := bufio.NewScanner(r)
 
-// NewAll parses pills from file.
-func NewAll(r io.Reader, t time.Time) (*All, error) {
-	var all All
-	err := all.scan(r, t)
-	if err != nil {
-		return nil, err
+	const commentPrefix = "//"
+
+	var all []medicament.Medicament
+
+	for s.Scan() {
+		b := s.Bytes()
+
+		if bytes.HasPrefix(b, []byte(commentPrefix)) {
+			continue
+		}
+
+		m, err := medicament.New(t, b)
+		if err != nil {
+			return nil, err
+		}
+
+		all = append(all, m)
 	}
-	return &all, nil
+
+	return all, s.Err()
 }
 
-// String returns all pills string representation.
-func (a *All) String() string {
-	s := make([]string, len(a.pills))
+// Display show all pills.
+func Display(all []medicament.Medicament) string {
+	s := make([]string, len(all))
 
-	for i := range a.pills {
-		s[i] = a.pills[i].String()
+	for i := range all {
+		s[i] = all[i].String()
 	}
 
 	const newline = "\n"
 
 	return strings.Join(s, newline) + newline
-}
-
-func (a *All) scan(r io.Reader, t time.Time) error {
-	s := bufio.NewScanner(r)
-
-	const commentPrefix = "//"
-
-	for s.Scan() {
-		if bytes.HasPrefix(s.Bytes(), []byte(commentPrefix)) {
-			continue
-		}
-
-		if err := a.add(s.Bytes(), t); err != nil {
-			return err
-		}
-	}
-
-	return s.Err()
-}
-
-func (a *All) add(in []byte, t time.Time) error {
-	m, err := medicament.New(t, in)
-	if err != nil {
-		return fmt.Errorf("add: %v", err)
-	}
-
-	a.pills = append(a.pills, m)
-
-	return nil
 }

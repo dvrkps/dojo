@@ -7,17 +7,18 @@ import (
 	"time"
 )
 
-func TestNewAll(t *testing.T) {
+func TestAll(t *testing.T) {
 	today := time.Date(2020, 6, 8, 1, 2, 3, 4, time.UTC)
-	all, err := NewAll(fakeFileContent(), today)
+	all, err := All(fakeFileContent(), today)
 	if err != nil {
 		t.Fatalf("err: %v", err)
 	}
-	got := len(all.pills)
+	got := len(all)
 	const want = 3
 	if got != want {
 		t.Errorf("len got %v; want %v", got, want)
 	}
+
 }
 
 func fakeFileContent() io.Reader {
