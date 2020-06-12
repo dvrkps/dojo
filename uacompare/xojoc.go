@@ -1,7 +1,7 @@
 package main
 
 import (
-	xojocPkg "xojoc.pw/useragent"
+	xojocPkg "github.com/xojoc/useragent"
 )
 
 const xojocName = "xojoc"
