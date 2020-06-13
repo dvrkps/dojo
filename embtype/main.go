@@ -3,13 +3,13 @@ package embtype
 import "fmt"
 
 type point struct {
-	X int
-	Y int
+	X int `json:"x"`
+	Y int `json:"y"`
 }
 
 type namedPoint struct {
 	point
-	Name string
+	Name string `json:"name"`
 }
 
 func newNamedPoint(name string, x, y int) namedPoint {
