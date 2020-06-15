@@ -23,9 +23,11 @@ func NewArea(m2, ral, chv float64) (*Area, error) {
 	a.add(m2Kind, m2)
 	a.add(ralKind, ral)
 	a.add(chvKind, chv)
+
 	if a.err != nil {
 		return nil, a.err
 	}
+
 	return &a, nil
 }
 
@@ -34,11 +36,14 @@ func (a *Area) String() string {
 	m2 := a.value
 	ral := math.Floor(m2 / oneRal)
 	d := m2 - math.Ceil(ral*oneRal)
+
 	var chv float64
 	if d >= oneChv {
 		chv = math.Ceil(d / oneChv)
 	}
+
 	const rowFmt = "%v m2 = %v ral, %v chv"
+
 	return fmt.Sprintf(rowFmt, m2, ral, chv)
 }
 
@@ -53,10 +58,12 @@ func (a *Area) add(kind string, value float64) {
 	if a.err != nil {
 		return
 	}
+
 	if value < 0 {
 		a.err = fmt.Errorf("%v < 0", kind)
 		return
 	}
+
 	switch kind {
 	case m2Kind:
 		a.value += value
@@ -66,5 +73,6 @@ func (a *Area) add(kind string, value float64) {
 	case chvKind:
 		value *= oneChv
 	}
+
 	a.add("m2", value)
 }

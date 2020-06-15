@@ -58,7 +58,7 @@ func testCases() []testCase {
 		{
 			name: "flag < 0",
 			args: "cmd -m2 -1",
-			exit: exitErr,
+			exit: exitUser,
 		},
 		{
 			name: "empty flags",
@@ -91,5 +91,6 @@ func testCases() []testCase {
 			want: "12121 m2 = 2 ral, 170 chv",
 		},
 	}
+
 	return tests
 }

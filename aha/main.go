@@ -13,7 +13,6 @@ func main() {
 
 const (
 	exitOk   = 0
-	exitErr  = 1
 	exitUser = 2
 )
 
@@ -30,15 +29,17 @@ func run(args []string, stdout, stderr io.Writer) int {
 	if cf.version {
 		name := path.Base(args[0])
 		lgr.Printf("%s v%s", name, commandVersion)
+
 		return exitOk
 	}
 
 	area, err := NewArea(cf.m2, cf.ral, cf.chv)
 	if err != nil {
 		lgr.Printf("area: %v", err)
-		return exitErr
+		return exitUser
 	}
 
 	out.Printf("%v", area)
+
 	return exitOk
 }
