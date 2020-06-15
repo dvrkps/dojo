@@ -2,10 +2,9 @@ package main
 
 import (
 	"io"
+	"log"
 	"os"
 	"path"
-
-	"github.com/dvrkps/dojo/aha/log"
 )
 
 func main() {
@@ -24,20 +23,22 @@ func run(args []string, stdout, stderr io.Writer) int {
 		return exitUser
 	}
 
-	lgr := log.New(stdout, stderr)
+	lgr := log.New(stderr, "", 0)
+
+	out := log.New(stdout, "", 0)
 
 	if cf.version {
 		name := path.Base(args[0])
-		lgr.Logf("%s v%s", name, commandVersion)
+		lgr.Printf("%s v%s", name, commandVersion)
 		return exitOk
 	}
 
 	area, err := NewArea(cf.m2, cf.ral, cf.chv)
 	if err != nil {
-		lgr.Errorf("area: %v", err)
+		lgr.Printf("area: %v", err)
 		return exitErr
 	}
 
-	lgr.Logf("%v", area)
+	out.Printf("%v", area)
 	return exitOk
 }
