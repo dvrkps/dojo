@@ -7,9 +7,11 @@ import (
 )
 
 func TestRun(t *testing.T) {
+	t.Parallel()
 	for _, tt := range testCases() {
 		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
 			var (
 				stdout bytes.Buffer
 				stderr bytes.Buffer
