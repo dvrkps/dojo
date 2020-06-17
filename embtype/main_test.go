@@ -9,6 +9,7 @@ import (
 func TestNamedPoint(t *testing.T) {
 	got := newNamedPoint("one", 1, 2)
 	want := "one x:1 y:2"
+
 	if got.String() != want {
 		t.Fatalf("got %q; want %q", got, want)
 	}
