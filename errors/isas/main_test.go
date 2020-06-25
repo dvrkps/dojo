@@ -39,3 +39,17 @@ func TestIsSentinelError(t *testing.T) {
 		t.Fatalf("not sentinel error")
 	}
 }
+
+func TestAsSubError(t *testing.T) {
+	fn := func() error {
+		return &myError{err: &subError{err: sentinelError}}
+	}
+
+	err := fn()
+
+	var serr *subError
+
+	if !errors.As(err, &serr) {
+		t.Fatalf("not sub error")
+	}
+}
