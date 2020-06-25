@@ -16,9 +16,25 @@ func (e *myError) Error() string {
 		return fmt.Sprintf("my: %v", e.err)
 	}
 
-	return "e: error"
+	return "my error"
 }
 
 func (e *myError) Unwrap() error {
+	return e.err
+}
+
+type subError struct {
+	err error
+}
+
+func (e *subError) Error() string {
+	if e.err != nil {
+		return fmt.Sprintf("sub: %v", e.err)
+	}
+
+	return "sub error"
+}
+
+func (e *subError) Unwrap() error {
 	return e.err
 }

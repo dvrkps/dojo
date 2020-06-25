@@ -8,7 +8,7 @@ import (
 
 func TestIsSentinelError(t *testing.T) {
 	fn := func() error {
-		return &myError{err: &myError{err: sentinelError}}
+		return &myError{err: &subError{err: sentinelError}}
 	}
 
 	err := fn()
@@ -19,7 +19,7 @@ func TestIsSentinelError(t *testing.T) {
 
 	got := fmt.Sprintf("%v", err)
 
-	const want = "my: my: sentinel error"
+	const want = "my: sub: sentinel error"
 
 	if got != want {
 		t.Fatalf("got %q; want %q", got, want)
