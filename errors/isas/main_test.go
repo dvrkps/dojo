@@ -2,9 +2,31 @@ package isas
 
 import (
 	"errors"
-	"fmt"
 	"testing"
 )
+
+func TestErrorMessages(t *testing.T) {
+	tests := []struct {
+		name string
+		err  error
+		want string
+	}{
+		{name: "myError", err: &myError{}, want: "my error"},
+		{name: "subError", err: &subError{}, want: "sub error"},
+		{name: "myError{subError{sentinelError}}",
+			err:  &myError{err: &subError{err: sentinelError}},
+			want: "my: sub: sentinel error"},
+	}
+	for _, tt := range tests {
+		tt := tt
+		t.Run(tt.name, func(t *testing.T) {
+			got := tt.err.Error()
+			if got != tt.want {
+				t.Fatalf("got %q; want %q", got, tt.want)
+			}
+		})
+	}
+}
 
 func TestIsSentinelError(t *testing.T) {
 	fn := func() error {
@@ -15,13 +37,5 @@ func TestIsSentinelError(t *testing.T) {
 
 	if !errors.Is(err, sentinelError) {
 		t.Fatalf("not sentinel error")
-	}
-
-	got := fmt.Sprintf("%v", err)
-
-	const want = "my: sub: sentinel error"
-
-	if got != want {
-		t.Fatalf("got %q; want %q", got, want)
 	}
 }
