@@ -29,23 +29,19 @@ func TestErrorMessages(t *testing.T) {
 }
 
 func TestIsSentinelError(t *testing.T) {
-	fn := func() error {
-		return &myError{err: &subError{err: sentinelError}}
-	}
-
-	err := fn()
+	err := testFunction()
 
 	if !errors.Is(err, sentinelError) {
 		t.Fatalf("not sentinel error")
 	}
 }
 
-func TestAsSubError(t *testing.T) {
-	fn := func() error {
-		return &myError{err: &subError{err: sentinelError}}
-	}
+func testFunction() error {
+	return &myError{err: &subError{err: sentinelError}}
+}
 
-	err := fn()
+func TestAsSubError(t *testing.T) {
+	err := testFunction()
 
 	var serr *subError
 
