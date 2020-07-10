@@ -20,6 +20,11 @@ func New(w io.Writer, prefix string) Log {
 	return l
 }
 
+// SetVerbose sets log verbosity.
+func (l *Log) SetVerbose(verbose bool) {
+	l.verbose = verbose
+}
+
 // F logs formatted message.
 func (l *Log) F(format string, v ...interface{}) {
 	l.logf(format, v...)
