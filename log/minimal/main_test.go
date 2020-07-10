@@ -2,18 +2,31 @@ package minimal
 
 import (
 	"bytes"
+	"fmt"
+	"io"
 	"testing"
 )
 
 func TestLog(t *testing.T) {
 	tests := []struct {
 		name    string
+		buffer  io.Writer
 		verbose bool
 		action  func(log *Log)
 		want    string
 	}{
 		{
+			name:    "nil",
+			buffer:  nil,
+			verbose: false,
+			action: func(log *Log) {
+				log.F("F %v", 42)
+			},
+			want: "",
+		},
+		{
 			name:    "F",
+			buffer:  &bytes.Buffer{},
 			verbose: false,
 			action: func(log *Log) {
 				log.F("F %v", 42)
@@ -22,6 +35,7 @@ func TestLog(t *testing.T) {
 		},
 		{
 			name:    "Vf verbose",
+			buffer:  &bytes.Buffer{},
 			verbose: true,
 			action: func(log *Log) {
 				log.Vf("Vf verbose %v", 42)
@@ -30,27 +44,25 @@ func TestLog(t *testing.T) {
 		},
 		{
 			name:    "Vf",
+			buffer:  &bytes.Buffer{},
 			verbose: false,
 			action: func(log *Log) {
-				log.Debugf("Vf %v", 42)
+				log.Vf("Vf %v", 42)
 			},
 			want: "",
 		},
 	}
 	for _, tt := range tests {
-		log, buf := testLogSetup(tt.verbose)
-		tt.action(log)
-		got := buf.String()
-		if got != tt.want {
-			t.Errorf("%s: = %q; want %q",
-				tt.name, got, tt.want)
+		lgr := New(tt.buffer, "prefix: ")
+		lgr.SetVerbose(tt.verbose)
+		tt.action(&lgr)
+		buf, ok := tt.buffer.(fmt.Stringer)
+		if ok {
+			got := buf.String()
+			if got != tt.want {
+				t.Errorf("%s: = %q; want %q",
+					tt.name, got, tt.want)
+			}
 		}
 	}
-}
-
-func testLogSetup(verbose bool) (*Log, *bytes.Buffer) {
-	var buf = &bytes.Buffer{}
-	l := New(buf, "prefix")
-	l.SetVerbose(verbose)
-	return l, buf
 }
