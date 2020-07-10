@@ -19,3 +19,23 @@ func New(w io.Writer, prefix string) Log {
 	}
 	return l
 }
+
+// F logs formatted message.
+func (l *Log) F(format string, v ...interface{}) {
+	l.logf(format, v...)
+}
+
+// Vf logs formatted verbose message.
+func (l *Log) Vf(format string, v ...interface{}) {
+	if !l.verbose {
+		return
+	}
+	l.logf(format, v...)
+}
+
+func (l *Log) logf(format string, v ...interface{}) {
+	if l.output == nil {
+		return
+	}
+	l.output.Printf(format, v...)
+}
