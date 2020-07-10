@@ -57,6 +57,7 @@ func TestLog(t *testing.T) {
 		lgr.SetVerbose(tt.verbose)
 		tt.action(&lgr)
 		buf, ok := tt.buffer.(fmt.Stringer)
+
 		if ok {
 			got := buf.String()
 			if got != tt.want {

@@ -17,6 +17,7 @@ func New(w io.Writer, prefix string) Log {
 	if w != nil {
 		l.output = log.New(w, prefix, 0)
 	}
+
 	return l
 }
 
@@ -35,6 +36,7 @@ func (l *Log) Vf(format string, v ...interface{}) {
 	if !l.verbose {
 		return
 	}
+
 	l.logf(format, v...)
 }
 
@@ -42,5 +44,6 @@ func (l *Log) logf(format string, v ...interface{}) {
 	if l.output == nil {
 		return
 	}
+
 	l.output.Printf(format, v...)
 }
