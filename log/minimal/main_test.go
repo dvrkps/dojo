@@ -1,6 +1,9 @@
 package minimal
 
-import "testing"
+import (
+	"bytes"
+	"testing"
+)
 
 func TestLog(t *testing.T) {
 	tests := []struct {
@@ -15,7 +18,7 @@ func TestLog(t *testing.T) {
 			action: func(log *Log) {
 				log.F("F %v", 42)
 			},
-			want: "F 42\n",
+			want: "prefix: F 42\n",
 		},
 		{
 			name:    "Vf verbose",
@@ -23,7 +26,7 @@ func TestLog(t *testing.T) {
 			action: func(log *Log) {
 				log.Vf("Vf verbose %v", 42)
 			},
-			want: "Vf verbose 42\n",
+			want: "prefix: Vf verbose 42\n",
 		},
 		{
 			name:    "Vf",
@@ -43,4 +46,11 @@ func TestLog(t *testing.T) {
 				tt.name, got, tt.want)
 		}
 	}
+}
+
+func testLogSetup(verbose bool) (*Log, *bytes.Buffer) {
+	var buf = &bytes.Buffer{}
+	l := New(buf, "prefix")
+	l.SetVerbose(verbose)
+	return l, buf
 }
