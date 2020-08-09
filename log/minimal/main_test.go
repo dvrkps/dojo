@@ -20,18 +20,18 @@ func TestLog(t *testing.T) {
 			buffer:  nil,
 			verbose: false,
 			action: func(log *Log) {
-				log.F("F %v", 42)
+				log.Lf("Lf %v", 42)
 			},
 			want: "",
 		},
 		{
-			name:    "F",
+			name:    "Lf",
 			buffer:  &bytes.Buffer{},
 			verbose: false,
 			action: func(log *Log) {
-				log.F("F %v", 42)
+				log.Lf("Lf %v", 42)
 			},
-			want: "prefix: F 42\n",
+			want: "prefix: Lf 42\n",
 		},
 		{
 			name:    "Vf verbose",

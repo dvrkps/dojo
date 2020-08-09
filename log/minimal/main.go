@@ -26,8 +26,8 @@ func (l *Log) SetVerbose(verbose bool) {
 	l.verbose = verbose
 }
 
-// F logs formatted message.
-func (l *Log) F(format string, v ...interface{}) {
+// Lf logs formatted message.
+func (l *Log) Lf(format string, v ...interface{}) {
 	l.logf(format, v...)
 }
 
