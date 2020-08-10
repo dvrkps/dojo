@@ -3,9 +3,10 @@ package main
 import (
 	"flag"
 	"fmt"
-	"log"
 	"os"
 	"time"
+
+	"github.com/dvrkps/dojo/pills/internal/log"
 )
 
 // Version is command version.
@@ -24,7 +25,7 @@ func main() {
 		return
 	}
 
-	log := log.New(os.Stderr, "", 0)
+	log := log.New(os.Stderr, "pills: ")
 
 	const (
 		exitErr  = 1
