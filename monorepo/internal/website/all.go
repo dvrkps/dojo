@@ -13,8 +13,9 @@ func All() (map[string]*monorepo.Website, error) {
 		bbccom.New(),
 		timecom.New(),
 	}
+
 	all := make(map[string]*monorepo.Website, len(ws))
-	for _, w := range all {
+	for _, w := range ws {
 		if _, ok := all[w.Key]; ok {
 			return nil, fmt.Errorf("duplicate key: %q", w.Key)
 		}
