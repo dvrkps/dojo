@@ -9,7 +9,7 @@ import (
 // New creates website.
 func New() *monorepo.Website {
 	return &monorepo.Website{
-		Key:   "bbc_com",
+		Key:   "time_com",
 		Index: index,
 		Parse: parse,
 	}
