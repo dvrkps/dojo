@@ -2,10 +2,22 @@ package main
 
 import (
 	"fmt"
-	"os"
-	"path"
+
+	"github.com/dvrkps/dojo/monorepo/internal/website"
 )
 
 func main() {
-	fmt.Println(path.Base(os.Args[0]))
+	ws, err := website.All()
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	for _, w := range ws {
+		r, err := w.Index(w)
+		if err != nil {
+			fmt.Printf("index: %v\n", err)
+			continue
+		}
+		fmt.Printf("%v: %v\n", w.Key, r)
+	}
 }
