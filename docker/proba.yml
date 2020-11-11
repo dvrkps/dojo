@@ -1,0 +1,15 @@
+version: "3.8"
+services:
+  a:
+    image: proba:1
+    restart: always
+    command: a
+  b:
+    image: proba:1
+    restart: always
+    command: b
+  c:
+    image: proba:1
+    restart: always
+    command: c
+

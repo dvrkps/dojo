@@ -1,0 +1,9 @@
+FROM golang:alpine AS build
+WORKDIR /app
+COPY main.go .
+RUN GO111MODULE=on CGO_ENABLED=0 go build -tags netgo -o hello main.go
+
+FROM scratch
+COPY --from=build /app/hello .
+CMD ["./hello"]
+
