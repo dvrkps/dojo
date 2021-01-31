@@ -6,7 +6,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/dvrkps/dojo/pills/medicament"
+	"github.com/dvrkps/dojo/pills/legacy/medicament"
 )
 
 // Data holds pills data.

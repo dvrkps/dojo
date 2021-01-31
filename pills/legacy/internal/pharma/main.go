@@ -8,7 +8,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/dvrkps/dojo/pills/medicament"
+	"github.com/dvrkps/dojo/pills/legacy/medicament"
 )
 
 // All parses pills from file.

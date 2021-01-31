@@ -6,7 +6,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/dvrkps/dojo/pills/internal/log"
+	"github.com/dvrkps/dojo/pills/legacy/internal/log"
 )
 
 // Version is command version.
