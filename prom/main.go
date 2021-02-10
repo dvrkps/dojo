@@ -11,15 +11,15 @@ import (
 )
 
 func main() {
-	dojoRestarts, err := startCounterVec("dojo_restarts_total", "Number of restarts", []string{"instance"})
+	dojoRestarts, err := startCounterVec("dojo_restarts_total", "Number of restarts", []string{"service"})
 	if err != nil {
 		log.Printf("start: %v", err)
 		return
 	}
 
-	go startInstance("one", dojoRestarts)
+	go startService("one", dojoRestarts)
 
-	go startInstance("two", dojoRestarts)
+	go startService("two", dojoRestarts)
 
 	http.Handle("/metrics", promhttp.Handler())
 	log.Fatal(http.ListenAndServe(":8080", nil))
@@ -42,7 +42,7 @@ func startCounterVec(name, help string, labels []string) (*prometheus.CounterVec
 	return cv, nil
 }
 
-func startInstance(name string, restarts *prometheus.CounterVec) {
+func startService(name string, restarts *prometheus.CounterVec) {
 	for {
 		done := make(chan struct{})
 		t := time.NewTimer(1 * time.Minute)
