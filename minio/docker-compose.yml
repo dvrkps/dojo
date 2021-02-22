@@ -21,6 +21,9 @@ services:
     environment:
       MINIO_ACCESS_KEY: accessKey
       MINIO_SECRET_KEY: secretKey
+      MINIO_COMPRESS: "on"
+      MINIO_COMPRESS_EXTENSIONS: ""
+      MINIO_COMPRESS_MIME_TYPES: ""
     volumes:
       - ./data2:/data2
     ports:
