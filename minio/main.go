@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"time"
 
 	"github.com/minio/minio-go/v7"
 	"github.com/minio/minio-go/v7/pkg/credentials"
@@ -36,10 +35,7 @@ func main() {
 		return
 	}
 
-	now := time.Now().UTC()
-	filename := now.Format("20060102150405")
-
-	bi, err := putObject(base, content, filename)
+	bi, err := putObject(base, content)
 	if err != nil {
 		log.Printf("base put: %v", err)
 		return
@@ -47,7 +43,7 @@ func main() {
 
 	println("base: ", bi.Size)
 
-	ti, err := putObject(tiny, content, filename)
+	ti, err := putObject(tiny, content)
 	if err != nil {
 		log.Printf("tiny put: %v", err)
 		return
@@ -97,7 +93,9 @@ func createBucketIfNotExists(c *minio.Client) error {
 	return nil
 }
 
-func putObject(c *minio.Client, content []byte, filename string) (minio.UploadInfo, error) {
+func putObject(c *minio.Client, content []byte) (minio.UploadInfo, error) {
+	const filename = "file.txt"
+
 	size := int64(len(content))
 	r := bytes.NewReader(content)
 
