@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"os"
 	"time"
 
 	"github.com/minio/minio-go/v7"
@@ -27,6 +28,14 @@ func main() {
 		log.Printf("tiny: %v", err)
 		return
 	}
+
+	content, err := os.ReadFile("tomsawyer.txt")
+	if err != nil {
+		log.Printf("content: %v", err)
+		return
+	}
+
+	_ = content
 
 	now := time.Now().UTC()
 	filename := now.Format("20060102150405")
