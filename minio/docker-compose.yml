@@ -9,6 +9,7 @@ services:
     environment:
       MINIO_ACCESS_KEY: accessKey
       MINIO_SECRET_KEY: secretKey
+      MINIO_PROMETHEUS_AUTH_TYPE: public
     volumes:
       - ./data1:/data1
     ports:
@@ -24,6 +25,7 @@ services:
       MINIO_COMPRESS: "on"
       MINIO_COMPRESS_EXTENSIONS: ""
       MINIO_COMPRESS_MIME_TYPES: ""
+      MINIO_PROMETHEUS_AUTH_TYPE: public
     volumes:
       - ./data2:/data2
     ports:
