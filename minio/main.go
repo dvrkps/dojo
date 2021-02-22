@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"time"
 
 	"github.com/minio/minio-go/v7"
 	"github.com/minio/minio-go/v7/pkg/credentials"
@@ -26,6 +27,11 @@ func main() {
 		log.Printf("tiny: %v", err)
 		return
 	}
+
+	now := time.Now().UTC()
+	filename := now.Format("20060102150405")
+
+	_ = filename
 
 	_ = base
 	_ = tiny
