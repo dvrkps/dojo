@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"context"
 	"fmt"
 	"log"
@@ -35,15 +36,24 @@ func main() {
 		return
 	}
 
-	_ = content
-
 	now := time.Now().UTC()
 	filename := now.Format("20060102150405")
 
-	_ = filename
+	bi, err := putObject(base, content, filename)
+	if err != nil {
+		log.Printf("base put: %v", err)
+		return
+	}
 
-	_ = base
-	_ = tiny
+	println("base: ", bi.Size)
+
+	ti, err := putObject(tiny, content, filename)
+	if err != nil {
+		log.Printf("tiny put: %v", err)
+		return
+	}
+
+	println("tiny: ", ti.Size)
 }
 
 const (
@@ -85,4 +95,11 @@ func createBucketIfNotExists(c *minio.Client) error {
 	}
 
 	return nil
+}
+
+func putObject(c *minio.Client, content []byte, filename string) (minio.UploadInfo, error) {
+	size := int64(len(content))
+	r := bytes.NewReader(content)
+
+	return c.PutObject(context.Background(), bucketName, filename, r, size, minio.PutObjectOptions{})
 }
