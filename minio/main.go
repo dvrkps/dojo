@@ -47,23 +47,33 @@ func newMinioClient(address string) (*minio.Client, error) {
 		Creds:  credentials.NewStaticV4(minioAccess, minioSecret, ""),
 		Secure: false,
 	})
+
 	if err != nil {
 		return nil, err
 	}
 
-	const bucketName = "mybucket"
-
-	found, err := c.BucketExists(context.Background(), bucketName)
+	err = createBucketIfNotExists(c)
 	if err != nil {
 		return nil, fmt.Errorf("bucket: %v", err)
+	}
+
+	return c, nil
+}
+
+const bucketName = "mybucket"
+
+func createBucketIfNotExists(c *minio.Client) error {
+	found, err := c.BucketExists(context.Background(), bucketName)
+	if err != nil {
+		return fmt.Errorf("exists: %v", err)
 	}
 
 	if !found {
 		err = c.MakeBucket(context.Background(), bucketName, minio.MakeBucketOptions{})
 		if err != nil {
-			return nil, fmt.Errorf("bucket make: %v", err)
+			return fmt.Errorf("make: %v", err)
 		}
 	}
 
-	return c, nil
+	return nil
 }
