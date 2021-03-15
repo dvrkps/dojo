@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<yandex>
+    <profiles>
+        <default>
+            <log_queries>0</log_queries>
+        </default>
+    </profiles>
+    <users>
+        <default>
+            <password>dojopassword</password>
+        </default>
+    </users>
+</yandex>
