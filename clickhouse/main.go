@@ -2,30 +2,37 @@ package main
 
 import (
 	"database/sql"
-	"fmt"
 	"log"
 
-	"github.com/ClickHouse/clickhouse-go"
+	_ "github.com/ClickHouse/clickhouse-go"
 )
 
 func main() {
 	const dsn = "tcp://127.0.0.1:9000?" +
+		// "debug=true&" +
 		// "database=dojodb&" +
-		"password=dojopassword&" +
-		"debug=true"
+		"password=dojopassword"
 
-	connect, err := sql.Open("clickhouse", dsn)
+	db, err := sql.Open("clickhouse", dsn)
 	if err != nil {
-		log.Fatal(err)
-	}
-
-	if err := connect.Ping(); err != nil {
-		if exception, ok := err.(*clickhouse.Exception); ok {
-			fmt.Printf("[%d] %s \n%s\n", exception.Code, exception.Message, exception.StackTrace)
-		} else {
-			fmt.Println(err)
-		}
+		log.Printf("open: %v", err)
 		return
 	}
+
+	defer func() {
+		err := db.Close()
+		if err != nil {
+			log.Printf("close: %v", err)
+			return
+		}
+	}()
+
+	err = db.Ping()
+	if err != nil {
+		log.Printf("ping: %v", err)
+		return
+	}
+
+	println("done.")
 
 }
