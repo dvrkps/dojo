@@ -6,6 +6,8 @@ import (
 	"errors"
 	"fmt"
 
+	_ "embed"
+
 	_ "github.com/ClickHouse/clickhouse-go"
 )
 
@@ -38,14 +40,15 @@ func (c *Client) Close() error {
 	return c.db.Close()
 }
 
-func (c *Client) CreateIfNotExists() error {
+//go:embed init.sql
+var initSQL string
+
+func (c *Client) CreateIfNotExists(ctx context.Context) error {
 	if c.db == nil {
 		return errors.New("nil db")
 	}
 
-	const createDatabase = "CREATE DATABASE IF NOT EXISTS dojodb"
-
-	_, err := c.db.Exec(createDatabase)
+	_, err := c.db.ExecContext(ctx, initSQL)
 
 	return err
 }
