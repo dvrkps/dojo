@@ -21,6 +21,6 @@ func NewClient(dsn string) (*Client, error) {
 	return &Client{db: db}, nil
 }
 
-func (c *Client) PingContext(ctx context.Context) error {
+func (c *Client) Ping(ctx context.Context) error {
 	return c.db.PingContext(ctx)
 }
