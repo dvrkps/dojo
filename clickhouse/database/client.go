@@ -3,6 +3,7 @@ package database
 import (
 	"context"
 	"database/sql"
+	"errors"
 	"fmt"
 
 	_ "github.com/ClickHouse/clickhouse-go"
@@ -22,5 +23,17 @@ func NewClient(dsn string) (*Client, error) {
 }
 
 func (c *Client) Ping(ctx context.Context) error {
+	if c.db == nil {
+		return errors.New("nil db")
+	}
+
 	return c.db.PingContext(ctx)
+}
+
+func (c *Client) Close() error {
+	if c.db == nil {
+		return errors.New("nil db")
+	}
+
+	return c.db.Close()
 }
