@@ -1,10 +1,12 @@
 package main
 
 import (
-	"database/sql"
+	"context"
 	"log"
+	"time"
 
 	_ "github.com/ClickHouse/clickhouse-go"
+	"github.com/dvrkps/dojo/clickhouse/database"
 )
 
 func main() {
@@ -13,30 +15,37 @@ func main() {
 		// "database=dojodb&" +
 		"password=dojopassword"
 
-	db, err := sql.Open("clickhouse", dsn)
+	c, err := database.NewClient(dsn)
+
 	if err != nil {
-		log.Printf("open: %v", err)
+		log.Printf("client new: %v", err)
 		return
 	}
 
 	defer func() {
-		err := db.Close()
+		err := c.Close()
 		if err != nil {
-			log.Printf("close: %v", err)
+			log.Printf("client close: %v", err)
 			return
 		}
 	}()
 
-	err = db.Ping()
+	const pingTimeout = 5 * time.Second
+
+	ctx, cancel := context.WithTimeout(context.Background(), pingTimeout)
+	defer cancel()
+
+	err = c.Ping(ctx)
 	if err != nil {
 		log.Printf("ping: %v", err)
 		return
 	}
 
+	err = c.CreateIfNotExists()
+	if err != nil {
+		log.Printf("create if not exists: %v", err)
+		return
+	}
+
 	println("done.")
-
-	const createDatabase = "CREATE DATABASE IF NOT EXISTS dojodb"
-
-	_, err = db.Exec(createDatabase)
-
 }
