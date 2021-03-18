@@ -6,8 +6,6 @@ import (
 	"errors"
 	"fmt"
 
-	_ "embed"
-
 	_ "github.com/ClickHouse/clickhouse-go"
 )
 
@@ -40,15 +38,27 @@ func (c *Client) Close() error {
 	return c.db.Close()
 }
 
-//go:embed init.sql
-var initSQL string
-
 func (c *Client) CreateIfNotExists(ctx context.Context) error {
 	if c.db == nil {
 		return errors.New("nil db")
 	}
 
-	_, err := c.db.ExecContext(ctx, initSQL)
+	const databaseQuery = "CREATE DATABASE IF NOT EXISTS dojodb"
+
+	_, err := c.db.ExecContext(ctx, databaseQuery)
+	if err != nil {
+		return fmt.Errorf("create database: %v", err)
+	}
+
+	const tableQuery = `CREATE TABLE IF NOT EXISTS dojodb.dojotable
+		(
+			uid String,
+			title String,
+			date DateTime
+		)
+		engine = MergeTree() PARTITION BY toYYYYMM(date) ORDER BY uid SETTINGS index_granularity = 8192;`
+
+	_, err = c.db.ExecContext(ctx, tableQuery)
 
 	return err
 }
