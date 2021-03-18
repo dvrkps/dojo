@@ -35,4 +35,8 @@ func main() {
 
 	println("done.")
 
+	const createDatabase = "CREATE DATABASE IF NOT EXISTS dojodb"
+
+	_, err = db.Exec(createDatabase)
+
 }
