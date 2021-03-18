@@ -37,3 +37,15 @@ func (c *Client) Close() error {
 
 	return c.db.Close()
 }
+
+func (c *Client) CreateIfNotExists() error {
+	if c.db == nil {
+		return errors.New("nil db")
+	}
+
+	const createDatabase = "CREATE DATABASE IF NOT EXISTS dojodb"
+
+	_, err := c.db.Exec(createDatabase)
+
+	return err
+}
