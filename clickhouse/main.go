@@ -41,10 +41,7 @@ func main() {
 		return
 	}
 
-	ctx2, cancel2 := context.WithTimeout(context.Background(), pingTimeout)
-	defer cancel2()
-
-	err = c.CreateIfNotExists(ctx2)
+	err = c.CreateIfNotExists(ctx)
 	if err != nil {
 		log.Printf("create if not exists: %v", err)
 		return
