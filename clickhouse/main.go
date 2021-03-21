@@ -47,5 +47,19 @@ func main() {
 		return
 	}
 
+	n := time.Now().UTC()
+
+	r := database.Row{
+		UID:   n.Format("20060102150405"),
+		Title: n.Format(time.RFC3339),
+		Date:  n,
+	}
+
+	err = c.InsertRow(ctx, r)
+	if err != nil {
+		log.Printf("insert row: %v", err)
+		return
+	}
+
 	println("done.")
 }
