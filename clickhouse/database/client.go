@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
+	"time"
 
 	_ "github.com/ClickHouse/clickhouse-go"
 )
@@ -61,4 +62,30 @@ func (c *Client) CreateIfNotExists(ctx context.Context) error {
 	_, err = c.db.ExecContext(ctx, tableQuery)
 
 	return err
+}
+
+type Row struct {
+	UID   string
+	Title string
+	Date  time.Time
+}
+
+func (c *Client) InsertRow(ctx context.Context, r Row) error {
+	if c.db == nil {
+		return errors.New("nil db")
+	}
+
+	tx, err := c.db.Begin()
+	if err != nil {
+		return fmt.Errorf("begin: %v", err)
+	}
+
+	const q = `INSERT INTO dojodb.dojotable (uid, title, date) VALUES (?, ?, ?)`
+
+	_, err = tx.ExecContext(ctx, q, r.UID, r.Title, r.Date)
+	if err != nil {
+		return fmt.Errorf("insert: %v", err)
+	}
+
+	return tx.Commit()
 }
