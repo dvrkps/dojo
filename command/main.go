@@ -19,15 +19,15 @@ func main() {
 		return
 	}
 
-	if c.Kind == OneCommand {
+	if c.Is(OneCommand) {
 		log.Println("k1")
 	}
 
-	if c.Kind == TwoCommand {
+	if c.Is(TwoCommand) {
 		log.Println("k2")
 	}
 
-	if c.Kind == ThreeCommand {
+	if c.Is(ThreeCommand) {
 		log.Println("k3")
 	}
 

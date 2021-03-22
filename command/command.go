@@ -2,7 +2,6 @@ package main
 
 import (
 	"errors"
-	"log"
 )
 
 func newCommand(args []string) (*Command, error) {
@@ -35,7 +34,7 @@ func newCommand(args []string) (*Command, error) {
 }
 
 type Command struct {
-	Kind int
+	kind int
 }
 
 const (
@@ -44,38 +43,6 @@ const (
 	ThreeCommand
 )
 
-func newOneCommand(c *Command) error {
-	log.SetPrefix("one: ")
-
-	if c == nil {
-		return errors.New("nil command")
-	}
-
-	c.Kind = OneCommand
-
-	return nil
-}
-
-func newTwoCommand(c *Command) error {
-	log.SetPrefix("two: ")
-
-	if c == nil {
-		return errors.New("nil command")
-	}
-
-	c.Kind = TwoCommand
-
-	return nil
-}
-
-func newThreeCommand(c *Command) error {
-	log.SetPrefix("three: ")
-
-	if c == nil {
-		return errors.New("nil command")
-	}
-
-	c.Kind = ThreeCommand
-
-	return nil
+func (c *Command) Is(kind int) bool {
+	return c.kind == kind
 }
