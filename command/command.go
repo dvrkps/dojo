@@ -7,7 +7,7 @@ import (
 )
 
 func newCommand(args []string) (*Command, error) {
-	const argsError = `use "build", "run" or "test".`
+	const argsError = `use "one", "two" or "three".`
 	if len(args) < 2 {
 		return nil, errors.New(argsError)
 	}
