@@ -2,14 +2,14 @@ package main
 
 import (
 	"errors"
-	"fmt"
 	"log"
 )
 
 func newCommand(args []string) (*Command, error) {
-	const argsError = `use "one", "two" or "three".`
+	var argsError = errors.New(`use "one", "two" or "three".`)
+
 	if len(args) < 2 {
-		return nil, errors.New(argsError)
+		return nil, argsError
 	}
 
 	var (
@@ -24,11 +24,11 @@ func newCommand(args []string) (*Command, error) {
 	case "three":
 		err = newThreeCommand(&c)
 	default:
-		err = errors.New(argsError)
+		err = argsError
 	}
 
 	if err != nil {
-		return nil, fmt.Errorf("command: %v", err)
+		return nil, err
 	}
 
 	return &c, nil

@@ -14,7 +14,7 @@ func main() {
 	c, err := newCommand(os.Args)
 
 	if err != nil {
-		log.Printf("new command: %v", err)
+		log.Printf("new: %v", err)
 
 		return
 	}
