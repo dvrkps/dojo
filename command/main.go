@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"log"
 	"os"
 )
@@ -31,7 +32,10 @@ func main() {
 		log.Println("k3")
 	}
 
-	err = c.Run(nil, c, os.Args[2:])
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	err = c.Run(ctx, c, os.Args[2:])
 	if err != nil {
 		log.Printf("run: %v", err)
 
