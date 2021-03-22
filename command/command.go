@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"errors"
 )
 
@@ -35,6 +36,7 @@ func newCommand(args []string) (*Command, error) {
 
 type Command struct {
 	kind int
+	Run  func(context.Context, *Command, []string) error
 }
 
 const (

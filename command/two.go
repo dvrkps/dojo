@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"errors"
 	"log"
 )
@@ -14,5 +15,12 @@ func newTwoCommand(c *Command) error {
 
 	c.kind = TwoCommand
 
+	c.Run = runThreeCommand
+
+	return nil
+}
+
+func runThreeCommand(ctx context.Context, c *Command, args []string) error {
+	log.Printf("run: args: %v", args)
 	return nil
 }
