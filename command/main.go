@@ -31,7 +31,7 @@ func main() {
 		log.Println("k3")
 	}
 
-	err = c.Run(nil, c, os.Args)
+	err = c.Run(nil, c, os.Args[2:])
 	if err != nil {
 		log.Printf("run: %v", err)
 
