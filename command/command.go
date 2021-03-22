@@ -39,8 +39,7 @@ type Command struct {
 }
 
 const (
-	None = iota
-	OneCommand
+	OneCommand = iota
 	TwoCommand
 	ThreeCommand
 )
