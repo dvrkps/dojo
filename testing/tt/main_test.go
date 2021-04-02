@@ -10,7 +10,7 @@ func TestIsIt(t *testing.T) {
 	IsIt(tt, fail)
 
 	if tt.Failed() {
-		t.Fail() //Error("puklo")
+		t.Error("failed")
 	}
 
 }
