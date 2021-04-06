@@ -5,7 +5,7 @@ services:
 # *** CORE ********************************************************************
 
   clickhouse:
-    image: "yandex/clickhouse-server:21.3.2.5-alpine"
+    image: "yandex/clickhouse-server:21.3.4.25-alpine"
     restart: "always"
     volumes:
       - ./config/config.xml:/etc/clickhouse-server/config.xml
