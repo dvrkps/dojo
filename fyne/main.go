@@ -2,6 +2,7 @@ package main
 
 import (
 	"fyne.io/fyne/v2/app"
+	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/widget"
 )
@@ -16,7 +17,11 @@ func main() {
 
 	hello := widget.NewLabel("Hello Fyne!")
 
+	img := canvas.NewImageFromFile("logo.png")
+	img.FillMode = canvas.ImageFillOriginal
+
 	w.SetContent(container.NewVBox(
+		img,
 		hello,
 		widget.NewButton("Hi!", func() {
 			hello.SetText("Welcome :)")
