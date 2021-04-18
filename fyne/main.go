@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/widget"
@@ -11,8 +10,9 @@ func main() {
 	a := app.New()
 	w := a.NewWindow("fyne")
 
-	w.Resize(fyne.NewSize(300, 300))
-	w.SetFixedSize(true)
+	// w.Resize(fyne.NewSize(300, 300))
+	// w.SetFixedSize(true)
+	w.SetFullScreen(true)
 
 	hello := widget.NewLabel("Hello Fyne!")
 
