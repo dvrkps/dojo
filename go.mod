@@ -3,6 +3,7 @@ module github.com/dvrkps/dojo
 go 1.16
 
 require (
+	fyne.io/fyne/v2 v2.0.2
 	github.com/ClickHouse/clickhouse-go v1.4.3
 	github.com/avct/uasurfer v0.0.0-20191028135549-26b5daa857f1
 	github.com/blang/semver v3.5.1+incompatible // indirect
