@@ -1,8 +1,6 @@
 package main
 
 import (
-	"time"
-
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
 	"fyne.io/fyne/v2/container"
@@ -21,9 +19,7 @@ func main() {
 		hello,
 		widget.NewButton("Hi!", func() {
 			hello.SetText("Welcome :)")
-			w.Hide()
-			time.Sleep(5 * time.Second)
-			w.Show()
+			w.CenterOnScreen()
 		}),
 		widget.NewButton("Quit", func() {
 			a.Quit()
