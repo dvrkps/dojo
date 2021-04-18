@@ -12,6 +12,7 @@ func main() {
 	w := a.NewWindow("fyne")
 
 	w.Resize(fyne.NewSize(300, 300))
+	w.SetFixedSize(true)
 
 	hello := widget.NewLabel("Hello Fyne!")
 
@@ -25,6 +26,8 @@ func main() {
 			a.Quit()
 		}),
 	))
+
+	// w.RequestFocus() // TODO(dvrkps): panic on macos.
 
 	w.ShowAndRun()
 }
