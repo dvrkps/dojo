@@ -1,9 +1,13 @@
 package main
 
 import (
+	"log"
+
+	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
 	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/container"
+	"fyne.io/fyne/v2/driver/desktop"
 	"fyne.io/fyne/v2/widget"
 )
 
@@ -14,6 +18,12 @@ func main() {
 	// w.Resize(fyne.NewSize(300, 300))
 	// w.SetFixedSize(true)
 	w.SetFullScreen(true)
+
+	ctrlTab := desktop.CustomShortcut{KeyName: fyne.KeyTab, Modifier: desktop.ControlModifier}
+	w.Canvas().AddShortcut(&ctrlTab, func(s fyne.Shortcut) {
+		log.Println("ups")
+		w.Hide()
+	})
 
 	hello := widget.NewLabel("Hello Fyne!")
 
