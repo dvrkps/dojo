@@ -55,5 +55,9 @@ func main() {
 
 	// w.RequestFocus() // TODO(dvrkps): panic on macos.
 
+	w.SetCloseIntercept(func() {
+		incCounter(&counter)
+	})
+
 	w.ShowAndRun()
 }
