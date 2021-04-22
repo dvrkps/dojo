@@ -1,7 +1,8 @@
 package main
 
 import (
-	"log"
+	"strconv"
+	"time"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
@@ -15,17 +16,18 @@ func main() {
 	a := app.New()
 	w := a.NewWindow("fyne")
 
-	// w.Resize(fyne.NewSize(300, 300))
-	// w.SetFixedSize(true)
-	w.SetFullScreen(true)
+	w.Resize(fyne.NewSize(300, 300))
+	w.SetFixedSize(true)
+	//w.SetFullScreen(true)
 
-	ctrlTab := desktop.CustomShortcut{KeyName: fyne.KeyTab, Modifier: desktop.ControlModifier}
-	w.Canvas().AddShortcut(&ctrlTab, func(s fyne.Shortcut) {
-		log.Println("ups")
-		w.Hide()
-	})
+	counter := 0
 
-	hello := widget.NewLabel("Hello Fyne!")
+	hello := widget.NewLabel("0")
+
+	incCounter := func(c *int) {
+		*c++
+		hello.SetText(strconv.Itoa(*c))
+	}
 
 	img := canvas.NewImageFromFile("logo.png")
 	img.FillMode = canvas.ImageFillOriginal
@@ -33,14 +35,23 @@ func main() {
 	w.SetContent(container.NewVBox(
 		img,
 		hello,
-		widget.NewButton("Hi!", func() {
-			hello.SetText("Welcome :)")
-			w.CenterOnScreen()
+		widget.NewButton("inc", func() {
+			incCounter(&counter)
 		}),
 		widget.NewButton("Quit", func() {
 			a.Quit()
 		}),
 	))
+
+	altF4 := desktop.CustomShortcut{KeyName: fyne.KeyF4, Modifier: desktop.AltModifier}
+	w.Canvas().AddShortcut(&altF4, func(s fyne.Shortcut) {
+		incCounter(&counter)
+		w.Hide()
+		time.Sleep(3e9)
+		w.Show()
+	})
+
+	w.CenterOnScreen()
 
 	// w.RequestFocus() // TODO(dvrkps): panic on macos.
 
