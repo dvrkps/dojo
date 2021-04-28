@@ -2,5 +2,4 @@ fyne
 go.mod
 go.sum
 fyne-cross
-fyne.exe.app
-fyne.exe
+fyne.app
