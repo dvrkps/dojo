@@ -1,6 +1,8 @@
 package main
 
 import (
+	_ "embed"
+
 	"strconv"
 	"time"
 
@@ -12,13 +14,16 @@ import (
 	"fyne.io/fyne/v2/widget"
 )
 
+//go:embed logo.png
+var embedImage []byte
+
 func main() {
 	a := app.New()
 	w := a.NewWindow("fyne")
 
-	w.Resize(fyne.NewSize(300, 300))
-	w.SetFixedSize(true)
-	//w.SetFullScreen(true)
+	// w.Resize(fyne.NewSize(300, 300))
+	// w.SetFixedSize(true)
+	w.SetFullScreen(true)
 
 	counter := 0
 
@@ -29,7 +34,11 @@ func main() {
 		hello.SetText(strconv.Itoa(*c))
 	}
 
-	img := canvas.NewImageFromFile("logo.png")
+	sr := fyne.StaticResource{
+		StaticName:    "logo.png",
+		StaticContent: embedImage}
+
+	img := canvas.NewImageFromResource(&sr)
 	img.FillMode = canvas.ImageFillOriginal
 
 	w.SetContent(container.NewVBox(
@@ -51,13 +60,13 @@ func main() {
 		w.Show()
 	})
 
-	w.CenterOnScreen()
+	//w.CenterOnScreen()
 
 	// w.RequestFocus() // TODO(dvrkps): panic on macos.
 
-	w.SetCloseIntercept(func() {
-		incCounter(&counter)
-	})
+	// w.SetCloseIntercept(func() {
+	//		incCounter(&counter)
+	//	})
 
 	w.ShowAndRun()
 }
