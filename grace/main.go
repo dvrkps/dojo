@@ -15,7 +15,3 @@ func main() {
 
 	fmt.Println("the end:", ctx.Err())
 }
-
-type Number struct {
-	Value int
-}
