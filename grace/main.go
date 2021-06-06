@@ -2,7 +2,7 @@ package main
 
 import (
 	"context"
-	"fmt"
+	"errors"
 	"os"
 	"os/signal"
 )
@@ -15,7 +15,13 @@ func main() {
 
 	err := ctx.Err()
 	if err != nil {
-		fmt.Println("the end:", ctx.Err())
+		if errors.Is(err, context.Canceled) {
+			return
+		}
+
+		println(err.Error())
+		stop()
+		os.Exit(1)
 	}
 
 }
