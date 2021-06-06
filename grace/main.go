@@ -3,11 +3,14 @@ package main
 import (
 	"context"
 	"errors"
+	"log"
 	"os"
 	"os/signal"
 )
 
 func main() {
+	lgr := log.New(os.Stderr, "grace: ", 0)
+
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt)
 	defer stop()
 
@@ -19,8 +22,10 @@ func main() {
 			return
 		}
 
-		println(err.Error())
+		lgr.Printf("%v", err)
+
 		stop()
+
 		os.Exit(1)
 	}
 
