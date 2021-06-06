@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"fmt"
-	"log"
 	"os"
 	"os/signal"
 	"time"
@@ -13,26 +12,9 @@ func main() {
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt)
 	defer stop()
 
-	ch := make(chan Number)
+	<-ctx.Done()
 
-	go func() {
-		err := runCounter(ctx, ch)
-		if err != nil {
-			log.Printf("counter: %v", err)
-		}
-	}()
-
-	go func() {
-		for v := range ch {
-			println(v.Value)
-		}
-	}()
-
-	select {
-	case <-ctx.Done():
-		fmt.Println(ctx.Err())
-		stop()
-	}
+	fmt.Println("the end:", ctx.Err())
 }
 
 type Number struct {
