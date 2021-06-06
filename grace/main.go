@@ -13,5 +13,9 @@ func main() {
 
 	<-ctx.Done()
 
-	fmt.Println("the end:", ctx.Err())
+	err := ctx.Err()
+	if err != nil {
+		fmt.Println("the end:", ctx.Err())
+	}
+
 }
