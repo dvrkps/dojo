@@ -11,22 +11,23 @@ import (
 func main() {
 	lgr := log.New(os.Stderr, "grace: ", 0)
 
-	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt)
-	defer stop()
-
-	<-ctx.Done()
-
-	err := ctx.Err()
+	err := run()
 	if err != nil {
 		if errors.Is(err, context.Canceled) {
 			return
 		}
 
 		lgr.Printf("%v", err)
-
-		stop()
-
 		os.Exit(1)
 	}
 
+}
+
+func run() error {
+	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt)
+	defer stop()
+
+	<-ctx.Done()
+
+	return ctx.Err()
 }
