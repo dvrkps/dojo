@@ -13,10 +13,6 @@ func main() {
 
 	err := run()
 	if err != nil {
-		if errors.Is(err, context.Canceled) {
-			return
-		}
-
 		lgr.Printf("%v", err)
 		os.Exit(1)
 	}
@@ -29,5 +25,10 @@ func run() error {
 
 	<-ctx.Done()
 
-	return ctx.Err()
+	err := ctx.Err()
+	if errors.Is(err, context.Canceled) {
+		return nil
+	}
+
+	return err
 }
