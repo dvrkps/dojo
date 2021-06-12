@@ -23,7 +23,7 @@ func run() error {
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt)
 	defer stop()
 
-	ch := make(chan int)
+	numbers := make(chan int)
 
 	go func() {
 		var i int
@@ -32,10 +32,23 @@ func run() error {
 			case <-ctx.Done():
 				break
 			default:
-				ch <- i
+				numbers <- i
+				i++
 			}
 		}
-		close(ch)
+		close(numbers)
+		println("generator: ", i)
+	}()
+
+	go func() {
+		last := 0
+		for n := range numbers {
+			if n > 0 && n != last+1 {
+				println(n, last)
+			}
+			last = n
+		}
+		println("producer: ", last)
 	}()
 
 	<-ctx.Done()
