@@ -23,6 +23,21 @@ func run() error {
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt)
 	defer stop()
 
+	ch := make(chan int)
+
+	go func() {
+		var i int
+		for {
+			select {
+			case <-ctx.Done():
+				break
+			default:
+				ch <- i
+			}
+		}
+		close(ch)
+	}()
+
 	<-ctx.Done()
 
 	err := ctx.Err()
