@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 	"os/signal"
+	"sync"
 )
 
 func main() {
@@ -23,13 +24,16 @@ func run() error {
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt)
 	defer stop()
 
+	var wg sync.WaitGroup
+	wg.Add(2)
+
 	numbers := make(chan int)
 
-	go runGenerator(ctx, numbers)
+	go runGenerator(ctx, &wg, numbers)
 
-	go runProducer(ctx, numbers)
+	go runProducer(ctx, &wg, numbers)
 
-	<-ctx.Done()
+	wg.Wait()
 
 	err := ctx.Err()
 	if errors.Is(err, context.Canceled) {
@@ -39,22 +43,32 @@ func run() error {
 	return err
 }
 
-func runGenerator(ctx context.Context, numbers chan<- int) {
+func runGenerator(ctx context.Context, wg *sync.WaitGroup, numbers chan<- int) {
+	defer wg.Done()
+
 	var i int
+
+	var done bool
 	for {
 		select {
 		case <-ctx.Done():
-			break
+			done = true
 		default:
 			numbers <- i
 			i++
 		}
+		if done {
+			break
+		}
 	}
+
 	close(numbers)
 	println("generator: ", i)
 }
 
-func runProducer(ctx context.Context, numbers <-chan int) {
+func runProducer(ctx context.Context, wg *sync.WaitGroup, numbers <-chan int) {
+	defer wg.Done()
+
 	last := 0
 	for n := range numbers {
 		if n > 0 && n != last+1 {
