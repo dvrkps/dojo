@@ -25,20 +25,7 @@ func run() error {
 
 	numbers := make(chan int)
 
-	go func() {
-		var i int
-		for {
-			select {
-			case <-ctx.Done():
-				break
-			default:
-				numbers <- i
-				i++
-			}
-		}
-		close(numbers)
-		println("generator: ", i)
-	}()
+	go runGenerator(ctx, numbers)
 
 	go runProducer(ctx, numbers)
 
@@ -50,6 +37,21 @@ func run() error {
 	}
 
 	return err
+}
+
+func runGenerator(ctx context.Context, numbers chan<- int) {
+	var i int
+	for {
+		select {
+		case <-ctx.Done():
+			break
+		default:
+			numbers <- i
+			i++
+		}
+	}
+	close(numbers)
+	println("generator: ", i)
 }
 
 func runProducer(ctx context.Context, numbers <-chan int) {
