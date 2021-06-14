@@ -50,15 +50,16 @@ func runGenerator(ctx context.Context, wg *sync.WaitGroup, numbers chan<- int) {
 
 	var done bool
 	for {
+		if done {
+			break
+		}
+
 		select {
 		case <-ctx.Done():
 			done = true
 		default:
-			numbers <- i
 			i++
-		}
-		if done {
-			break
+			numbers <- i
 		}
 	}
 
@@ -71,10 +72,8 @@ func runProducer(ctx context.Context, wg *sync.WaitGroup, numbers <-chan int) {
 
 	last := 0
 	for n := range numbers {
-		if n > 0 && n != last+1 {
-			println(n, last)
-		}
 		last = n
 	}
+
 	println("producer: ", last)
 }
