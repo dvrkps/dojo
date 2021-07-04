@@ -5,8 +5,7 @@ import (
 	"log"
 	"time"
 
-	_ "github.com/ClickHouse/clickhouse-go"
-	"github.com/dvrkps/dojo/clickhouse/database"
+	"github.com/dvrkps/dojo/clickhouse/clickhouse"
 )
 
 func main() {
@@ -15,7 +14,7 @@ func main() {
 		// "database=dojodb&" +
 		"password=dojopassword"
 
-	c, err := database.NewClient(dsn)
+	c, err := clickhouse.NewClient(dsn)
 
 	if err != nil {
 		log.Printf("client new: %v", err)
@@ -49,7 +48,7 @@ func main() {
 
 	n := time.Now().UTC()
 
-	r := database.Row{
+	r := clickhouse.Row{
 		UID:   n.Format("20060102150405"),
 		Title: n.Format(time.RFC3339),
 		Date:  n,
