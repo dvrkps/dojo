@@ -6,9 +6,10 @@ import (
 )
 
 func TestNew(t *testing.T) {
-	const delayDuration = 1 * time.Second
-	got := New(delayDuration)
-	if got == nil {
-		t.Error("nil TC")
+	const want = 1 * time.Second
+	tc := New(want)
+	got := tc.delayDuration
+	if got != want {
+		t.Errorf("got %v; want %v", got, want)
 	}
 }
