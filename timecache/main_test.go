@@ -5,31 +5,53 @@ import (
 	"time"
 )
 
-func TestNew(t *testing.T) {
-	const want = 1 * time.Second
-	tc := New(want)
-	got := tc.delayDuration
-	if got != want {
-		t.Errorf("got %v; want %v", got, want)
-	}
-}
-
 func TestAdd(t *testing.T) {
-	const second = 1 * time.Second
-	tc := New(second)
-	now := testDate(1, 2, 3)
+	const tenSecond = 10 * time.Second
+	tc := New(tenSecond)
+	now := newFakeDate(1, 2, 3)
 	const key = "key"
 	tc.Add(key, now)
 
-	got := tc.Delayed(key, testDate(1, 2, 3))
+	got := tc.Delayed(key, newFakeDate(1, 2, 3))
 	want := true
 	if got != want {
 		t.Errorf("got %v; want %v", got, want)
 	}
-
 }
 
-func testDate(h, m, s int) time.Time {
+func TestDelayed(t *testing.T) {
+	tests := []struct {
+		name string
+		key  string
+		now  time.Time
+		want bool
+	}{
+		{name: "valid", key: "first", now: newFakeDate(1, 2, 12), want: true},
+		{name: "notexists", key: "notexists", now: newFakeDate(1, 2, 13), want: false},
+		{name: "delayed", key: "first", now: newFakeDate(1, 2, 14), want: false},
+	}
+
+	tc := newFakeTC()
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := tc.Delayed(tt.key, tt.now)
+			if got != tt.want {
+				t.Errorf("key %v got %v", tt.key, got)
+			}
+		})
+	}
+}
+
+func newFakeTC() TC {
+	const tenSecond = 10 * time.Second
+	tc := New(tenSecond)
+	tc.Add("first", newFakeDate(1, 2, 3))
+
+	return tc
+}
+
+func newFakeDate(h, m, s int) time.Time {
 	const (
 		year  = 1
 		month = time.Month(1)
