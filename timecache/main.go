@@ -28,5 +28,18 @@ func (tc *TC) Add(key string, now time.Time) {
 }
 
 func (tc *TC) Delayed(key string, now time.Time) bool {
+	tc.mu.Lock()
+	defer tc.mu.Unlock()
+	got, exists := tc.keyValues[key]
+	if !exists {
+		return false
+	}
+
+	expired := now.After(got)
+	if expired {
+		delete(tc.keyValues, key)
+		return false
+	}
+
 	return true
 }

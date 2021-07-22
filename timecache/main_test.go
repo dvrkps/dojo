@@ -5,18 +5,21 @@ import (
 	"time"
 )
 
-func TestAdd(t *testing.T) {
-	const tenSecond = 10 * time.Second
-	tc := New(tenSecond)
-	now := newFakeDate(1, 2, 3)
-	const key = "key"
-	tc.Add(key, now)
+func TestDelete(t *testing.T) {
+	const key = "first"
 
-	got := tc.Delayed(key, newFakeDate(1, 2, 3))
-	want := true
-	if got != want {
-		t.Errorf("got %v; want %v", got, want)
+	tc := newFakeTC()
+
+	exists := tc.Delayed(key, newFakeDate(1, 2, 14))
+	if exists {
+		t.Error("exists")
 	}
+
+	exists = tc.Delayed(key, newFakeDate(1, 2, 3))
+	if exists {
+		t.Error("not deleted")
+	}
+
 }
 
 func TestDelayed(t *testing.T) {
