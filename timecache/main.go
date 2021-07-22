@@ -20,3 +20,13 @@ func New(delayDuration time.Duration) TC {
 
 	return tc
 }
+
+func (tc *TC) Add(key string, now time.Time) {
+	tc.mu.Lock()
+	defer tc.mu.Unlock()
+	tc.keyValues[key] = now.Add(tc.delayDuration)
+}
+
+func (tc *TC) Delayed(key string, now time.Time) bool {
+	return true
+}
