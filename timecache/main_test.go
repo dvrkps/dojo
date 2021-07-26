@@ -8,18 +8,17 @@ import (
 func TestDelete(t *testing.T) {
 	const key = "first"
 
-	tc := newFakeTC()
+	s := newFakeStorage()
 
-	exists := tc.Delayed(key, newFakeDate(1, 2, 14))
+	exists := s.Delayed(key, newFakeDate(1, 2, 14))
 	if exists {
 		t.Error("exists")
 	}
 
-	exists = tc.Delayed(key, newFakeDate(1, 2, 3))
+	exists = s.Delayed(key, newFakeDate(1, 2, 3))
 	if exists {
 		t.Error("not deleted")
 	}
-
 }
 
 func TestDelayed(t *testing.T) {
@@ -34,11 +33,11 @@ func TestDelayed(t *testing.T) {
 		{name: "delayed", key: "first", now: newFakeDate(1, 2, 14), want: false},
 	}
 
-	tc := newFakeTC()
+	s := newFakeStorage()
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got := tc.Delayed(tt.key, tt.now)
+			got := s.Delayed(tt.key, tt.now)
 			if got != tt.want {
 				t.Errorf("key %v got %v", tt.key, got)
 			}
@@ -46,12 +45,12 @@ func TestDelayed(t *testing.T) {
 	}
 }
 
-func newFakeTC() TC {
+func newFakeStorage() Storage {
 	const tenSecond = 10 * time.Second
-	tc := New(tenSecond)
-	tc.Add("first", newFakeDate(1, 2, 3))
+	s := New(tenSecond)
+	s.Add("first", newFakeDate(1, 2, 3))
 
-	return tc
+	return s
 }
 
 func newFakeDate(h, m, s int) time.Time {

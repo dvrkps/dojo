@@ -5,39 +5,39 @@ import (
 	"time"
 )
 
-type TC struct {
+type Storage struct {
 	delayDuration time.Duration
 	mu            *sync.Mutex
 	keyValues     map[string]time.Time
 }
 
-func New(delayDuration time.Duration) TC {
-	tc := TC{
+func New(delayDuration time.Duration) Storage {
+	s := Storage{
 		delayDuration: delayDuration,
 		mu:            &sync.Mutex{},
 		keyValues:     make(map[string]time.Time),
 	}
 
-	return tc
+	return s
 }
 
-func (tc *TC) Add(key string, now time.Time) {
-	tc.mu.Lock()
-	defer tc.mu.Unlock()
-	tc.keyValues[key] = now.Add(tc.delayDuration)
+func (s *Storage) Add(key string, now time.Time) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	s.keyValues[key] = now.Add(s.delayDuration)
 }
 
-func (tc *TC) Delayed(key string, now time.Time) bool {
-	tc.mu.Lock()
-	defer tc.mu.Unlock()
-	got, exists := tc.keyValues[key]
+func (s *Storage) Delayed(key string, now time.Time) bool {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	got, exists := s.keyValues[key]
 	if !exists {
 		return false
 	}
 
 	expired := now.After(got)
 	if expired {
-		delete(tc.keyValues, key)
+		delete(s.keyValues, key)
 		return false
 	}
 
