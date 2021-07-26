@@ -15,7 +15,7 @@ func TestDelete(t *testing.T) {
 		t.Error("exists")
 	}
 
-	exists = s.Delayed(key, newFakeDate(1, 2, 3))
+	exists = s.Delayed(key, newBaseTime())
 	if exists {
 		t.Error("not deleted")
 	}
