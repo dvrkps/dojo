@@ -1,16 +1,10 @@
 package timecache
 
 import (
-	"testing"
 	"time"
 )
 
-func TestTimes(t *testing.T) {
-	t.Errorf("start:\n%v", startTime())
-	t.Errorf("end:\n%v", endTime())
-}
-
-const testDelayDuration = 10 * time.Second
+const testDelayDuration = 1 * time.Hour
 
 func newFakeStorage() Storage {
 	s := New(testDelayDuration)
@@ -26,6 +20,16 @@ func startTime() time.Time {
 func endTime() time.Time {
 	s := startTime()
 	return s.Add(testDelayDuration)
+}
+
+func afterEndTime() time.Time {
+	e := endTime()
+	return e.Add(1 * time.Second)
+}
+
+func beforeEndTime() time.Time {
+	e := endTime()
+	return e.Add(-1 * time.Second)
 }
 
 func fakeTime(h, m, s int) time.Time {

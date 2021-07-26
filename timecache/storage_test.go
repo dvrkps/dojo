@@ -10,7 +10,7 @@ func TestDelete(t *testing.T) {
 
 	s := newFakeStorage()
 
-	exists := s.Delayed(key, fakeTime(1, 2, 14))
+	exists := s.Delayed(key, afterEndTime())
 	if exists {
 		t.Error("exists")
 	}
@@ -29,10 +29,10 @@ func TestDelayed(t *testing.T) {
 		want bool
 	}{
 		{name: "start", key: "first", now: startTime(), want: true},
+		{name: "before", key: "first", now: beforeEndTime(), want: true},
 		{name: "end", key: "first", now: endTime(), want: true},
-		{name: "valid", key: "first", now: fakeTime(1, 2, 12), want: true},
 		{name: "notexists", key: "notexists", now: startTime(), want: false},
-		{name: "delayed", key: "first", now: fakeTime(1, 2, 14), want: false},
+		{name: "after", key: "first", now: afterEndTime(), want: false},
 	}
 
 	s := newFakeStorage()
