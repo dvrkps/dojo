@@ -11,10 +11,10 @@ func newFakeStorage() Storage {
 }
 
 func newBaseTime() time.Time {
-	return newFakeDate(1, 2, 3)
+	return fakeTime(1, 2, 3)
 }
 
-func newFakeDate(h, m, s int) time.Time {
+func fakeTime(h, m, s int) time.Time {
 	const (
 		year  = 1
 		month = time.Month(1)
