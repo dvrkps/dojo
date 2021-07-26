@@ -5,12 +5,12 @@ import "time"
 func newFakeStorage() Storage {
 	const tenSecond = 10 * time.Second
 	s := New(tenSecond)
-	s.Add("first", newBaseTime())
+	s.Add("first", startTime())
 
 	return s
 }
 
-func newBaseTime() time.Time {
+func startTime() time.Time {
 	return fakeTime(1, 2, 3)
 }
 
