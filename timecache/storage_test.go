@@ -28,8 +28,10 @@ func TestDelayed(t *testing.T) {
 		now  time.Time
 		want bool
 	}{
+		{name: "start", key: "first", now: startTime(), want: true},
+		{name: "end", key: "first", now: endTime(), want: true},
 		{name: "valid", key: "first", now: fakeTime(1, 2, 12), want: true},
-		{name: "notexists", key: "notexists", now: fakeTime(1, 2, 13), want: false},
+		{name: "notexists", key: "notexists", now: startTime(), want: false},
 		{name: "delayed", key: "first", now: fakeTime(1, 2, 14), want: false},
 	}
 
