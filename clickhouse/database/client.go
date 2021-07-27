@@ -3,13 +3,15 @@ package database
 import (
 	"context"
 	"errors"
+
+	"github.com/dvrkps/dojo/clickhouse/real"
 )
 
 type RealClient interface {
 	Close() error
 	Ping(ctx context.Context) error
-	InsertRow(ctx context.Context, r Row) error
 	CreateIfNotExists(ctx context.Context) error
+	InsertRow(ctx context.Context, r real.Row) error
 }
 
 var nilRealClientError = errors.New("nil real client")
@@ -41,7 +43,7 @@ func (c *Client) Ping(ctx context.Context) error {
 	return c.realClient.Ping(ctx)
 }
 
-func (c *Client) InsertRow(ctx context.Context, r Row) error {
+func (c *Client) InsertRow(ctx context.Context, r real.Row) error {
 	if c.realClient == nil {
 		return nilRealClientError
 	}
