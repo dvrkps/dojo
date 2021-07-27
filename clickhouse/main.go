@@ -5,8 +5,8 @@ import (
 	"log"
 	"time"
 
-	"github.com/dvrkps/dojo/clickhouse/clickhouse"
 	"github.com/dvrkps/dojo/clickhouse/database"
+	"github.com/dvrkps/dojo/clickhouse/real"
 )
 
 func main() {
@@ -15,7 +15,7 @@ func main() {
 		// "database=dojodb&" +
 		"password=dojopassword"
 
-	c, err := clickhouse.NewClient(dsn)
+	c, err := real.NewClient(dsn)
 
 	if err != nil {
 		log.Printf("client new: %v", err)

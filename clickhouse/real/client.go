@@ -1,4 +1,4 @@
-package clickhouse
+package real
 
 import (
 	"context"
