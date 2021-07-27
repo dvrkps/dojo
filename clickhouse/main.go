@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/dvrkps/dojo/clickhouse/clickhouse"
+	"github.com/dvrkps/dojo/clickhouse/database"
 )
 
 func main() {
@@ -48,7 +49,7 @@ func main() {
 
 	n := time.Now().UTC()
 
-	r := clickhouse.Row{
+	r := database.Row{
 		UID:   n.Format("20060102150405"),
 		Title: n.Format(time.RFC3339),
 		Date:  n,

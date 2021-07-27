@@ -5,9 +5,10 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
-	"time"
 
 	_ "github.com/ClickHouse/clickhouse-go"
+
+	"github.com/dvrkps/dojo/clickhouse/database"
 )
 
 type Client struct {
@@ -64,13 +65,7 @@ func (c *Client) CreateIfNotExists(ctx context.Context) error {
 	return err
 }
 
-type Row struct {
-	UID   string
-	Title string
-	Date  time.Time
-}
-
-func (c *Client) InsertRow(ctx context.Context, r Row) error {
+func (c *Client) InsertRow(ctx context.Context, r database.Row) error {
 	if c.db == nil {
 		return errors.New("nil db")
 	}
