@@ -7,8 +7,6 @@ import (
 	"fmt"
 
 	_ "github.com/ClickHouse/clickhouse-go"
-
-	"github.com/dvrkps/dojo/clickhouse/database"
 )
 
 type Client struct {
@@ -65,7 +63,7 @@ func (c *Client) CreateIfNotExists(ctx context.Context) error {
 	return err
 }
 
-func (c *Client) InsertRow(ctx context.Context, r database.Row) error {
+func (c *Client) InsertRow(ctx context.Context, r Row) error {
 	if c.db == nil {
 		return errors.New("nil db")
 	}
