@@ -15,8 +15,13 @@ func main() {
 		// "database=dojodb&" +
 		"password=dojopassword"
 
-	c, err := real.NewClient(dsn)
+	rc, err := real.NewClient(dsn)
+	if err != nil {
+		log.Printf("real client new: %v", err)
+		return
+	}
 
+	c, err := database.NewClient(rc)
 	if err != nil {
 		log.Printf("client new: %v", err)
 		return
