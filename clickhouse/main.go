@@ -54,7 +54,7 @@ func main() {
 
 	n := time.Now().UTC()
 
-	r := database.Row{
+	r := real.Row{
 		UID:   n.Format("20060102150405"),
 		Title: n.Format(time.RFC3339),
 		Date:  n,
