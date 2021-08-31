@@ -20,23 +20,25 @@ func main() {
 }
 
 func run(stdin io.Reader, stdout io.Writer) error {
-	reader := bufio.NewReader(stdin)
-	for {
+	s := bufio.NewScanner(stdin)
+	for s.Scan() {
 		// Read the keyboad input.
-		line, err := reader.ReadString('\n')
-		if err != nil {
-			return err
-		}
+		line := s.Text()
 		cmd := strings.TrimSpace(line)
-		if cmd == "quit" {
+		if cmd == "exit" {
 			break
 		}
 
-		_, err = fmt.Fprintln(stdout, cmd)
+		_, err := fmt.Fprintln(stdout, line)
 		if err != nil {
 			return err
 		}
-
 	}
+
+	err := s.Err()
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
