@@ -5,12 +5,10 @@ go 1.17
 require (
 	github.com/ClickHouse/clickhouse-go v1.4.5
 	github.com/avct/uasurfer v0.0.0-20191028135549-26b5daa857f1
-	github.com/blang/semver v3.5.1+incompatible // indirect
 	github.com/hashicorp/consul/api v1.4.0
 	github.com/mileusna/useragent v1.0.2
 	github.com/minio/minio-go/v7 v7.0.10
 	github.com/prometheus/client_golang v1.9.0
-	github.com/stretchr/testify v1.5.1 // indirect
 	github.com/varstr/uaparser v0.0.0-20170929040706-6aabb7c4e98c
 	github.com/xojoc/useragent v0.0.0-20200116211053-1ec61d55e8fe
 )
@@ -18,6 +16,7 @@ require (
 require (
 	github.com/armon/go-metrics v0.0.0-20180917152333-f0300d1749da // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
+	github.com/blang/semver v3.5.1+incompatible // indirect
 	github.com/cespare/xxhash/v2 v2.1.1 // indirect
 	github.com/cloudflare/golz4 v0.0.0-20150217214814-ef862a3cdc58 // indirect
 	github.com/fatih/color v1.9.0 // indirect
