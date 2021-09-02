@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
 	"io"
 	"log"
@@ -20,24 +19,27 @@ func main() {
 }
 
 func run(stdin io.Reader, stdout io.Writer) error {
-	s := bufio.NewScanner(stdin)
-	for s.Scan() {
-		// Read the keyboad input.
-		line := s.Text()
-		cmd := strings.TrimSpace(line)
+	var raw string
+	for {
+		_, err := fmt.Fprintf(stdout, "> ")
+		if err != nil {
+			return err
+		}
+
+		_, err = fmt.Fscanf(stdin, "%s", &raw)
+		if err != nil {
+			return err
+		}
+
+		cmd := strings.TrimSpace(raw)
 		if cmd == "exit" {
 			break
 		}
 
-		_, err := fmt.Fprintln(stdout, line)
+		_, err = fmt.Fprintln(stdout, cmd)
 		if err != nil {
-			return err
+			return fmt.Errorf("write: %v", err)
 		}
-	}
-
-	err := s.Err()
-	if err != nil {
-		return err
 	}
 
 	return nil
