@@ -5,7 +5,7 @@ go 1.17
 require (
 	github.com/ClickHouse/clickhouse-go v1.4.7
 	github.com/avct/uasurfer v0.0.0-20191028135549-26b5daa857f1
-	github.com/hashicorp/consul/api v1.4.0
+	github.com/hashicorp/consul/api v1.10.1
 	github.com/mileusna/useragent v1.0.2
 	github.com/minio/minio-go/v7 v7.0.10
 	github.com/prometheus/client_golang v1.9.0
@@ -27,10 +27,10 @@ require (
 	github.com/hashicorp/go-immutable-radix v1.0.0 // indirect
 	github.com/hashicorp/go-rootcerts v1.0.2 // indirect
 	github.com/hashicorp/golang-lru v0.5.1 // indirect
-	github.com/hashicorp/serf v0.8.2 // indirect
+	github.com/hashicorp/serf v0.9.5 // indirect
 	github.com/json-iterator/go v1.1.10 // indirect
 	github.com/klauspost/cpuid v1.3.1 // indirect
-	github.com/mattn/go-colorable v0.1.4 // indirect
+	github.com/mattn/go-colorable v0.1.6 // indirect
 	github.com/mattn/go-isatty v0.0.12 // indirect
 	github.com/matttproud/golang_protobuf_extensions v1.0.1 // indirect
 	github.com/minio/md5-simd v1.1.0 // indirect
