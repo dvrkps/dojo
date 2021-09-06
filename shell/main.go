@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"io"
 	"log"
@@ -19,14 +20,14 @@ func main() {
 }
 
 func run(stdin io.Reader, stdout io.Writer) error {
-	var raw string
+	r := bufio.NewReader(stdin)
 	for {
 		_, err := fmt.Fprintf(stdout, "> ")
 		if err != nil {
 			return err
 		}
 
-		_, err = fmt.Fscanf(stdin, "%s", &raw)
+		raw, err := r.ReadString('\n')
 		if err != nil {
 			return err
 		}
