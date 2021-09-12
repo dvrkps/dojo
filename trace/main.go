@@ -6,10 +6,12 @@ import (
 	"runtime/trace"
 )
 
+const fileName = "trace.out"
+
 func main() {
 	lgr := log.New(os.Stderr, "", 0)
 
-	f, err := os.Create("trace.out")
+	f, err := os.Create(fileName)
 	if err != nil {
 		lgr.Printf("create: %v", err)
 	}
@@ -25,4 +27,23 @@ func main() {
 		lgr.Printf("start: %v", err)
 	}
 	defer trace.Stop()
+
+	in := make(chan int)
+
+	go func(in <-chan int) {
+		for out := range in {
+			println(out)
+			_ = out
+		}
+	}(in)
+
+	var i int
+	for {
+		in <- i
+		i++
+		if i == 10 {
+			return
+		}
+	}
+
 }
