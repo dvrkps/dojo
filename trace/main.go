@@ -8,6 +8,8 @@ import (
 
 const fileName = "trace.out"
 
+var sum int
+
 func main() {
 	lgr := log.New(os.Stderr, "", 0)
 
@@ -30,17 +32,17 @@ func main() {
 
 	in := make(chan int)
 
-	go result(in)
+	go result(sum, in)
 
 	generator(in)
 
 }
 
-func result(ch <-chan int) {
+func result(sum int, ch <-chan int) {
 	for out := range ch {
-		println(out)
-		_ = out
+		sum = sum + out
 	}
+	println(sum)
 }
 
 func generator(ch chan<- int) {
