@@ -30,12 +30,7 @@ func main() {
 
 	in := make(chan int)
 
-	go func(in <-chan int) {
-		for out := range in {
-			println(out)
-			_ = out
-		}
-	}(in)
+	go result(in)
 
 	var i int
 	for {
@@ -46,4 +41,11 @@ func main() {
 		}
 	}
 
+}
+
+func result(ch <-chan int) {
+	for out := range ch {
+		println(out)
+		_ = out
+	}
 }
