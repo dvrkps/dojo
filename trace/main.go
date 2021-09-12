@@ -17,12 +17,7 @@ func main() {
 	if err != nil {
 		lgr.Printf("create: %v", err)
 	}
-	defer func() {
-		errClose := f.Close()
-		if errClose != nil {
-			lgr.Printf("close: %v", errClose)
-		}
-	}()
+	defer deferClose(lgr, f.Close)
 
 	err = trace.Start(f)
 	if err != nil {
@@ -55,4 +50,11 @@ func generator(ch chan<- int) {
 		}
 	}
 
+}
+
+func deferClose(lgr *log.Logger, f func() error) {
+	err := f()
+	if err != nil {
+		lgr.Printf("close: %v", err)
+	}
 }
