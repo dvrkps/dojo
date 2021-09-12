@@ -32,14 +32,7 @@ func main() {
 
 	go result(in)
 
-	var i int
-	for {
-		in <- i
-		i++
-		if i == 10 {
-			return
-		}
-	}
+	generator(in)
 
 }
 
@@ -48,4 +41,16 @@ func result(ch <-chan int) {
 		println(out)
 		_ = out
 	}
+}
+
+func generator(ch chan<- int) {
+	var i int
+	for {
+		ch <- i
+		i++
+		if i == 12 {
+			return
+		}
+	}
+
 }
