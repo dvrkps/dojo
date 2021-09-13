@@ -1,9 +1,13 @@
 package main
 
 import (
+	"context"
+	"errors"
 	"log"
 	"os"
+	"os/signal"
 	"runtime/trace"
+	"sync"
 )
 
 const fileName = "trace.out"
@@ -23,33 +27,68 @@ func main() {
 	}
 	defer trace.Stop()
 
-	in := make(chan int)
-
-	go procesor(in)
-
-	generator(in)
-}
-
-func procesor(ch <-chan int) {
-	var sum int
-	var last int
-	for out := range ch {
-		last = out
-		sum = sum + out
+	err = run()
+	if err != nil {
+		lgr.Printf("run: %v", err)
 	}
-	println(last, ": ", sum)
 }
 
-func generator(ch chan<- int) {
+func run() error {
+	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt)
+	defer stop()
+
+	var wg sync.WaitGroup
+	wg.Add(2)
+
+	numbers := make(chan int)
+
+	go procesor(ctx, &wg, numbers)
+
+	go generator(ctx, &wg, numbers)
+
+	wg.Wait()
+
+	err := ctx.Err()
+	if errors.Is(err, context.Canceled) {
+		return nil
+	}
+
+	return err
+}
+
+func procesor(_ context.Context, wg *sync.WaitGroup, numbers <-chan int) {
+	defer wg.Done()
+
+	var last int
+	for n := range numbers {
+		last = n
+	}
+
+	println("procesor: ", last)
+}
+
+func generator(ctx context.Context, wg *sync.WaitGroup, numbers chan<- int) {
+	defer wg.Done()
+
 	var i int
+
+	var done bool
 	for {
-		ch <- i
-		i++
-		if i == 12 {
-			return
+		if done {
+			break
+		}
+
+		select {
+		case <-ctx.Done():
+			done = true
+		default:
+			i++
+			numbers <- i
 		}
 	}
 
+	close(numbers)
+	println("generator: ", i)
 }
 
 func deferClose(lgr *log.Logger, f func() error) {
