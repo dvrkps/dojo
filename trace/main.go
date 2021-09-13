@@ -64,7 +64,7 @@ func procesor(wg *sync.WaitGroup, numbers <-chan int) {
 		last = n
 	}
 
-	println("procesor: ", last)
+	println("procesor:\t", last)
 }
 
 func generator(ctx context.Context, wg *sync.WaitGroup, numbers chan<- int) {
@@ -84,7 +84,7 @@ func generator(ctx context.Context, wg *sync.WaitGroup, numbers chan<- int) {
 	}
 
 	close(numbers)
-	println("\ngenerator: ", i)
+	println("\ngenerator:\t", i)
 }
 
 func deferClose(lgr *log.Logger, f func() error) {
