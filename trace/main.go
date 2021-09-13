@@ -37,7 +37,6 @@ func main() {
 }
 
 func run() error {
-
 	ctx, cancel := context.WithTimeout(context.Background(), duration)
 	defer cancel()
 
@@ -53,7 +52,7 @@ func run() error {
 	wg.Wait()
 
 	err := ctx.Err()
-	if errors.Is(err, context.Canceled) {
+	if errors.Is(err, context.DeadlineExceeded) {
 		return nil
 	}
 
@@ -88,7 +87,7 @@ func generator(ctx context.Context, wg *sync.WaitGroup, numbers chan<- int) {
 	}
 
 	close(numbers)
-	println("\ngenerator:\t", i)
+	println("generator:\t", i)
 }
 
 func deferClose(lgr *log.Logger, f func() error) {
