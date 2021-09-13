@@ -42,7 +42,7 @@ func run() error {
 
 	numbers := make(chan int)
 
-	go procesor(ctx, &wg, numbers)
+	go procesor(&wg, numbers)
 
 	go generator(ctx, &wg, numbers)
 
@@ -56,7 +56,7 @@ func run() error {
 	return err
 }
 
-func procesor(_ context.Context, wg *sync.WaitGroup, numbers <-chan int) {
+func procesor(wg *sync.WaitGroup, numbers <-chan int) {
 	defer wg.Done()
 
 	var last int
