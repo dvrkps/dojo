@@ -73,11 +73,7 @@ func generator(ctx context.Context, wg *sync.WaitGroup, numbers chan<- int) {
 	var i int
 
 	var done bool
-	for {
-		if done {
-			break
-		}
-
+	for !done {
 		select {
 		case <-ctx.Done():
 			done = true
@@ -88,7 +84,7 @@ func generator(ctx context.Context, wg *sync.WaitGroup, numbers chan<- int) {
 	}
 
 	close(numbers)
-	println("generator: ", i)
+	println("\ngenerator: ", i)
 }
 
 func deferClose(lgr *log.Logger, f func() error) {
