@@ -27,13 +27,12 @@ func main() {
 
 	in := make(chan int)
 
-	go result(sum, in)
+	go procesor(sum, in)
 
 	generator(in)
-
 }
 
-func result(sum int, ch <-chan int) {
+func procesor(sum int, ch <-chan int) {
 	for out := range ch {
 		sum = sum + out
 	}
