@@ -5,12 +5,15 @@ import (
 	"errors"
 	"log"
 	"os"
-	"os/signal"
 	"runtime/trace"
 	"sync"
+	"time"
 )
 
-const fileName = "trace.out"
+const (
+	fileName = "trace.out"
+	duration = 1 * time.Millisecond
+)
 
 func main() {
 	lgr := log.New(os.Stderr, "", 0)
@@ -34,8 +37,9 @@ func main() {
 }
 
 func run() error {
-	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt)
-	defer stop()
+
+	ctx, cancel := context.WithTimeout(context.Background(), duration)
+	defer cancel()
 
 	var wg sync.WaitGroup
 	wg.Add(2)
