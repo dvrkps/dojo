@@ -3,7 +3,7 @@ module github.com/dvrkps/dojo
 go 1.17
 
 require (
-	github.com/ClickHouse/clickhouse-go v1.4.7
+	github.com/ClickHouse/clickhouse-go v1.4.8
 	github.com/avct/uasurfer v0.0.0-20191028135549-26b5daa857f1
 	github.com/hashicorp/consul/api v1.10.1
 	github.com/mileusna/useragent v1.0.2
