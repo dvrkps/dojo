@@ -1,0 +1,7 @@
+services:
+  mysql:
+    image: "mysql:latest"
+    ports:
+      - "4406:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: example
