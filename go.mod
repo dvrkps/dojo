@@ -5,7 +5,9 @@ go 1.17
 require (
 	github.com/ClickHouse/clickhouse-go v1.5.1
 	github.com/avct/uasurfer v0.0.0-20191028135549-26b5daa857f1
+	github.com/go-sql-driver/mysql v1.6.0
 	github.com/hashicorp/consul/api v1.10.1
+	github.com/jmoiron/sqlx v1.3.4
 	github.com/mileusna/useragent v1.0.2
 	github.com/minio/minio-go/v7 v7.0.13
 	github.com/prometheus/client_golang v1.11.0
