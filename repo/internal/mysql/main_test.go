@@ -6,9 +6,18 @@ import (
 )
 
 func TestAll(t *testing.T) {
+	const dsn = "root:example@tcp(127.0.0.1:4406)/repodb"
+
+	ctx, db := setupAndCleanup(t, dsn)
+
+	_, _ = ctx, db
+}
+
+func setupAndCleanup(t *testing.T, dsn string) (context.Context, *DB) {
+	t.Helper()
+
 	ctx := context.Background()
 
-	const dsn = "root:example@tcp(127.0.0.1:4406)/repodb"
 	db, err := ConnectDB(ctx, dsn)
 	if err != nil {
 		t.Fatal(err)
@@ -16,13 +25,15 @@ func TestAll(t *testing.T) {
 
 	createTableIfNotExists(t, ctx, db)
 
-	defer func() {
+	t.Cleanup(func() {
 		dropTable(t, ctx, db)
-		err = db.Close()
+		err := db.Close()
 		if err != nil {
 			t.Fatalf("close: %v", err)
 		}
-	}()
+	})
+
+	return ctx, db
 }
 
 func createTableIfNotExists(t *testing.T, ctx context.Context, db *DB) {
