@@ -18,7 +18,7 @@ func TestAll(t *testing.T) {
 
 	defer func() {
 		dropTable(t, ctx, db)
-		err = db.db.Close()
+		err = db.Close()
 		if err != nil {
 			t.Fatalf("close: %v", err)
 		}

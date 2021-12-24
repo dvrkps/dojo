@@ -20,3 +20,11 @@ func ConnectDB(ctx context.Context, dsn string) (*DB, error) {
 
 	return &DB{db: db}, nil
 }
+
+func (db *DB) Close() error {
+	if db.db == nil {
+		return nil
+	}
+
+	return db.db.Close()
+}
