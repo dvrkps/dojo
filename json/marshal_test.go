@@ -17,6 +17,18 @@ func TestMarshal(t *testing.T) {
 		const want = `{"id":"42"}`
 		testMarshal(t, in, want)
 	})
+
+	t.Run("nil pointer int64", func(t *testing.T) {
+		in := struct {
+			ID *int64 `json:"id"`
+		}{
+			ID: nil,
+		}
+
+		const want = `{"id":null}`
+		testMarshal(t, in, want)
+	})
+
 }
 
 func testMarshal(t *testing.T, in interface{}, want string) {
