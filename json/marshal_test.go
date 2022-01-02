@@ -18,7 +18,7 @@ func TestMarshal(t *testing.T) {
 		testMarshal(t, in, want)
 	})
 
-	t.Run("nil pointer int64", func(t *testing.T) {
+	t.Run("nil *int64", func(t *testing.T) {
 		in := struct {
 			ID *int64 `json:"id"`
 		}{
@@ -28,7 +28,6 @@ func TestMarshal(t *testing.T) {
 		const want = `{"id":null}`
 		testMarshal(t, in, want)
 	})
-
 }
 
 func testMarshal(t *testing.T, in interface{}, want string) {
