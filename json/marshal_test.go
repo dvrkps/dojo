@@ -28,6 +28,17 @@ func TestMarshal(t *testing.T) {
 		const want = `{"id":null}`
 		testMarshal(t, in, want)
 	})
+
+	t.Run("bool string", func(t *testing.T) {
+		in := struct {
+			OK bool `json:"ok,string"`
+		}{
+			OK: true,
+		}
+
+		const want = `{"ok":"true"}`
+		testMarshal(t, in, want)
+	})
 }
 
 func testMarshal(t *testing.T, in interface{}, want string) {
