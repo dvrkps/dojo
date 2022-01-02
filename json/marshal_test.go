@@ -6,14 +6,17 @@ import (
 )
 
 func TestMarshal(t *testing.T) {
-	in := struct {
-		ID int64 `json:"id,string"`
-	}{
-		ID: 42,
-	}
 
-	const want = `{"id":"42"}`
-	testMarshal(t, in, want)
+	t.Run("int64 string", func(t *testing.T) {
+		in := struct {
+			ID int64 `json:"id,string"`
+		}{
+			ID: 42,
+		}
+
+		const want = `{"id":"42"}`
+		testMarshal(t, in, want)
+	})
 }
 
 func testMarshal(t *testing.T, in interface{}, want string) {
