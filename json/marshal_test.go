@@ -12,12 +12,18 @@ func TestMarshal(t *testing.T) {
 		ID: 42,
 	}
 
+	const want = `{"id":"42"}`
+	testMarshal(t, in, want)
+}
+
+func testMarshal(t *testing.T, in interface{}, want string) {
+	t.Helper()
+
 	got, err := json.Marshal(&in)
 	if err != nil {
-		t.Error(err)
+		t.Fatalf("marshal: %v", err)
 	}
 
-	const want = `{"id":"42"}`
 	if string(got) != want {
 		t.Errorf("got %s; want %s", got, want)
 	}
