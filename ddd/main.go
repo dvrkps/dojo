@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	s := real.Service{}
+	s := real.NewService()
 
 	us, err := s.Users(context.Background())
 	if err != nil {
