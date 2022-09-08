@@ -9,6 +9,7 @@ require (
 	github.com/jmoiron/sqlx v1.3.4
 	github.com/minio/minio-go/v7 v7.0.13
 	github.com/prometheus/client_golang v1.11.0
+	github.com/satori/go.uuid v1.2.1-0.20180404165556-75cca531ea76
 	golang.org/x/oauth2 v0.0.0-20200107190931-bf48bf16ab8d
 	gopkg.in/DataDog/dd-trace-go.v1 v1.41.0
 )
