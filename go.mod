@@ -6,11 +6,9 @@ require (
 	github.com/ClickHouse/clickhouse-go v1.5.4
 	github.com/go-sql-driver/mysql v1.6.0
 	github.com/google/go-github/v41 v41.0.0
-	github.com/google/uuid v1.3.0
 	github.com/jmoiron/sqlx v1.3.5
 	github.com/minio/minio-go/v7 v7.0.39
 	github.com/prometheus/client_golang v1.13.0
-	github.com/satori/go.uuid v1.2.1-0.20180404165556-75cca531ea76
 	golang.org/x/oauth2 v0.0.0-20220909003341-f21342109be1
 	gopkg.in/DataDog/dd-trace-go.v1 v1.42.1
 )
@@ -28,6 +26,7 @@ require (
 	github.com/golang/glog v1.0.0 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/google/go-querystring v1.1.0 // indirect
+	github.com/google/uuid v1.3.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/klauspost/compress v1.15.9 // indirect
 	github.com/klauspost/cpuid/v2 v2.1.0 // indirect
