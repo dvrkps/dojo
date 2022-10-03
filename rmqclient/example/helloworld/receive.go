@@ -36,15 +36,15 @@ func mainReceive(ctx context.Context) error {
 		return fmt.Errorf("queue declare: %v", err)
 	}
 
-	msgs, err := ch.Consume(
-		q.Name, // queue
-		"",     // consumer
-		true,   // auto-ack
-		false,  // exclusive
-		false,  // no-local
-		false,  // no-wait
-		nil,    // args
-	)
+	msgs, err := ch.Consume(&rabbitmq.ConsumeParameters{
+		QueueName: q.Name,
+		Consumer:  "",
+		AutoAck:   true,
+		Exclusive: false,
+		NoLocal:   false,
+		NoWait:    false,
+		Table:     nil,
+	})
 
 	if err != nil {
 		return fmt.Errorf("consume %v: %v", q.Name, err)

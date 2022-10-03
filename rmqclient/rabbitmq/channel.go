@@ -8,7 +8,7 @@ import (
 
 type Channel interface {
 	Close() error
-	Consume(p *ConsumeParams) (<-chan Delivery, error)
+	Consume(p *ConsumeParameters) (<-chan Delivery, error)
 	PublishWithContext(ctx context.Context, exchange, key string, mandatory, immediate bool, msg Publishing) error
 	QueueDeclare(name string, durable, autoDelete, exclusive, noWait bool, args Table) (Queue, error)
 }
@@ -21,18 +21,18 @@ func (c *channel) Close() error {
 	return c.channel.Close()
 }
 
-type ConsumeParams struct {
-	Queue     string
+type ConsumeParameters struct {
+	QueueName string
 	Consumer  string
 	AutoAck   bool
 	Exclusive bool
 	NoLocal   bool
 	NoWait    bool
-	Args      Table
+	Table     Table
 }
 
-func (c *channel) Consume(p *ConsumeParams) (<-chan Delivery, error) {
-	return c.channel.Consume(p.Queue, p.Consumer, p.AutoAck, p.Exclusive, p.NoLocal, p.NoWait, p.Args)
+func (c *channel) Consume(p *ConsumeParameters) (<-chan Delivery, error) {
+	return c.channel.Consume(p.QueueName, p.Consumer, p.AutoAck, p.Exclusive, p.NoLocal, p.NoWait, p.Table)
 }
 
 func (c *channel) PublishWithContext(ctx context.Context, exchange, key string, mandatory, immediate bool, msg Publishing) error {
