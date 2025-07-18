@@ -1,6 +1,6 @@
 module github.com/dvrkps/dojo
 
-go 1.20
+go 1.23.0
 
 require (
 	github.com/ClickHouse/clickhouse-go v1.5.4
@@ -10,7 +10,7 @@ require (
 	github.com/minio/minio-go/v7 v7.0.49
 	github.com/prometheus/client_golang v1.14.0
 	github.com/rabbitmq/amqp091-go v1.7.0
-	golang.org/x/oauth2 v0.7.0
+	golang.org/x/oauth2 v0.27.0
 	gopkg.in/DataDog/dd-trace-go.v1 v1.47.0
 )
 
@@ -58,7 +58,6 @@ require (
 	golang.org/x/time v0.3.0 // indirect
 	golang.org/x/tools v0.21.1-0.20240508182429-e35e4ccd0d2d // indirect
 	golang.org/x/xerrors v0.0.0-20220907171357-04be3eba64a2 // indirect
-	google.golang.org/appengine v1.6.7 // indirect
 	google.golang.org/grpc v1.56.3 // indirect
 	google.golang.org/protobuf v1.33.0 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
