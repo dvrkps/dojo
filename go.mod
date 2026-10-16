@@ -9,7 +9,7 @@ require (
 	github.com/jmoiron/sqlx v1.3.5
 	github.com/minio/minio-go/v7 v7.0.49
 	github.com/prometheus/client_golang v1.14.0
-	github.com/rabbitmq/amqp091-go v1.7.0
+	github.com/rabbitmq/amqp091-go v1.14.0
 	golang.org/x/oauth2 v0.27.0
 	gopkg.in/DataDog/dd-trace-go.v1 v1.47.0
 )
